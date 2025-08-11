@@ -8,7 +8,13 @@ public class Book
     public string Slug { get; set; } = null!;
 
     public int CategoryId { get; set; }
+    public string ImagePath { get; set; } = null!;
 
+
+    public string PdfPath { get; set; } = null!;
+
+
+    public string Description { get; set; } = null!;
 
     public int? UserId { get; set; }
 

@@ -18,6 +18,13 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired()
             .HasMaxLength(150);
 
+        builder.Property(b => b.ImagePath);
+
+        builder.Property(b => b.PdfPath);
+
+        builder.Property(b => b.Description);
+
+
         builder.HasOne(b => b.Category)
             .WithMany(c => c.Books)
             .HasForeignKey(b => b.CategoryId)

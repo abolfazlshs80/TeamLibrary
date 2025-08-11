@@ -11,7 +11,7 @@ using TeamLibrary.API.Data.Context;
 namespace TeamLibrary.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250811184752_AddBookAndCategoryTable")]
+    [Migration("20250811190840_AddBookAndCategoryTable")]
     partial class AddBookAndCategoryTable
     {
         /// <inheritdoc />
@@ -34,6 +34,18 @@ namespace TeamLibrary.API.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PdfPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
