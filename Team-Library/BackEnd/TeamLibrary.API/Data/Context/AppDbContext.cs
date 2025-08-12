@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
 
 namespace TeamLibrary.API.Data.Context;
@@ -25,7 +20,8 @@ public class AppDbContext : DbContext
     #region DbSet
 
     public DbSet<Users> Users { get; set; }
-
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Book> Books { get; set; }
 
 
     #endregion
