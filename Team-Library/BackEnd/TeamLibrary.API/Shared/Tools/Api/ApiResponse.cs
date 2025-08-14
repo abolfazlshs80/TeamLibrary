@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace TeamLibrary.API.Tools.Api
+namespace TeamLibrary.API.Shared.Tools.Api
 {
     public class ApiResponse
     {

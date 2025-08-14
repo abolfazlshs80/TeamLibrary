@@ -1,7 +1,4 @@
-﻿using DrMeet.Api.Shared.Domian;
-using Humanizer;
-
-namespace TeamLibrary.API.Tools.Helper;
+﻿namespace TeamLibrary.API.Shared.Tools.Helper;
 public class FileUploadManager
 {
     public static async Task<string> UploadAsync(IFormFile file, FolderImagesType type)

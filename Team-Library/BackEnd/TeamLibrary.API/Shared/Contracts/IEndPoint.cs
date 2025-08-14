@@ -1,9 +1,9 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
-using TeamLibrary.API.Tools.Api;
+using TeamLibrary.API.Shared.Tools.Api;
 
-namespace TeamLibrary.API.Contracts;
+namespace TeamLibrary.API.Shared.Contracts;
 
 
 public interface IEndpoint 

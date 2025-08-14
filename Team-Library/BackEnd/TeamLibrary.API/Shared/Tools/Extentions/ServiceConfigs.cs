@@ -2,9 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using TeamLibrary.API.Tools.Extentions;
 
-namespace DrMeet.Api.Shared.ServiceConfigs;
+namespace TeamLibrary.API.Shared.Tools.Extentions;
 
 public static class ServiceConfigs
 {

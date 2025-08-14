@@ -1,5 +1,4 @@
-using DrMeet.Api.Shared.ServiceConfigs;
-using TeamLibrary.API.Tools.Extentions;
+using TeamLibrary.API.Shared.Tools.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 

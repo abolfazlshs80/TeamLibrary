@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using TeamLibrary.API.Contracts;
+using TeamLibrary.API.Shared.Contracts;
 
-namespace TeamLibrary.API.Tools.Extentions;
+namespace TeamLibrary.API.Shared.Tools.Extentions;
 
 public static class EndpointExtensions {
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)

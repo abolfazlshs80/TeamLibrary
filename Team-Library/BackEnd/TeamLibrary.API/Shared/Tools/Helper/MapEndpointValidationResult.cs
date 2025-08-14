@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DrMeet.Api.Shared.Helpers
+namespace TeamLibrary.API.Shared.Tools.Helper
 {
     public class MapEndpointValidationResult<T>
     {

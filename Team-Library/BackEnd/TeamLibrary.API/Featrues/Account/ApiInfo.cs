@@ -1,4 +1,4 @@
-﻿namespace TeamLibrary.API.EndPoints.Account
+﻿namespace TeamLibrary.API.Featrues.Account
 {
     public static class ApiInfo
     {

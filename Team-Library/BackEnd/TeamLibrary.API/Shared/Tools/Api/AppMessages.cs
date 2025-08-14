@@ -1,4 +1,4 @@
-﻿namespace DrMeet.Api.Shared;
+﻿namespace TeamLibrary.API.Shared.Tools.Api;
 
 public class AppMessages
 {
