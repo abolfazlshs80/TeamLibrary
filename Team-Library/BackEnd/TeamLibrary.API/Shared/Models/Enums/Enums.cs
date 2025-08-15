@@ -3,5 +3,6 @@
     public enum FolderImagesType
     {
         None,
+        Blog,
     }
 }
