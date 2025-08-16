@@ -19,9 +19,10 @@ namespace TeamLibrary.API.Service.Implementation
 
         }
 
-        public Task<bool> DeleteCategoryByIdAsync(int categoryId)
+        public async Task DeleteCategoryByIdAsync(int categoryId)
         {
-            
+
+           await _repository.DeleteCategoryByIdAsync(categoryId);
         }
 
         public Task<List<Category>> GetAllCategoryAsync()
