@@ -8,3 +8,25 @@
   font-style: normal;
   font-display: swap;
 }
+
+
+body {
+  background-color: #F7F5E9;
+  /* background-image: radial-gradient(at 47% 33%, #b2695a17 0, transparent 59%),
+    radial-gradient(at 82% 65%, #435f5633 0, transparent 55%),
+    radial-gradient(at 20% 65%, #f0e1de 0, transparent 55%); */
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  color: var(--foreground);
+}
+
+
+/* 
+#B2685A
+#653329
+#435F56
+#F7F5E9
+#F0E1DE */

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
   title: "کتابخانه",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body style={{ fontFamily: "Vazir, sans-serif" }}>{children}</body>
+      <body style={{ fontFamily: "Vazir, sans-serif" }}>
+        <Header/>
+        {children}</body>
     </html>
   );
 }
