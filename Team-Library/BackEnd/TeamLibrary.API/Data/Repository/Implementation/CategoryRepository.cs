@@ -7,16 +7,22 @@ namespace TeamLibrary.API.Data.Repository.Implementation
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private  AppDbContext _context;
+        private AppDbContext _context;
 
         public CategoryRepository(AppDbContext context)
         {
-                _context = context;
+            _context = context;
+        }
+
+        public async Task AddCategoryAsync(Category category)
+        {
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Category>> GetAllCategoryAsync()
         {
-            return await  _context.Categories.ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
         public Task<Category> GetCategoryByIdAsync(int id)
