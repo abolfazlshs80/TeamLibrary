@@ -20,6 +20,12 @@ namespace TeamLibrary.API.Data.Repository.Implementation
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteCategoryAsync(Category category)
+        {
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Category>> GetAllCategoryAsync()
         {
             return await _context.Categories.ToListAsync();
@@ -28,6 +34,13 @@ namespace TeamLibrary.API.Data.Repository.Implementation
         public Task<Category> GetCategoryByIdAsync(int id)
         {
             return _context.Categories.FirstAsync(c => c.Id == id);
+        }
+
+        public async Task UpdateCategoryAsync(Category category)
+        {
+            _context.Categories.Update(category);
+            await UpdateCategoryAsync(category);
+
         }
     }
 }
