@@ -10,10 +10,14 @@ public static class ServiceConfigs
     public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpContextAccessor();
-        
+
         #region Data
-        
- 
+
+
+
+        #endregion
+
+        #region Repository
 
         #endregion
 
@@ -22,8 +26,8 @@ public static class ServiceConfigs
         #endregion
 
 
-      
-        
+
+
         services.AddEndpoints(typeof(Program).Assembly);
 
         services.AddEndpointsApiExplorer();

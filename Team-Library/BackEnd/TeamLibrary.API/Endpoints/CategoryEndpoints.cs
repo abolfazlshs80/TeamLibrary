@@ -21,11 +21,11 @@ namespace TeamLibrary.API.Endpoints
                 return category is not null ? Results.Ok(category) : Results.NotFound();
             });
 
-            group.MapPost("/", async (Category category, ICategoryService service) =>
-            {
-                await service.AddCategoryAsync(category);
-                return Results.Created($"/api/categories/{category.Id}", category);
-            });
+            //group.MapPost("/", async (Category category, ICategoryService service) =>
+            //{
+            //    await service.AddCategoryAsync(category);
+            //    return Results.Created($"/api/categories/{category.Id}", category);
+            //});
 
             group.MapPut("/{id:int}", async (int id, Category category, ICategoryService service) =>
             {

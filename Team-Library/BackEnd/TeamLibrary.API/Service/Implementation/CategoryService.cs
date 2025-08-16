@@ -1,5 +1,6 @@
 ﻿using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Data.Repository.Interface;
+using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Service.Interface;
 
 namespace TeamLibrary.API.Service.Implementation
@@ -8,9 +9,28 @@ namespace TeamLibrary.API.Service.Implementation
     {
         private readonly ICategoryRepository _repository;
 
-        public async Task AddCategoryAsync(Category category)
+        public CategoryService(ICategoryRepository repository)
         {
-            await _repository.AddCategoryAsync(category);
+            _repository = repository;
+        }
+
+        public async Task<bool> AddCategoryAsync(CreateCategoryDto category)
+        {
+            try
+            {
+                await _repository.AddCategoryAsync(new Category
+                {
+                    Name = category.Name,
+                    Slug = category.Slug,
+                    Description = category.Description,
+                });
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
         public async Task DeleteCategoryAsync(Category category)
