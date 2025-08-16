@@ -1,4 +1,7 @@
+
 using TeamLibrary.API.Shared.Tools.Extentions;
+using TeamLibrary.API.Tools.Extentions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContextService(builder.Configuration);
 
 var app = builder.Build();
 
