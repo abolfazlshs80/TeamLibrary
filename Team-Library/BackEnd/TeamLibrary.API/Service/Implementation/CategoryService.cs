@@ -35,9 +35,9 @@ namespace TeamLibrary.API.Service.Implementation
             return _repository.GetCategoryByIdAsync(categoryId);
         }
 
-        public Task UpdateCategoryAsync(Category category)
+        public async Task UpdateCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+           await UpdateCategoryAsync(category);
         }
     }
 }
