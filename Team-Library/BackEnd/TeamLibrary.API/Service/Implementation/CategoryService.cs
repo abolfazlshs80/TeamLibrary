@@ -1,4 +1,5 @@
-﻿using TeamLibrary.API.Data.Models;
+﻿using ErrorOr;
+using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Service.Interface;
@@ -14,23 +15,18 @@ namespace TeamLibrary.API.Service.Implementation
             _repository = repository;
         }
 
-        public async Task<bool> AddCategoryAsync(CreateCategoryDto category)
+        public async Task<string> AddCategoryAsync(CreateCategoryDto category)
         {
-            try
-            {
-                await _repository.AddCategoryAsync(new Category
-                {
-                    Name = category.Name,
-                    Slug = category.Slug,
-                    Description = category.Description,
-                });
-                return true;
-            }
-            catch (Exception)
-            {
 
-                return false;
-            }
+            await _repository.AddCategoryAsync(new Category
+            {
+                Name = category.Name,
+                Slug = category.Slug,
+                Description = category.Description,
+            });
+          
+            return "دسته بندی ثبت شد";
+
         }
 
         public async Task DeleteCategoryAsync(Category category)
@@ -42,7 +38,7 @@ namespace TeamLibrary.API.Service.Implementation
         public async Task DeleteCategoryByIdAsync(int categoryId)
         {
 
-           await _repository.DeleteCategoryByIdAsync(categoryId);
+            await _repository.DeleteCategoryByIdAsync(categoryId);
         }
 
         public Task<List<Category>> GetAllCategoryAsync()
@@ -57,7 +53,7 @@ namespace TeamLibrary.API.Service.Implementation
 
         public async Task UpdateCategoryAsync(Category category)
         {
-           await UpdateCategoryAsync(category);
+            await UpdateCategoryAsync(category);
         }
     }
 }

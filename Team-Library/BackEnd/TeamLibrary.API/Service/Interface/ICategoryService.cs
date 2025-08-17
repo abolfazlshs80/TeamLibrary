@@ -1,4 +1,5 @@
-﻿using TeamLibrary.API.Data.Models;
+﻿using ErrorOr;
+using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Category.DTOs;
 
 namespace TeamLibrary.API.Service.Interface
@@ -7,7 +8,7 @@ namespace TeamLibrary.API.Service.Interface
     {
         Task<List<Category>> GetAllCategoryAsync();
         Task<Category> GetCategoryByIdAsync(int categoryId);
-        Task<bool> AddCategoryAsync(CreateCategoryDto category);
+        Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryDto category);
         Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Category category);
         Task DeleteCategoryByIdAsync(int categoryId);
