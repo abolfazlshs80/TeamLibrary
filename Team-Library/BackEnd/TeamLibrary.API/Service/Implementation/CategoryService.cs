@@ -15,7 +15,7 @@ namespace TeamLibrary.API.Service.Implementation
             _repository = repository;
         }
 
-        public async Task<string> AddCategoryAsync(CreateCategoryDto category)
+        public async Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryDto category)
         {
 
             await _repository.AddCategoryAsync(new Category
