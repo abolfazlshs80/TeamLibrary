@@ -10,10 +10,10 @@ import { books } from "@/modal/mockData";
 
 const TopRankBooks = () => {
   return (
-    <div className="mt-16">
-      <h2 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
+    <div className="mt-16 max-w-7xl mx-auto">
+      <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
         کتاب‌های پربازدید
-      </h2>
+      </h4>
 
       <Swiper
         modules={[Navigation, Autoplay]}

@@ -10,7 +10,7 @@ import { books } from "@/modal/mockData";
 
 const TopSellers = () => {
   return (
-    <div className="mt-16">
+    <div className="mt-16 max-w-7xl mx-auto">
       <h2 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
         کتاب‌های پرفروش
       </h2>
