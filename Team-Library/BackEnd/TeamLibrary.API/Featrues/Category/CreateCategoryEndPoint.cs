@@ -19,7 +19,7 @@ public static class CreateCategoryEndPoint
                      HttpContext context
                 ) =>
             {
-                ////validation
+                //validation
                 //(bool isValid, string errorMessage) resultError =
                 //               MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
 
@@ -28,10 +28,10 @@ public static class CreateCategoryEndPoint
 
 
                 var status = await service.AddCategoryAsync(request);
-                if (status)
-                    return Ok("دسته بندی ثبت شد");
+                if (!status.IsError)
+                    return BadRequest(string.Join(",", status.Errors.Select(a => a.Description)));
                 else
-                    return BadRequest("دسته بندی ثبت نشد");
+                    return Ok(status.Value);
 
             })
                 //.RequireAuthorization()
