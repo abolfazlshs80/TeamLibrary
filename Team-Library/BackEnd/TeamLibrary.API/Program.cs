@@ -4,7 +4,6 @@ using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Shared.Service.Implementation;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Extentions;
-using TeamLibrary.API.Tools.Extentions;
 
 
 var builder = WebApplication.CreateBuilder(args);
