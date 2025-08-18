@@ -2,7 +2,7 @@
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Tools.Helper;
 
-namespace TeamLibrary.API.Featrues.Account;
+namespace TeamLibrary.API.Featrues.Category;
 
 public static class GetAllCategoryEndPoint
 {

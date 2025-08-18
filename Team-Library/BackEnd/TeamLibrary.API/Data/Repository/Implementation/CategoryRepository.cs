@@ -26,18 +26,10 @@ namespace TeamLibrary.API.Data.Repository.Implementation
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteCategoryByIdAsync(int categoryId)
+        public async Task DeleteCategoryByIdAsync(Category category)
         {
-            var category = await _context.Categories.FindAsync(categoryId);
-            if (category == null)
-            {
-                return false;
-            }
-
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
-            return true;
-
         }
 
 
