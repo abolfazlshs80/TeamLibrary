@@ -27,14 +27,14 @@ namespace TeamLibrary.API.Endpoints
             //    return Results.Created($"/api/categories/{category.Id}", category);
             //});
 
-            group.MapPut("/{id:int}", async (int id, Category category, ICategoryService service) =>
-            {
-                if (id != category.Id)
-                    return Results.BadRequest("Id mismatch");
+            //group.MapPut("/{id:int}", async (int id, Category category, ICategoryService service) =>
+            //{
+            //    if (id != category.Id)
+            //        return Results.BadRequest("Id mismatch");
 
-                await service.UpdateCategoryAsync(category);
-                return Results.NoContent(); 
-            });
+            //    await service.UpdateCategoryAsync(category);
+            //    return Results.NoContent(); 
+            //});
 
             group.MapDelete("/{id:int}", async (int id, ICategoryService service) =>
             {

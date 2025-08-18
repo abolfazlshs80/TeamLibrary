@@ -55,9 +55,23 @@ namespace TeamLibrary.API.Service.Implementation
             return _repository.GetCategoryByIdAsync(categoryId);
         }
 
-        public async Task UpdateCategoryAsync(Category category)
+        public async Task<bool> UpdateCategoryAsync(UpdateCategoryDto dto)
         {
-           await UpdateCategoryAsync(category);
+            try
+            {
+                await _repository.UpdateCategoryAsync(new Category
+                {
+                    Name = dto.Name,
+                    Slug = dto.Slug,
+                    Description = dto.Description,
+                });
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
     }
 }
