@@ -2,7 +2,7 @@
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Category.DTOs;
 
-namespace TeamLibrary.API.Service.Interface
+namespace TeamLibrary.API.Shared.Service.Interface
 {
     public interface ICategoryService
     {

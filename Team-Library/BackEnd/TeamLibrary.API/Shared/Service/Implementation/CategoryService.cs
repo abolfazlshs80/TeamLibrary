@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Featrues.Category.DTOs;
-using TeamLibrary.API.Service.Interface;
+using TeamLibrary.API.Shared.Service.Interface;
 
-namespace TeamLibrary.API.Service.Implementation
+namespace TeamLibrary.API.Shared.Service.Implementation
 {
     public class CategoryService : ICategoryService
     {

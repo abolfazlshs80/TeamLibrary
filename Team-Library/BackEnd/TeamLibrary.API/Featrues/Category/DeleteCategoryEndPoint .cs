@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Account;
 using TeamLibrary.API.Featrues.Category.DTOs;
-using TeamLibrary.API.Service.Interface;
 using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;

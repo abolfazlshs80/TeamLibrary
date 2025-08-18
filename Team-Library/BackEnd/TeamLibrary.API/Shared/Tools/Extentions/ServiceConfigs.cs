@@ -2,6 +2,10 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TeamLibrary.API.Data.Repository.Implementation;
+using TeamLibrary.API.Data.Repository.Interface;
+using TeamLibrary.API.Shared.Service.Implementation;
+using TeamLibrary.API.Shared.Service.Interface;
 
 namespace TeamLibrary.API.Shared.Tools.Extentions;
 
@@ -18,11 +22,11 @@ public static class ServiceConfigs
         #endregion
 
         #region Repository
-
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         #endregion
 
         #region Services
-
+        services.AddScoped<ICategoryService, CategoryService>();
         #endregion
 
 

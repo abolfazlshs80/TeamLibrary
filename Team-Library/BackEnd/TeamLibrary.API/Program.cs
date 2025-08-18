@@ -1,8 +1,8 @@
 
 using TeamLibrary.API.Data.Repository.Implementation;
 using TeamLibrary.API.Data.Repository.Interface;
-using TeamLibrary.API.Service.Implementation;
-using TeamLibrary.API.Service.Interface;
+using TeamLibrary.API.Shared.Service.Implementation;
+using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Extentions;
 using TeamLibrary.API.Tools.Extentions;
 
@@ -16,13 +16,6 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextService(builder.Configuration);
-
-#region  Add Services DIP
-
-builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
-builder.Services.AddScoped<ICategoryService,CategoryService>();
-
-#endregion
 
 var app = builder.Build();
 

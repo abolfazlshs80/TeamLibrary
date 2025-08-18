@@ -1,5 +1,5 @@
-﻿using TeamLibrary.API.Service.Interface;
-using TeamLibrary.API.Shared.Contracts;
+﻿using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;
