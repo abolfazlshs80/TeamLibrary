@@ -1,41 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TeamLibrary.API.Data.Models;
+using TeamLibrary.API.Featrues.Account;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Service.Interface;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;
-
 public static class DeleteCategoryEndPoint
 {
     public class EndPoint : BaseEndpoint, IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost($"{ApiInfo.Prefix}/UpdateCategory", handler: async (
-               [FromBody] UpdateCategoryDto request,
+            app.MapDelete($"{ApiInfo.Prefix}/DeleteCategory", async (
+                [FromBody] DeleteCategoryDto request,
                 ICategoryService service,
-                     HttpContext context
-                ) =>
+                HttpContext context
+            ) =>
             {
-                ////validation
+                // اعتبارسنجی
                 (bool isValid, string errorMessage) resultError =
-                               MapEndpointValidationResult<UpdateCategoryDto>.Validate(request);
+                               MapEndpointValidationResult<DeleteCategoryDto>.Validate(request);
 
                 if (!resultError.isValid)
-                    return BadRequest(resultError.errorMessage);
+                    return Results.BadRequest(resultError.errorMessage);
 
+                var result = await service.DeleteCategoryByIdAsync(request.Id);
 
-                var status = await service.DeleteCategoryByIdAsync(request);
-                if (status)
-                    return Ok("بروزرسانی انجام شد");
-                else
-                    return BadRequest("بروزرسانی انجام نشد");
+                if (result.IsError)
+                    return Results.BadRequest(string.Join(",", result.Errors.Select(e => e.Description)));
 
+                return Results.Ok("دسته‌بندی حذف شد");
             })
-                
-                .WithTags(ApiInfo.Tag);
+            //.RequireAuthorization()
+            .WithTags(ApiInfo.Tag);
         }
     }
 }

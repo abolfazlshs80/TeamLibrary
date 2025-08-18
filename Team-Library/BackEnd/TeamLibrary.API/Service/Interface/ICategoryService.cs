@@ -9,8 +9,8 @@ namespace TeamLibrary.API.Service.Interface
         Task<List<Category>> GetAllCategoryAsync();
         Task<Category> GetCategoryByIdAsync(int categoryId);
         Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryDto category);
-        Task<bool> UpdateCategoryAsync(UpdateCategoryDto category);
-        Task DeleteCategoryByIdAsync(int categoryId);
+        Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryDto category);
+        Task<ErrorOr<bool>> DeleteCategoryByIdAsync(int categoryId);
 
     }
 }

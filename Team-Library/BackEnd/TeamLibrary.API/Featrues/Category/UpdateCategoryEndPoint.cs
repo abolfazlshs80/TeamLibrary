@@ -28,10 +28,12 @@ public static class UpdateCategoryEndPoint
 
 
                 var status = await service.UpdateCategoryAsync(request);
-                if (status)
-                    return Ok("بروزرسانی انجام شد");
-                else
-                    return BadRequest("بروزرسانی انجام نشد");
+           
+                if (status.IsError)
+                    return Results.BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
+
+              
+                return Results.Ok(status.Value);
 
             })
                 

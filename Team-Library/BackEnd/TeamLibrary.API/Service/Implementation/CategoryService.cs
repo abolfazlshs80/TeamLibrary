@@ -43,14 +43,17 @@ namespace TeamLibrary.API.Service.Implementation
 
 
 
-        public async Task DeleteCategoryByIdAsync(int categoryId)
+        public async Task<ErrorOr<bool>> DeleteCategoryByIdAsync(int categoryId)
         {
-            var category = _repository.GetCategoryByIdAsync(categoryId);
-            if (category == null) 
+            var category = await _repository.GetCategoryByIdAsync(categoryId);
+
+            if (category == null)
             {
-                return;
+                return Error.NotFound(description: "دسته‌بندی پیدا نشد");
             }
-            await _repository.DeleteCategoryByIdAsync(categoryId);
+
+            await _repository.DeleteCategoryByIdAsync(category);
+            return true;
         }
 
         public Task<List<Category>> GetAllCategoryAsync()
@@ -63,24 +66,21 @@ namespace TeamLibrary.API.Service.Implementation
             return _repository.GetCategoryByIdAsync(categoryId);
         }
 
-        public async Task<bool> UpdateCategoryAsync(UpdateCategoryDto dto)
+        public async Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryDto dto)
         {
-            try
-            {
-                var category = await _repository.GetCategoryByIdAsync(dto.Id);
-                if (category == null) return false;
 
-                category.Name = dto.Name;
-                category.Slug = dto.Slug;
-                category.Description = dto.Description;
-
-                await _repository.UpdateCategoryAsync(category);
-                return true;
-            }
-            catch (Exception)
+            var category = await _repository.GetCategoryByIdAsync(dto.Id);
+            if (category == null)
             {
-                return false;
+                return Error.NotFound(description: "دسته‌بندی پیدا نشد");
             }
+
+            category.Name = dto.Name;
+            category.Slug = dto.Slug;
+            category.Description = dto.Description;
+
+            await _repository.UpdateCategoryAsync(category);
+            return "دسته بندی حذف شد";
         }
 
 
