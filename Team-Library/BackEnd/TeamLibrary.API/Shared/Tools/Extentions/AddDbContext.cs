@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using TeamLibrary.API.Data.Context;
 
-namespace TeamLibrary.API.Tools.Extentions
+namespace TeamLibrary.API.Shared.Tools.Extentions
 {
     public static class AddDbContext
     {
