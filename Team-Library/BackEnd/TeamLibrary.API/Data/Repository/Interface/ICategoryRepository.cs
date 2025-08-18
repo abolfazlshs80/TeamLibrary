@@ -10,5 +10,6 @@ namespace TeamLibrary.API.Data.Repository.Interface
         Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Category category);
         Task<bool> DeleteCategoryByIdAsync(int categoryId);
+    
     }
 }

@@ -7,35 +7,33 @@ using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;
 
-public static class CreateCategoryEndPoint
+public class EndPoint : BaseEndpoint, IEndpoint
 {
-    public class EndPoint : BaseEndpoint, IEndpoint
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        public void MapEndpoint(IEndpointRouteBuilder app)
+        app.MapPost($"{ApiInfo.Prefix}/CreateCategory", handler: async (
+           [FromBody] CreateCategoryDto request,
+            ICategoryService service,
+            HttpContext context
+        ) =>
         {
-            app.MapPost($"{ApiInfo.Prefix}/CreateCategory", handler: async (
-               [FromBody] CreateCategoryDto request,
-                ICategoryService service,
-                     HttpContext context
-                ) =>
-            {
-                //validation
-                (bool isValid, string errorMessage) resultError =
-                               MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
+            // validation (اگه از همون ولیدیشن کاستوم استفاده می‌کنی)
+            (bool isValid, string errorMessage) resultError =
+                           MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
 
-                if (!resultError.isValid)
-                    return BadRequest(resultError.errorMessage);
+            if (!resultError.isValid)
+                return Results.BadRequest(resultError.errorMessage);
 
+            var status = await service.AddCategoryAsync(request);
 
-                var status = await service.AddCategoryAsync(request);
-                if (!status.IsError)
-                    return BadRequest(string.Join(",", status.Errors.Select(a => a.Description)));
-                else
-                    return Ok(status.Value);
+            // 🔴 اصلاح شرط:
+            if (status.IsError)
+                return Results.BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
 
-            })
-                //.RequireAuthorization()
-                .WithTags(ApiInfo.Tag);
-        }
+            // فعلاً همون 200 OK چون سرویس string می‌ده
+            return Results.Ok(status.Value);
+        })
+        //.RequireAuthorization()
+        .WithTags(ApiInfo.Tag);
     }
 }

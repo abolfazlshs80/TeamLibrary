@@ -40,6 +40,12 @@ namespace TeamLibrary.API.Data.Repository.Implementation
 
         }
 
+
+        public Task<bool> ExistsBySlugAsync(string slug)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Category>> GetAllCategoryAsync()
         {
             return await _context.Categories.ToListAsync();

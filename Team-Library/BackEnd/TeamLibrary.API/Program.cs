@@ -1,7 +1,6 @@
 
 using TeamLibrary.API.Data.Repository.Implementation;
 using TeamLibrary.API.Data.Repository.Interface;
-using TeamLibrary.API.Endpoints;
 using TeamLibrary.API.Service.Implementation;
 using TeamLibrary.API.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Extentions;
@@ -27,8 +26,7 @@ builder.Services.AddScoped<ICategoryService,CategoryService>();
 
 var app = builder.Build();
 
-// Map Endpoints
-app.MapCategoryEndpoints();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
