@@ -20,11 +20,11 @@ public static class CreateCategoryEndPoint
                 ) =>
             {
                 //validation
-                //(bool isValid, string errorMessage) resultError =
-                //               MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
+                (bool isValid, string errorMessage) resultError =
+                               MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
 
-                //if (!resultError.isValid)
-                //    return BadRequest(resultError.errorMessage);
+                if (!resultError.isValid)
+                    return BadRequest(resultError.errorMessage);
 
 
                 var status = await service.AddCategoryAsync(request);

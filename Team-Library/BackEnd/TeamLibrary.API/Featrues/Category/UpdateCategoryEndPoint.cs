@@ -20,11 +20,11 @@ public static class UpdateCategoryEndPoint
                 ) =>
             {
                 ////validation
-                //(bool isValid, string errorMessage) resultError =
-                //               MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
+                (bool isValid, string errorMessage) resultError =
+                               MapEndpointValidationResult<UpdateCategoryDto>.Validate(request);
 
-                //if (!resultError.isValid)
-                //    return BadRequest(resultError.errorMessage);
+                if (!resultError.isValid)
+                    return BadRequest(resultError.errorMessage);
 
 
                 var status = await service.UpdateCategoryAsync(request);
@@ -34,7 +34,7 @@ public static class UpdateCategoryEndPoint
                     return BadRequest("بروزرسانی انجام نشد");
 
             })
-                //.RequireAuthorization()
+                
                 .WithTags(ApiInfo.Tag);
         }
     }

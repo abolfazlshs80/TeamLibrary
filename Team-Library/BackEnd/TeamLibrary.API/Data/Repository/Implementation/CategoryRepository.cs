@@ -53,7 +53,7 @@ namespace TeamLibrary.API.Data.Repository.Implementation
         public async Task UpdateCategoryAsync(Category category)
         {
             _context.Categories.Update(category);
-            await UpdateCategoryAsync(category);
+            await _context.SaveChangesAsync();
 
         }
     }

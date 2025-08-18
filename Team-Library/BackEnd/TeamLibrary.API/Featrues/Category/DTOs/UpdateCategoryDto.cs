@@ -4,6 +4,8 @@ namespace TeamLibrary.API.Featrues.Category.DTOs;
 
 public class UpdateCategoryDto
 {
+    [Required]
+    public int Id { get; set; }   // 🔴 لازم برای شناسایی رکورد
     [Required(ErrorMessage =" لطفا نام را وارد کنید")]
     public string Name { get; set; } = string.Empty;
     [Required(ErrorMessage = " لطفا Slug را وارد کنید")]

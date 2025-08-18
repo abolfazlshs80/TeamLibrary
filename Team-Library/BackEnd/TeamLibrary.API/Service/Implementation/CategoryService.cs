@@ -28,12 +28,7 @@ namespace TeamLibrary.API.Service.Implementation
             return "دسته بندی ثبت شد";
 
         }
-
-        public async Task DeleteCategoryAsync(Category category)
-        {
-            await _repository.DeleteCategoryAsync(category);
-
-        }
+           
 
         public async Task DeleteCategoryByIdAsync(int categoryId)
         {
@@ -55,19 +50,22 @@ namespace TeamLibrary.API.Service.Implementation
         {
             try
             {
-                await _repository.UpdateCategoryAsync(new Category
-                {
-                    Name = dto.Name,
-                    Slug = dto.Slug,
-                    Description = dto.Description,
-                });
+                var category = await _repository.GetCategoryByIdAsync(dto.Id);
+                if (category == null) return false;
+
+                category.Name = dto.Name;
+                category.Slug = dto.Slug;
+                category.Description = dto.Description;
+
+                await _repository.UpdateCategoryAsync(category);
                 return true;
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
+
+
     }
 }
