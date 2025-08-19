@@ -33,7 +33,7 @@ const MainPage = () => {
               کتاب‌ها را جستجو کرده و به اطلاعات مورد نیاز خود دسترسی پیدا کنید.
             </p>
             
-            <button className="text-white font-semibold bg-[#435F56] rounded-full text-[2vw] sm:text-[1.5vw] px-8 py-1 mt-2 sm:mt-6">جستجو کتاب</button>
+            <button className="text-white font-semibold bg-[#435F56] rounded-full text-[2vw] sm:text-[1.5vw] px-8 py-1 mt-2 sm:mt-6 hover:cursor-pointer">جستجو کتاب</button>
             
           </div>
         </div>
