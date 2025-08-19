@@ -43,9 +43,9 @@ namespace TeamLibrary.API.Data.Repository.Implementation
             return await _context.Categories.ToListAsync();
         }
 
-        public Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            return _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task UpdateCategoryAsync(Category category)

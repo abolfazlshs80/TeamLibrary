@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Data.Repository.Interface;
@@ -61,9 +62,21 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return _repository.GetAllCategoryAsync();
         }
 
-        public Task<Category>  GetCategoryByIdAsync(int categoryId)
+        public async Task<GetCategoryByIdDto>  GetCategoryByIdAsync(int id)
         {
-            return _repository.GetCategoryByIdAsync(categoryId);
+            var categores = await _repository.GetCategoryByIdAsync(id);
+
+            if (categores == null)
+                return null;
+
+            return new GetCategoryByIdDto
+            {
+                Id = categores.Id,
+                Name = categores.Name,
+                Slug = categores.Slug,
+                Description = categores.Description
+            };
+
         }
 
         public async Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryDto dto)
