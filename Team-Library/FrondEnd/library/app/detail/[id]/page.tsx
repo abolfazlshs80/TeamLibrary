@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
+import { use } from 'react';
 import Image from 'next/image';
 import { books } from '@/modal/mockData';
 import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
 import Button from '@/components/Button/Button';
 import { useRouter } from 'next/navigation';
 
@@ -18,9 +17,10 @@ interface Book {
   rank: number;
 }
 
-export default function DetailPage({ params }: { params: { id: string } }) {
+export default function DetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const bookId = parseInt(params.id || '1');
+  const unWrappedParams= use(params);
+  const bookId = parseInt(unWrappedParams.id || '1');
   const book = books.find((b) => b.id === bookId) || books[0];
 
   const handleAddToFavorite = () => {
