@@ -27,7 +27,7 @@ public static class GetCategoryByIdEndPoint
 
                 return Ok(category);
             })
-            //.RequireAuthorization()
+         
             .WithTags(ApiInfo.Tag);
         }
     }

@@ -26,14 +26,12 @@ public class EndPoint : BaseEndpoint, IEndpoint
 
             var status = await service.AddCategoryAsync(request);
 
-            // 🔴 اصلاح شرط:
             if (status.IsError)
                 return BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
 
-            // فعلاً همون 200 OK چون سرویس string می‌ده
             return Ok(status.Value);
         })
-        //.RequireAuthorization()
+  
         .WithTags(ApiInfo.Tag);
     }
 }

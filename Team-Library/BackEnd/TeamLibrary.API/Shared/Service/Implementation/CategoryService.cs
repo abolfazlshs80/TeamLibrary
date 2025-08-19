@@ -32,9 +32,9 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             }
             catch (DbUpdateException ex)
             {
-                // بسته به ErrorOr شما، یکی از این‌ها:
+          
                 return Error.Failure(code: "DbError", description: ex.Message);
-                // یا: return Error.Unexpected(description: "خطای دیتابیس");
+              
             }
             catch (Exception ex)
             {
