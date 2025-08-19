@@ -61,7 +61,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return _repository.GetAllCategoryAsync();
         }
 
-        public Task<Category> GetCategoryByIdAsync(int categoryId)
+        public Task<Category>  GetCategoryByIdAsync(int categoryId)
         {
             return _repository.GetCategoryByIdAsync(categoryId);
         }
