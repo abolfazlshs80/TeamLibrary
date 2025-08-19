@@ -45,7 +45,7 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F7F5E9]">
       <Header />
       
       <main className="container mx-auto px-4 py-8">
@@ -56,18 +56,18 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
               <li>
                 <button 
                   onClick={() => router.push('/')}
-                  className="text-blue-600 hover:text-blue-800 transition-colors"
+                  className="text-gray-800 hover:text-gray-500 transition-colors"
                 >
                   خانه
                 </button>
               </li>
               <li className="text-gray-400">/</li>
-              <li className="text-gray-600">{book.bookName}</li>
+              <li className="text-gray-800">{book.bookName}</li>
             </ol>
           </nav>
 
           {/* Book Detail Section */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="bg-[#B2685A] rounded-lg shadow-lg overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8">
               
               {/* Book Image */}
@@ -85,20 +85,20 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                 {/* Book Stats */}
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">رتبه:</span>
+                    <span className="text-sm font-medium text-[#435F56]">رتبه:</span>
                     <div className="flex items-center">
                       {renderStars(book.rank)}
-                      <span className="mr-2 text-sm text-gray-600">({book.rank}/5)</span>
+                      <span className="mr-2 text-sm text-gray-800">({book.rank}/5)</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">سال انتشار:</span>
+                    <span className="text-sm font-medium text-[#435F56]">سال انتشار:</span>
                     <span className="text-sm text-gray-800">{book.year}</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">نویسنده:</span>
+                    <span className="text-sm font-medium text-[#435F56]">نویسنده:</span>
                     <span className="text-sm text-gray-800">{book.author}</span>
                   </div>
                 </div>
@@ -111,13 +111,13 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     {book.bookName}
                   </h1>
                   <p className="text-lg text-gray-600 mb-4">
-                    نوشته: <span className="text-blue-600">{book.author}</span>
+                    نوشته: <span className="text-black">{book.author}</span>
                   </p>
                 </div>
 
                 <div className="prose prose-lg max-w-none">
                   <h3 className="text-xl font-semibold text-gray-800 mb-3">درباره کتاب</h3>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-[#435F56] leading-relaxed">
                     {book.description}
                   </p>
                 </div>
@@ -128,7 +128,7 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     type="button"
                     label="افزودن به علاقه‌مندی‌ها"
                     widthBtn="w-full sm:w-auto"
-                    colorBtn="bg-red-500 hover:bg-red-600"
+                    colorBtn="bg-[#435F56]  hover:bg-[#F7F5E9] hover:text-[#435F56] transition-colors duration-200"
                     colorBtnText="text-white"
                     onclick={handleAddToFavorite}
                   />
@@ -137,30 +137,30 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     type="button"
                     label="شروع خواندن"
                     widthBtn="w-full sm:w-auto"
-                    colorBtn="bg-blue-500 hover:bg-blue-600"
+                    colorBtn="bg-[#435F56]  hover:bg-[#F7F5E9] hover:text-[#435F56] transition-colors duration-200"
                     colorBtnText="text-white"
                     onclick={handleReadBook}
                   />
                 </div>
 
                 {/* Additional Information */}
-                <div className="border-t pt-6 mt-8">
+                <div className="border-t border-[#435F56] pt-6 mt-8">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">اطلاعات تکمیلی</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="font-medium text-gray-600">دسته‌بندی:</span>
+                      <span className="font-medium text-[#435F56]">دسته‌بندی:</span>
                       <span className="mr-2 text-gray-800">رمان کلاسیک</span>
                     </div>
                     <div>
-                      <span className="font-medium text-gray-600">زبان:</span>
+                      <span className="font-medium text-[#435F56]">زبان:</span>
                       <span className="mr-2 text-gray-800">فارسی</span>
                     </div>
                     <div>
-                      <span className="font-medium text-gray-600">صفحات:</span>
+                      <span className="font-medium text-[#435F56]">صفحات:</span>
                       <span className="mr-2 text-gray-800">۴۵۰</span>
                     </div>
                     <div>
-                      <span className="font-medium text-gray-600">قیمت:</span>
+                      <span className="font-medium text-[#435F56]">قیمت:</span>
                       <span className="mr-2 text-gray-800">رایگان</span>
                     </div>
                   </div>
