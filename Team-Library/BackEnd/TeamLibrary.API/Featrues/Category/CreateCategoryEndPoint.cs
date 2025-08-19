@@ -22,16 +22,16 @@ public class EndPoint : BaseEndpoint, IEndpoint
                            MapEndpointValidationResult<CreateCategoryDto>.Validate(request);
 
             if (!resultError.isValid)
-                return Results.BadRequest(resultError.errorMessage);
+                return BadRequest(resultError.errorMessage);
 
             var status = await service.AddCategoryAsync(request);
 
             // 🔴 اصلاح شرط:
             if (status.IsError)
-                return Results.BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
+                return BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
 
             // فعلاً همون 200 OK چون سرویس string می‌ده
-            return Results.Ok(status.Value);
+            return Ok(status.Value);
         })
         //.RequireAuthorization()
         .WithTags(ApiInfo.Tag);

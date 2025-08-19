@@ -30,10 +30,10 @@ public static class UpdateCategoryEndPoint
                 var status = await service.UpdateCategoryAsync(request);
            
                 if (status.IsError)
-                    return Results.BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
+                    return BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
 
               
-                return Results.Ok(status.Value);
+                return Ok(status.Value);
 
             })
                 

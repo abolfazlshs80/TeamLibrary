@@ -23,14 +23,14 @@ public static class DeleteCategoryEndPoint
                                MapEndpointValidationResult<DeleteCategoryDto>.Validate(request);
 
                 if (!resultError.isValid)
-                    return Results.BadRequest(resultError.errorMessage);
+                    return BadRequest(resultError.errorMessage);
 
                 var result = await service.DeleteCategoryByIdAsync(request.Id);
 
                 if (result.IsError)
-                    return Results.BadRequest(string.Join(",", result.Errors.Select(e => e.Description)));
+                    return BadRequest(string.Join(",", result.Errors.Select(e => e.Description)));
 
-                return Results.Ok("دسته‌بندی حذف شد");
+                return Ok("دسته‌بندی حذف شد");
             })
             //.RequireAuthorization()
             .WithTags(ApiInfo.Tag);
