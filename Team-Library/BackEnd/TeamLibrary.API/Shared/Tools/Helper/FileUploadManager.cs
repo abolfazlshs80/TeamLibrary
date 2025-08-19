@@ -1,4 +1,6 @@
-﻿namespace TeamLibrary.API.Shared.Tools.Helper;
+﻿using TeamLibrary.API.Shared.Models.Enums;
+
+namespace TeamLibrary.API.Shared.Tools.Helper;
 public class FileUploadManager
 {
     public static async Task<string> UploadAsync(IFormFile file, FolderImagesType type)
