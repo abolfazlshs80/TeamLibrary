@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react';
-
+import { HiOutlineMail } from "react-icons/hi";
+import { GoUnverified } from "react-icons/go";
+import { TbLockPassword } from "react-icons/tb";
 const ForgetPassword = () => {
     const[step ,setStep]= useState(1);// start step 1
     const [email, setEmail] = useState('');// useState for email 
@@ -39,7 +41,8 @@ const ForgetPassword = () => {
         <div className="flex justify-between mb-8 relative">
           <div className='absolute top-1/2 right-0 left-0 h-0.5
            bg-gray-300 transform -translate-y-1/2 -z-20'>
-            {/* show steps */}
+        </div>
+                {/* show steps */}
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ?
             'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>1</div>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 
@@ -47,7 +50,6 @@ const ForgetPassword = () => {
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 
             'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>3</div>
           </div>
-        </div>
         <form className="space-y-6">
             {/* step1:Enter email */}
         {step === 1 && (
@@ -71,10 +73,7 @@ const ForgetPassword = () => {
                     required
                   />
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
+                   <HiOutlineMail size={20} />
                   </span>
                 </div>
               </div>
@@ -113,7 +112,7 @@ const ForgetPassword = () => {
                     required
                   />
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-
+                   <GoUnverified size={20} />
                   </span>
                 </div>
               </div>
@@ -163,7 +162,7 @@ const ForgetPassword = () => {
                   />
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 
                   text-gray-400">
-
+                    <TbLockPassword  size={20}/>
                   </span>
                 </div>
               </div>
@@ -184,7 +183,7 @@ const ForgetPassword = () => {
                     required
                   />
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-
+                   <TbLockPassword  size={20}/>
                   </span>
                 </div>
               </div>
