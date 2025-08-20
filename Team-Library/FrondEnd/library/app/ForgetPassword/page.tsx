@@ -1,0 +1,219 @@
+'use client'
+
+import { useState } from 'react';
+
+const ForgetPassword = () => {
+    const[step ,setStep]= useState(1);// start step 1
+    const [email, setEmail] = useState('');// useState for email 
+    const [verificationCode, setVerificationCode] = useState('');//verificayion email
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+   
+    const handleSendCode = (e) => {
+        e.preventDefault();
+        // request to server
+        console.log('ارسال کد تایید به:', email);
+        setStep(2); //step to 2
+      };
+
+      const handleVerifyCode = (e) => {
+        e.preventDefault();
+        // accept or reject code verification
+        console.log('کد تأیید:', verificationCode);
+        setStep(3); // step to 3
+      };
+      const handleResetPassword = (e) => {
+        e.preventDefault();
+        // send new Password to server
+        console.log('رمز جدید:', newPassword);
+        
+      };
+  return (
+   
+   <div className="bg-[#B2685A] min-h-screen flex items-center justify-center p-4">
+    <div className="bg-[#F7F5E9] rounded-2xl shadow-xl p-6 w-full max-w-md">
+       <div className="text-center mb-8">
+        <h2>بازیابی رمز عبور</h2>
+        <p className="text-gray-600 mt-2">مراحل بازیابی رمز عبور را دنبال کنید</p>
+       </div>
+        <div className="flex justify-between mb-8 relative">
+          <div className='absolute top-1/2 right-0 left-0 h-0.5
+           bg-gray-300 transform -translate-y-1/2 -z-20'>
+            {/* show steps */}
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ?
+            'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>1</div>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 
+            'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>2</div>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 
+            'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>3</div>
+          </div>
+        </div>
+        <form className="space-y-6">
+            {/* step1:Enter email */}
+        {step === 1 && (
+            <div className="space-y-4">
+              <p className="text-gray-700 text-right">
+                لطفا آدرس ایمیل خود را وارد کنید.
+              </p>
+              
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 text-right">
+                  آدرس ایمیل
+                </label>
+                <div className="relative">
+                  <input 
+                    type="email" 
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pr-3 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    placeholder="example@example.com" 
+                    required
+                  />
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              
+              <button 
+                onClick={handleSendCode}
+                className="w-full bg-[#B2685A] hover:bg-[#9c5a4d] text-white py-3 px-4 rounded-lg font-medium transition-colors"
+              >
+                ارسال کد تایید
+              </button>
+            </div>
+          )}
+
+           {/* step2:Enter code verfication */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <p className="text-gray-700 text-right">
+                <span className="font-semibold">{email}</span>کد ارسالی به    
+                     را در کادر زیر وارد کنید.
+              </p>
+              
+              <div>
+                <label htmlFor="verificationCode" className="block text-sm font-medium 
+                text-gray-700 mb-1 text-right">
+                  کد تایید
+                </label>
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    id="verificationCode"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    placeholder="XXXX" 
+                    required
+                  />
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button 
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 
+                  py-3 px-4 rounded-lg font-medium transition-colors"
+                >
+                  بازگشت
+                </button>
+                <button 
+                  onClick={handleVerifyCode}
+                  className="w-1/2 bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
+                  py-3 px-4 rounded-lg font-medium transition-colors"
+                >
+                  تایید کد
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/*step3: enter new code */}
+          {step === 3 && (
+            <div className="space-y-4">
+              <p className="text-gray-700 text-right">
+                رمز عبور جدید خود را وارد کنید.
+              </p>
+              
+              <div>
+                <label htmlFor="newPassword" 
+                className="block text-sm font-medium text-gray-700 mb-1 text-right">
+                  رمز عبور جدید
+                </label>
+                <div className="relative">
+                  <input 
+                    type="password" 
+                    id="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    placeholder="رمز عبور جدید" 
+                    required
+                  />
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 
+                  text-gray-400">
+
+                  </span>
+                </div>
+              </div>
+              
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium 
+                text-gray-700 mb-1 text-right">
+                  تکرار رمز عبور جدید
+                </label>
+                <div className="relative">
+                  <input 
+                    type="password" 
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pr-3 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    placeholder="تکرار رمز عبور جدید" 
+                    required
+                  />
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button 
+                  type="button"
+                  onClick={() => setStep(2)}
+                  className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 
+                  py-3 px-4 rounded-lg font-medium transition-colors"
+                >
+                  بازگشت
+                </button>
+                <button 
+                  onClick={handleResetPassword}
+                  className="w-1/2 bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
+                  py-3 px-4 rounded-lg font-medium transition-colors"
+                >
+                  تغییر رمز عبور
+                </button>
+              </div>
+            </div>
+          )}
+
+        </form>
+   </div>
+  </div>
+
+
+)};
+
+export default ForgetPassword;
