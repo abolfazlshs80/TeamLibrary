@@ -1,8 +1,8 @@
 ﻿namespace TeamLibrary.API.Data.Models;
 
-public class Book
+public class Book:BaseEntity
 {
-    public int Id { get; set; }
+
 
     public string Title { get; set; } = null!;
     public string Slug { get; set; } = null!;

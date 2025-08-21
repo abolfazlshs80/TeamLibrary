@@ -2,7 +2,9 @@
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
+using TeamLibrary.API.Shared.Tools.Extentions;
 using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;
@@ -13,31 +15,21 @@ public static class UpdateCategoryEndPoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost($"{ApiInfo.Prefix}/UpdateCategory", handler: async (
-               [FromBody] UpdateCategoryDto request,
-                ICategoryService service,
-                     HttpContext context
-                ) =>
-            {
-                ////validation
-                (bool isValid, string errorMessage) resultError =
-                               MapEndpointValidationResult<UpdateCategoryDto>.Validate(request);
+ 
+            app.MapPut($"{ApiInfo.Prefix}/Update",
+                async (ICategoryService categoryService, [FromBody] UpdateCategoryRequestDto request) =>
+                {
+                    var status = await categoryService.UpdateCategoryAsync(request);
 
-                if (!resultError.isValid)
-                    return BadRequest(resultError.errorMessage);
+                    if (status.IsError)
+                        return BadRequest(status.Errors.GetMessageError());
 
+                    return Ok(status.Value);
+                }
+            )
+            .AddEndpointFilter(new ValidationFilter<UpdateCategoryRequestDto>())
+            .WithTags(ApiInfo.Tag);
 
-                var status = await service.UpdateCategoryAsync(request);
-           
-                if (status.IsError)
-                    return BadRequest(string.Join(",", status.Errors.Select(e => e.Description)));
-
-              
-                return Ok(status.Value);
-
-            })
-                
-                .WithTags(ApiInfo.Tag);
         }
     }
 }

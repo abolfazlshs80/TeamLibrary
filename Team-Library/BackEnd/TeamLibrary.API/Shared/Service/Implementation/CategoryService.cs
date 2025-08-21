@@ -1,23 +1,24 @@
-﻿using ErrorOr;
+﻿using Azure.Core;
+using DrMeet.Api.Shared.Persistence.UnitOfWork;
+using ErrorOr;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Featrues.Category.DTOs;
+using TeamLibrary.API.Shared.PagedList;
 using TeamLibrary.API.Shared.Service.Interface;
+using TeamLibrary.API.Shared.PagedList;
+using TeamLibrary.API.Featrues.Category.DTOs.Request;
 
 namespace TeamLibrary.API.Shared.Service.Implementation
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService(IUnitOfWork _unitOfWork, ICategoryRepository _repository) : ICategoryService
     {
-        private readonly ICategoryRepository _repository;
 
-        public CategoryService(ICategoryRepository repository)
-        {
-            _repository = repository;
-        }
 
-        public async Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryDto category)
+        public async Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryRequestDto category)
         {
             try
             {
@@ -32,9 +33,9 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             }
             catch (DbUpdateException ex)
             {
-          
+
                 return Error.Failure(code: "DbError", description: ex.Message);
-              
+
             }
             catch (Exception ex)
             {
@@ -57,19 +58,29 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return true;
         }
 
-        public Task<List<Category>> GetAllCategoryAsync()
+        public async Task<PagedList<GetCategoryListResponseDto>> GetAllCategoryAsync(GetCategoryListRequestDto request)
         {
-            return _repository.GetAllCategoryAsync();
+            var categories = _unitOfWork.Categories.AsQueryable();
+
+            var result =await  categories.ToPagedList(s => new GetCategoryListResponseDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Slug = s.Slug
+            }, request.PageNumber, request.PageSize);
+
+            return result;
+     
         }
 
-        public async Task<GetCategoryByIdDto>  GetCategoryByIdAsync(int id)
+        public async Task<GetCategoryByIdResponseDto> GetCategoryByIdAsync(int id)
         {
             var categores = await _repository.GetCategoryByIdAsync(id);
 
             if (categores == null)
                 return null;
 
-            return new GetCategoryByIdDto
+            return new GetCategoryByIdResponseDto
             {
                 Id = categores.Id,
                 Name = categores.Name,
@@ -79,7 +90,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
         }
 
-        public async Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryDto dto)
+        public async Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryRequestDto dto)
         {
 
             var category = await _repository.GetCategoryByIdAsync(dto.Id);
