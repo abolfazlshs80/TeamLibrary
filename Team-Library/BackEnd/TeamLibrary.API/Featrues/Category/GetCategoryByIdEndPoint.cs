@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Category.DTOs;
+using TeamLibrary.API.Featrues.Category.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Helper;
 
@@ -14,51 +16,27 @@ public static class GetCategoryByIdEndPoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet($"{ApiInfo.Prefix}/GetCategoryById/{{id:int}}", async (
-                int id,
+
+            app.MapGet($"{ApiInfo.Prefix}/GetById", handler: async (
                 ICategoryService service,
-                HttpContext context
-            ) =>
+              [AsParameters] GetCategoryByIdRequestDto request,
+                     HttpContext context
+                ) =>
             {
-                var category = await service.GetCategoryByIdAsync(id);
+
+                var category = await service.GetCategoryByIdAsync(request.Id);
 
                 if (category == null)
-                    return NotFound("دسته‌بندی پیدا نشد");
+                    return BadRequest("دسته‌بندی پیدا نشد");
 
                 return Ok(category);
+
             })
-         
+            .AddEndpointFilter(new ValidationFilter<GetCategoryByIdRequestDto>())
             .WithTags(ApiInfo.Tag);
+
         }
+
     }
 }
 
-
-//public static class GetCategoryByIdEndPoint
-//{
-//    public class EndPoint : BaseEndpoint, IEndpoint
-//    {
-//        public void MapEndpoint(IEndpointRouteBuilder app)
-//        {
-//            app.MapGet($"{ApiInfo.Prefix}/GetCategoryById", handler: async (
-//                  int id,
-//                ICategoryService service,
-//                     HttpContext context
-//                ) =>
-//            {
-//                ////validation
-//                //(bool isValid, string errorMessage) resultError =
-//                //               MapEndpointValidationResult<modeltype>.Validate(request);
-
-//                //if (!resultError.isValid)
-//                //    return BadRequest(resultError.errorMessage);
-//                var categories = await service.GetCategoryByIdAsync(request);
-
-//                return Ok(categories);
-
-//            })
-//                //.RequireAuthorization()
-//                .WithTags(ApiInfo.Tag);
-//        }
-//    }
-//}

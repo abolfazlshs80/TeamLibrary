@@ -1,4 +1,9 @@
-﻿using TeamLibrary.API.Shared.Contracts;
+﻿using Azure.Core;
+using TeamLibrary.API.Featrues.Category.DTOs;
+using TeamLibrary.API.Featrues.Category.DTOs.Request;
+using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Helper;
+using TeamLibrary.API.Shared.PagedList;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Helper;
 
@@ -12,22 +17,19 @@ public static class GetAllCategoryEndPoint
         {
             app.MapGet($"{ApiInfo.Prefix}/GetAllCategory", handler: async (
                 ICategoryService service,
+              [AsParameters] GetCategoryListRequestDto request,
                      HttpContext context
                 ) =>
             {
-                ////validation
-                //(bool isValid, string errorMessage) resultError =
-                //               MapEndpointValidationResult<modeltype>.Validate(request);
 
-                //if (!resultError.isValid)
-                //    return BadRequest(resultError.errorMessage);
-                var categories = await service.GetAllCategoryAsync();
-
+                var categories = await service.GetAllCategoryAsync(request);
                 return Ok(categories);
 
             })
                 //.RequireAuthorization()
                 .WithTags(ApiInfo.Tag);
         }
+
+
     }
 }
