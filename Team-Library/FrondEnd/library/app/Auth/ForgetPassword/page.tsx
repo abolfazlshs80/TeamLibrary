@@ -10,7 +10,7 @@ const ForgetPassword = () => {
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-   
+    const[error , setError]= useState('');
     const handleSendCode = (e) => {
         e.preventDefault();
         // request to server
@@ -35,18 +35,27 @@ const ForgetPassword = () => {
    <div className="bg-[#B2685A] min-h-screen flex items-center justify-center p-4">
     <div className="bg-[#F7F5E9] rounded-2xl shadow-xl p-6 w-full max-w-md">
        <div className="text-center mb-8">
-        <h2>بازیابی رمز عبور</h2>
-        <p className="text-gray-600 mt-2">مراحل بازیابی رمز عبور را دنبال کنید</p>
+        <p className="text-gray-600 mt-2">مراحل بازیابی <span 
+        className='text-black text-lg'>رمز عبور</span> را دنبال کنید</p>
        </div>
         <div className="flex justify-between mb-8 relative">
           <div className='absolute top-1/2 right-0 left-0 h-0.5
            bg-gray-300 transform -translate-y-1/2 -z-20'>
         </div>
                 {/* show steps */}
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ?
-            'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>1</div>
+
+
+             
+               <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ?
+                 'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>1</div>
+               <div className={` absolute top-4 right-8 w-38 h-0.5 z-0 
+                 ${step >= 2 ? 'bg-[#B2685A]' : 'bg-gray-300'}`}></div>
+            
+    
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 
             'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>2</div>
+            <div className={` absolute top-4 left-8 w-38 h-0.5 z-0 
+                 ${step >= 3 ? 'bg-[#B2685A]' : 'bg-gray-300'}`}></div>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 
             'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>3</div>
           </div>
@@ -59,7 +68,8 @@ const ForgetPassword = () => {
               </p>
               
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 text-right">
+                <label htmlFor="email" className="block text-sm font-medium 
+                text-gray-700 mb-1 text-right">
                   آدرس ایمیل
                 </label>
                 <div className="relative">
@@ -68,7 +78,8 @@ const ForgetPassword = () => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="example@example.com" 
                     required
                   />
@@ -80,7 +91,8 @@ const ForgetPassword = () => {
               
               <button 
                 onClick={handleSendCode}
-                className="w-full bg-[#B2685A] hover:bg-[#9c5a4d] text-white py-3 px-4 rounded-lg font-medium transition-colors"
+                className="w-full bg-[#B2685A] hover:bg-[#9c5a4d] text-white py-3 px-4 
+                rounded-lg font-medium transition-colors"
               >
                 ارسال کد تایید
               </button>
@@ -91,7 +103,7 @@ const ForgetPassword = () => {
           {step === 2 && (
             <div className="space-y-4">
               <p className="text-gray-700 text-right">
-                <span className="font-semibold">{email}</span>کد ارسالی به    
+              کد ارسالی <span className="font-semibold">{email}</span>   
                      را در کادر زیر وارد کنید.
               </p>
               
@@ -178,7 +190,9 @@ const ForgetPassword = () => {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
+                    className="w-full pr-3 pl-10 py-3 border 
+                    border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="تکرار رمز عبور جدید" 
                     required
                   />
