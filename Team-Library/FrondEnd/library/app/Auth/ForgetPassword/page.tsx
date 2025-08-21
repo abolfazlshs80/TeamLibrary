@@ -10,7 +10,7 @@ const ForgetPassword = () => {
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const[error , setError]= useState('');
+    // const[error , setError]= useState('');
     const handleSendCode = (e) => {
         e.preventDefault();
         // request to server
@@ -78,7 +78,7 @@ const ForgetPassword = () => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    className="w-full pr-3 pl-10 py-3 border outline-none border-gray-300  
                     rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="example@example.com" 
                     required
@@ -118,7 +118,7 @@ const ForgetPassword = () => {
                     id="verificationCode"
                     value={verificationCode}
                     onChange={(e) => setVerificationCode(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    className="w-full pr-3 pl-10 py-3 border outline-none border-gray-300 
                     rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="XXXX" 
                     required
@@ -167,7 +167,7 @@ const ForgetPassword = () => {
                     id="newPassword"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border border-gray-300 
+                    className="w-full pr-3 pl-10 py-3 border outline-none border-gray-300 
                     rounded-lg focus:ring-2 focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="رمز عبور جدید" 
                     required
@@ -190,7 +190,7 @@ const ForgetPassword = () => {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pr-3 pl-10 py-3 border 
+                    className="w-full pr-3 pl-10 py-3 border outline-none
                     border-gray-300 rounded-lg focus:ring-2 
                     focus:ring-[#B2685A] focus:border-transparent" 
                     placeholder="تکرار رمز عبور جدید" 
