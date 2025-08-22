@@ -6,6 +6,7 @@ import { GoUnverified } from "react-icons/go";
 import { TbLockPassword } from "react-icons/tb";
 
 const ForgetPassword = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const[step ,setStep]= useState(1);// start step 1
     const [email, setEmail] = useState('');// useState for email 
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
@@ -14,7 +15,7 @@ const ForgetPassword = () => {
     const[error , setError] = useState('');
     const [success, setSuccess] = useState('');
 
-
+    const pageTitle = isLoggedIn ? "تغییر  " : "بازیابی ";
     const handleSendCode = (e) => {
         e.preventDefault();
         // request to server
@@ -75,7 +76,7 @@ const ForgetPassword = () => {
    <div className="bg-[#B2685A] min-h-screen flex items-center justify-center p-4">
     <div className="bg-[#F7F5E9] rounded-2xl shadow-xl p-6 w-full max-w-md">
        <div className="text-center mb-8">
-        <p className="text-gray-600 mt-2">مراحل بازیابی <span 
+        <p className="text-gray-600 mt-2">مراحل {pageTitle} <span 
         className='text-black text-lg'>رمز عبور</span> را دنبال کنید</p>
        </div>
         <div className="flex justify-between mb-8 relative">
