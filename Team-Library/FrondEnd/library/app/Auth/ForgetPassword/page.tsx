@@ -4,32 +4,72 @@ import { useState } from 'react';
 import { HiOutlineMail } from "react-icons/hi";
 import { GoUnverified } from "react-icons/go";
 import { TbLockPassword } from "react-icons/tb";
+
 const ForgetPassword = () => {
     const[step ,setStep]= useState(1);// start step 1
     const [email, setEmail] = useState('');// useState for email 
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    // const[error , setError]= useState('');
+    const[error , setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+
     const handleSendCode = (e) => {
         e.preventDefault();
         // request to server
-        console.log('ارسال کد تایید به:', email);
+       if(email!==""){
+        setError('');
         setStep(2); //step to 2
+        return;
+       }else{
+        setError('لطفا ایمیل را وارد کنید')
+       }
       };
 
       const handleVerifyCode = (e) => {
         e.preventDefault();
-        // accept or reject code verification
-        console.log('کد تأیید:', verificationCode);
-        setStep(3); // step to 3
+        // accept or reject  verification code
+        if(verificationCode!==""){
+          setError('');
+          setStep(3); // step to 3
+        }else{
+        setError('لطفا کد تایید وارد کنید')
+        }
       };
+
+
       const handleResetPassword = (e) => {
         e.preventDefault();
         // send new Password to server
-        console.log('رمز جدید:', newPassword);
-        
+        if(newPassword !==""){
+          setError('');
+          if (newPassword.length < 8) {
+            setError('رمز عبور باید حداقل 8 کاراکتر باشد');
+            return;
+          }else{
+            if (newPassword !== confirmPassword) {
+              setError('رمز عبور و تکرار آن مطابقت ندارند');
+              return;
+            }
+          }
+        }else {
+          setError('پسوردی وارد نکردید');
+        }
+
       };
+
+
+      // if (response.ok) {
+      //   setSuccess('رمز عبور با موفقیت تغییر کرد');
+      //   setTimeout(() => {
+      //     router.push('/login');
+      //   }, 3000);
+      // } else {
+      //   setError(data.message || 'خطا در تغییر رمز عبور');
+      // }
+
+
   return (
    
    <div className="bg-[#B2685A] min-h-screen flex items-center justify-center p-4">
@@ -60,6 +100,18 @@ const ForgetPassword = () => {
             'bg-[#B2685A] text-white' : 'bg-gray-300 text-gray-600'}`}>3</div>
           </div>
         <form className="space-y-6">
+             {error && ( 
+               <div className='bg-red-100 border border-red-400
+                text-red-700 px-4 py-3 rounded relative'>
+                  {error}
+               </div>
+              )}
+             {/* {success && (
+             <div className="bg-green-100 border border-green-400 
+             text-green-700 px-4 py-3 rounded relative">
+              {success}
+             </div>
+             )} */}
             {/* step1:Enter email */}
         {step === 1 && (
             <div className="space-y-4">
@@ -130,17 +182,10 @@ const ForgetPassword = () => {
               </div>
               
               <div className="flex space-x-4">
-                <button 
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 
-                  py-3 px-4 rounded-lg font-medium transition-colors"
-                >
-                  بازگشت
-                </button>
+
                 <button 
                   onClick={handleVerifyCode}
-                  className="w-1/2 bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
+                  className="w-full bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
                   py-3 px-4 rounded-lg font-medium transition-colors"
                 >
                   تایید کد
@@ -155,7 +200,6 @@ const ForgetPassword = () => {
               <p className="text-gray-700 text-right">
                 رمز عبور جدید خود را وارد کنید.
               </p>
-              
               <div>
                 <label htmlFor="newPassword" 
                 className="block text-sm font-medium text-gray-700 mb-1 text-right">
@@ -196,6 +240,7 @@ const ForgetPassword = () => {
                     placeholder="تکرار رمز عبور جدید" 
                     required
                   />
+
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                    <TbLockPassword  size={20}/>
                   </span>
@@ -203,17 +248,10 @@ const ForgetPassword = () => {
               </div>
               
               <div className="flex space-x-4">
-                <button 
-                  type="button"
-                  onClick={() => setStep(2)}
-                  className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 
-                  py-3 px-4 rounded-lg font-medium transition-colors"
-                >
-                  بازگشت
-                </button>
+
                 <button 
                   onClick={handleResetPassword}
-                  className="w-1/2 bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
+                  className="w-full bg-[#B2685A] hover:bg-[#9c5a4d] text-white 
                   py-3 px-4 rounded-lg font-medium transition-colors"
                 >
                   تغییر رمز عبور
