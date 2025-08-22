@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Account;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Shared.Contracts;
+using TeamLibrary.API.Shared.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
+using TeamLibrary.API.Shared.Tools.Extentions;
 using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Category;
@@ -12,28 +15,20 @@ public static class DeleteCategoryEndPoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete($"{ApiInfo.Prefix}/DeleteCategory", async (
-                [FromBody] DeleteCategoryDto request,
-                ICategoryService service,
-                HttpContext context
-            ) =>
-            {
-                // اعتبارسنجی
-                (bool isValid, string errorMessage) resultError =
-                               MapEndpointValidationResult<DeleteCategoryDto>.Validate(request);
+            app.MapDelete($"{ApiInfo.Prefix}/Delete",
+                async (ICategoryService categoryService,[FromBody] DeleteCategoryRequestDto request) =>
+                {
+                    var status = await categoryService.DeleteCategoryByIdAsync(request.Id);
 
-                if (!resultError.isValid)
-                    return BadRequest(resultError.errorMessage);
+                    if (status.IsError)
+                        return BadRequest(status.Errors.GetMessageError());
 
-                var result = await service.DeleteCategoryByIdAsync(request.Id);
-
-                if (result.IsError)
-                    return BadRequest(string.Join(",", result.Errors.Select(e => e.Description)));
-
-                return Ok("دسته‌بندی حذف شد");
-            })
-            //.RequireAuthorization()
+                    return Ok(status.Value);
+                }
+            )
+            .AddEndpointFilter(new ValidationFilter<DeleteCategoryRequestDto>())
             .WithTags(ApiInfo.Tag);
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using DrMeet.Api.Shared.Persistence.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -27,6 +28,8 @@ public static class ServiceConfigs
 
         #region Services
         services.AddScoped<ICategoryService, CategoryService>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         #endregion
 
 
