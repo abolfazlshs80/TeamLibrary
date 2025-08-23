@@ -16,48 +16,54 @@ const ForgetPassword = () => {
     const [success, setSuccess] = useState('');
 
     const pageTitle = isLoggedIn ? "تغییر  " : "بازیابی ";
-    const handleSendCode = (e) => {
+      const handleSendCode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        if (!email) {
+            setError('لطفا ایمیل را وارد کنید');
+            return;
+        }
+        const emailRegex = /^[^@ ]+@[^@ ]+\.[^@ ]+$/;
+        if (!emailRegex.test(email)) {
+            setError('لطفا یک آدرس ایمیل معتبر وارد کنید');
+            return;
+        }
+        
         // request to server
-       if(email!==""){
         setError('');
-        setStep(2); //step to 2
-        return;
-       }else{
-        setError('لطفا ایمیل را وارد کنید')
-       }
+        setStep(2); // step to 2
       };
 
-      const handleVerifyCode = (e) => {
+      const handleVerifyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         // accept or reject  verification code
-        if(verificationCode!==""){
+        if(!verificationCode){
+          setError('لطفا کد تایید وارد کنید')
+          
+        }else{
           setError('');
           setStep(3); // step to 3
-        }else{
-        setError('لطفا کد تایید وارد کنید')
         }
       };
 
 
-      const handleResetPassword = (e) => {
+      const handleResetPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         // send new Password to server
-        if(newPassword !==""){
-          setError('');
-          if (newPassword.length < 8) {
-            setError('رمز عبور باید حداقل 8 کاراکتر باشد');
-            return;
-          }else{
-            if (newPassword !== confirmPassword) {
-              setError('رمز عبور و تکرار آن مطابقت ندارند');
-              return;
-            }
-          }
-        }else {
+        if (!newPassword) {
           setError('پسوردی وارد نکردید');
+          return;
+        }
+        if (newPassword.length < 8) {
+          setError('رمز عبور باید حداقل 8 کاراکتر باشد');
+          return;
+        }
+        if (newPassword !== confirmPassword) {
+          setError('رمز عبور و تکرار آن مطابقت ندارند');
+          return;
         }
 
+        setError('');
+        // After successful validation, send new Password to server
       };
 
 
@@ -114,8 +120,8 @@ const ForgetPassword = () => {
              </div>
              )} */}
             {/* step1:Enter email */}
-        {step === 1 && (
-            <div className="space-y-4">
+           {step === 1 && (
+             <div className="space-y-4">
               <p className="text-gray-700 text-right">
                 لطفا آدرس ایمیل خود را وارد کنید.
               </p>
