@@ -1,4 +1,4 @@
-using TeamLibrary.API.Featrues.Book.DTOs.Request;
+﻿using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Featrues.Category;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Helper;
@@ -12,15 +12,17 @@ namespace TeamLibrary.API.Featrues.Book
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapGet($"{ApiInfo.Prefix}/GetBooksByCategorySlug", async (
-                    IBookService bookService,
-                    [AsParameters] GetBooksByCategorySlugRequestDto request,
-                    HttpContext context
+                app.MapGet($"{ApiInfo.Prefix}/categories/{{slug}}/books", async (
+                    string slug,
+                    IBookService bookService
                 ) =>
                 {
-                    var books = await bookService.GetBooksByCategorySlugAsync(request.Slug);
-                    if (books == null || !books.Any())
-                        return NotFound("????? ???? ??? ????????? ???? ???");
+                    if (string.IsNullOrWhiteSpace(slug))
+                    {
+                        return BadRequest("شناسه دسته‌بندی نمی‌تواند خالی باشد");
+                    }
+
+                    var books = await bookService.GetBooksByCategorySlugAsync(slug);
                     return Ok(books);
                 })
                 .AddEndpointFilter(new ValidationFilter<GetBooksByCategorySlugRequestDto>())
