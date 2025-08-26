@@ -1,8 +1,6 @@
 ﻿using DrMeet.Api.Shared.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using TeamLibrary.API.Data.Repository.Implementation;
 using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Shared.Service.Implementation;
@@ -28,6 +26,7 @@ public static class ServiceConfigs
 
         #region Services
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBookService, BookService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         #endregion
@@ -66,15 +65,15 @@ public static class ServiceConfigs
             //});
         });
         services.AddAuthorization();
-         //services.Configure<SiteSetting>(options =>
-         //   configuration.GetSection("Setting").Bind(options));
-         
-         
+        //services.Configure<SiteSetting>(options =>
+        //   configuration.GetSection("Setting").Bind(options));
+
+
         // services.AddDbContext<ApplicationDbContext>
         //      (opt => opt.UseSqlServer(conf.GetConnectionString("DeafultConnection")));
         // services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         //services.AddAutoMapper(typeof(Program).Assembly); 
-       // services.AddValidatorsFromAssemblyContaining<Program>();
+        // services.AddValidatorsFromAssemblyContaining<Program>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
          {
              //options.TokenValidationParameters = new TokenValidationParameters
