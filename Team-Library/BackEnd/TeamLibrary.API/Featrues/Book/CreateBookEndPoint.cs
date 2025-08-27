@@ -1,8 +1,11 @@
-﻿using TeamLibrary.API.Featrues.Book.DTOs.Request;
+﻿using Microsoft.AspNetCore.Mvc;
+using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Featrues.Category;
+using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
+using TeamLibrary.API.Shared.Tools.Extentions;
 
 namespace TeamLibrary.API.Featrues.Book
 {
@@ -12,22 +15,20 @@ namespace TeamLibrary.API.Featrues.Book
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapGet($"{ApiInfo.Prefix}/Create", async (
-                    string slug,
-                    IBookService bookService
-                ) =>
-                {
-                    if (string.IsNullOrWhiteSpace(slug))
+                app.MapPost($"{ApiInfo.Prefix}/books/create",
+                    async ([FromBody] CreateBookRequestDto request, IBookService bookService) =>
                     {
-                        return BadRequest("شناسه دسته‌بندی نمی‌تواند خالی باشد");
-                    }
+                        var status = await bookService.AddBookAsync(request);
 
-                    var books = await bookService.GetBooksByCategorySlugAsync(slug);
-                    return Ok(books);
-                })
-                .AddEndpointFilter(new ValidationFilter<GetBooksByCategorySlugRequestDto>())
-                .WithTags(ApiInfo.Tag);
+                        if (status.IsError)
+                            return Results.BadRequest(status.Errors.GetMessageError());
+
+                        return Results.Ok(status.Value);
+                    })
+                    .AddEndpointFilter(new ValidationFilter<CreateBookRequestDto>())
+                    .WithTags(ApiInfo.Tag);
             }
         }
     }
+
 }

@@ -1,19 +1,54 @@
-using DrMeet.Api.Shared.Persistence.UnitOfWork;
+﻿using DrMeet.Api.Shared.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Book.DTOs.Response;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.PagedList;
+using ErrorOr;
+using TeamLibrary.API.Featrues.Book.DTOs.Request;
+using TeamLibrary.API.Data.Repository;
 
 namespace TeamLibrary.API.Shared.Service.Implementation
 {
     public class BookService : IBookService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public BookService(IUnitOfWork unitOfWork)
+        
+        public BookService(IUnitOfWork unitOfWork )
         {
             _unitOfWork = unitOfWork;
         }
+
+        public async Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book)
+        {
+        
+            var slugexists = await _unitOfWork.Books.AsQueryable().AnyAsync(b => b.Slug == book.Slug);
+
+            if (slugexists) 
+            {
+                return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
+            }
+
+            await _unitOfWork.Books.AddAsync(new Book
+            {
+                Author = book.Author,
+                Title = book.Title,
+                Description = book.Description,
+                ImagePath = book.ImagePath,
+                Language = book.Language,
+                PdfPath = book.PdfPath,
+                Pages = book.Pages,
+                PublicationYear = book.PublicationYear,
+                Price = book.Price,
+                Rank = book.Rank,
+                Slug = book.Slug,
+                CategoryId = book.CategoryId
+
+            });
+                    
+            return " کتاب ثبت شد";
+        }
+
         public async Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug)
         {
             var books = await _unitOfWork.Books

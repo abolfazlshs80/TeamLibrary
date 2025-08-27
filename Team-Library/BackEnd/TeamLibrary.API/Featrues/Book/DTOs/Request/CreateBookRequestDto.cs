@@ -36,6 +36,8 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
         [Required(ErrorMessage = "زبان کتاب الزامی است.")]
         public string Language { get; set; } = null!;
 
-        
+        [Required(ErrorMessage = "اسلاگ کتاب الزامی است.")]
+        public string Slug { get; set; } = null!;
+
     }
 }

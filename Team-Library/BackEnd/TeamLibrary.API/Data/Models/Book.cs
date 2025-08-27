@@ -2,12 +2,12 @@
 
 public class Book : BaseEntity
 {
-    public string Title { get; set; } = null!;
-    public string Slug { get; set; } = null!;
+    public string Title { get; set; }
+    public string Slug { get; set; } 
     public int CategoryId { get; set; }
-    public string ImagePath { get; set; } = null!;
-    public string PdfPath { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    public string ImagePath { get; set; } 
+    public string PdfPath { get; set; } 
+    public string Description { get; set; } 
     public int? UserId { get; set; }
     public int Rank { get; set; } 
     public int PublicationYear { get; set; } 
@@ -16,6 +16,6 @@ public class Book : BaseEntity
     public decimal Price { get; set; } 
     public string Language { get; set; } 
 
-    public Category Category { get; set; } = null!;
+    public Category Category { get; set; } 
     public Users? User { get; set; }
 }
