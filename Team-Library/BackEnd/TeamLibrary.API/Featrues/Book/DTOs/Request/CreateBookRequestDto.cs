@@ -10,11 +10,11 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
         [Required(ErrorMessage = "شناسه دسته‌بندی الزامی است.")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "تصویر کتاب الزامی است.")]
-        public string ImagePath { get; set; } = null!; 
+        //[Required(ErrorMessage = "تصویر کتاب الزامی است.")]
+        public string ImagePath { get; set; }
 
-        [Required(ErrorMessage = "فایل PDF کتاب الزامی است.")]
-        public string PdfPath { get; set; } = null!; 
+        //[Required(ErrorMessage = "فایل PDF کتاب الزامی است.")]
+        public string PdfPath { get; set; } 
 
         [Required(ErrorMessage = "توضیحات کتاب الزامی است.")]
         public string Description { get; set; } = null!;
