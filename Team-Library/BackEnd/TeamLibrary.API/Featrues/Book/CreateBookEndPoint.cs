@@ -12,7 +12,7 @@ namespace TeamLibrary.API.Featrues.Book
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapGet($"{ApiInfo.Prefix}/categories/{{slug}}/books", async (
+                app.MapGet($"{ApiInfo.Prefix}/Create", async (
                     string slug,
                     IBookService bookService
                 ) =>
