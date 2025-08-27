@@ -19,18 +19,18 @@ public static class GetBookByIdEndPoint
         {
 
             app.MapGet($"{ApiInfo.Prefix}/GetById", handler: async (
-                ICategoryService service,
+                IBookService service,
               [AsParameters] GetBookByIdRequestDto request,
                      HttpContext context
                 ) =>
             {
 
-                var category = await service.GetCategoryByIdAsync(request.Id);
+                var book = await service.GetBookByIdForShowDetailAsync(request.Id);
 
-                if (category == null)
-                    return BadRequest("دسته‌بندی پیدا نشد");
+                if (book == null)
+                    return BadRequest("کتاب پیدا نشد");
 
-                return Ok(category);
+                return Ok(book);
 
             })
             .AddEndpointFilter(new ValidationFilter<GetBookByIdRequestDto>())

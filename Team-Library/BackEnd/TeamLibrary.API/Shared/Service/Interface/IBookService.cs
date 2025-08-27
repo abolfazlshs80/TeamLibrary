@@ -8,7 +8,7 @@ namespace TeamLibrary.API.Shared.Service.Interface
     {
         Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug);
         Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book);
-        Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(GetBookByIdRequestDto bookId);
+        Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId);
 
     }
 }

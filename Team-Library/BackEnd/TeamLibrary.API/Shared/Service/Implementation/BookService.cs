@@ -49,10 +49,10 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return " کتاب ثبت شد";
         }
 
-        public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(GetBookByIdRequestDto bookId)
+        public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId)
         {
             var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
-                .FirstOrDefaultAsync(b => b.Id == bookId.Id);
+                .FirstOrDefaultAsync(b => b.Id == bookId);
 
             if (bookExist == null)
             {
