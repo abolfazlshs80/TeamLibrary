@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Featrues.Category.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
@@ -19,7 +20,7 @@ public static class GetBookByIdEndPoint
 
             app.MapGet($"{ApiInfo.Prefix}/GetById", handler: async (
                 ICategoryService service,
-              [AsParameters] GetCategoryByIdRequestDto request,
+              [AsParameters] GetBookByIdRequestDto request,
                      HttpContext context
                 ) =>
             {
@@ -32,7 +33,7 @@ public static class GetBookByIdEndPoint
                 return Ok(category);
 
             })
-            .AddEndpointFilter(new ValidationFilter<GetCategoryByIdRequestDto>())
+            .AddEndpointFilter(new ValidationFilter<GetBookByIdRequestDto>())
             .WithTags(ApiInfo.Tag);
 
         }

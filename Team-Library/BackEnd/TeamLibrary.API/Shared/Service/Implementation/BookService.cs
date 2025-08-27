@@ -13,18 +13,18 @@ namespace TeamLibrary.API.Shared.Service.Implementation
     public class BookService : IBookService
     {
         private readonly IUnitOfWork _unitOfWork;
-        
-        public BookService(IUnitOfWork unitOfWork )
+
+        public BookService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book)
         {
-        
+
             var slugexists = await _unitOfWork.Books.AsQueryable().AnyAsync(b => b.Slug == book.Slug);
 
-            if (slugexists) 
+            if (slugexists)
             {
                 return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
             }
@@ -45,8 +45,40 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 CategoryId = book.CategoryId
 
             });
-                    
+
             return " کتاب ثبت شد";
+        }
+
+        public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(GetBookByIdRequestDto bookId)
+        {
+            var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Id == bookId.Id);
+
+            if (bookExist == null)
+            {
+                return null;
+            }
+
+            var book = new GetBookByIdResponseDto
+            {
+                Id = bookExist.Id,
+                Title = bookExist.Title,
+                Slug = bookExist.Slug,
+                Description = bookExist.Description,
+                Author = bookExist.Author,
+                PublicationYear = bookExist.PublicationYear,
+                Pages = bookExist.Pages,
+                Price = bookExist.Price,
+                Language = bookExist.Language,
+                ImagePath = bookExist.ImagePath,
+                PdfPath = bookExist.PdfPath,
+
+           
+                CategoryName = bookExist.Category.Name
+            };
+
+            return book;
+
         }
 
         public async Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug)
