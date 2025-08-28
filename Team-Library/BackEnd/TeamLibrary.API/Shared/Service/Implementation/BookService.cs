@@ -59,30 +59,23 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return "کتاب با موفقیت حذف شد.";
         }
 
-        //public async Task<DeleteBookResponseDto> DeleteBookAsync(DeleteBookRequestDto request)
-        //{
-        //    var book = await _unitOfWork.Books.GetByIdAsync(request.Id);
+        public async Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request)
+        {
+            var books = _unitOfWork.Books.AsQueryable()
+                        .Include(b => b.Category);
 
-        //    if(book == null)
-        //    {
-        //        return new DeleteBookResponseDto
-        //        {
-        //            IsSuccess = false,
-        //            Message = "کتاب مورد نظر یافت  نشد"
+            var result = await books.ToPagedList(s => new GetBookListResponseDto
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Author = s.Author,
+                Slug = s.Slug,
+                CategoryName = s.Category.Name
+            }, request.PageNumber, request.PageSize);
 
-        //        };
-        //    }
+            return result;
+        }
 
-        //    _unitOfWork.Books.DeleteAsync(book.Id);
-        //    await _unitOfWork.Books.UpdateAsync(book);
-
-        //    return new DeleteBookResponseDto
-        //    {
-        //        IsSuccess = true,
-        //        Message = "کتاب با موفقیت حذف شد."
-        //    };
-
-        //}
 
         public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId)
         {
