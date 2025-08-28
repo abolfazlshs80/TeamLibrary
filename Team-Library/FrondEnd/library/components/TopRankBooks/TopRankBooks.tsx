@@ -7,6 +7,8 @@ import "swiper/css";
 import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import { books } from "@/modal/mockData";
+import { libraryRoutes } from "@/routes";
+import defaultBook from "../../assets/default-book.jpg";
 
 const TopRankBooks = () => {
   return (
@@ -40,19 +42,26 @@ const TopRankBooks = () => {
       >
         {books?.map((book) => (
           <SwiperSlide key={book.id}>
-            <Link href={`/detail/${book.id}`} className="w-full h-full flex flex-col items-center justify-center">
+            <Link
+              href={`${libraryRoutes.detail}/${book.id}`}
+              className="w-full h-full flex flex-col items-center justify-center"
+            >
               <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
                 <Image
-                  src={book.image}
+                  src={book.image ?? defaultBook}
                   alt={book.bookName}
                   width={200}
                   height={500}
                   className="w-full h-full object-cover"
                 />
-               
               </div>
-               <p className="text-[#182420] text-sm font-semibold mt-2">{book.bookName}</p>
-               <p className="text-[#435f56] text-sm font-semibold">{"نویسنده:"}{book.author}</p>
+              <p className="text-[#182420] text-sm font-semibold mt-2">
+                {book.bookName}
+              </p>
+              <p className="text-[#435f56] text-sm font-semibold">
+                {"نویسنده:"}
+                {book.author}
+              </p>
             </Link>
           </SwiperSlide>
         ))}

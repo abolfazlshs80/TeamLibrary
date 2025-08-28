@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body style={{ fontFamily: "Vazir, sans-serif" }}>
+      <body style={{ fontFamily: "Nahid, sans-serif" }}>
       <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
