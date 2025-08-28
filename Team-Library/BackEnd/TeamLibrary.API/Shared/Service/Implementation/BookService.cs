@@ -49,6 +49,31 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return " کتاب ثبت شد";
         }
 
+        public async Task<DeleteBookResponseDto> DeleteBookAsync(DeleteBookRequestDto request)
+        {
+            var book = await _unitOfWork.Books.GetByIdAsync(request.Id);
+
+            if(book == null)
+            {
+                return new DeleteBookResponseDto
+                {
+                    IsSuccess = false,
+                    Message = "کتاب مورد نظر یافت  نشد"
+
+                };
+            }
+
+            _unitOfWork.Books.DeleteAsync(book.Id);
+            await _unitOfWork.Books.UpdateAsync(book);
+
+            return new DeleteBookResponseDto
+            {
+                IsSuccess = true,
+                Message = "کتاب با موفقیت حذف شد."
+            };
+
+        }
+
         public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId)
         {
             var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
