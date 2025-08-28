@@ -3,7 +3,7 @@ import { useState , useEffect } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
 import logo from '../../assets/logo.png'
-
+import { IoMdHome , IoMdSearch ,IoMdLogIn  } from "react-icons/io";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen]= useState(false);
   useEffect(() => {
@@ -25,10 +25,10 @@ const Header = () => {
         </div>
         <nav className='hidden md:block'>
             <ul className='flex gap-4 text-[#435F56] text-[14px] font-semibold'>
-                <li><Link href={'/'}>صفحه اصلی</Link></li>
-                <li><Link href={'/'}>جستجو کتاب</Link></li>
+                <li ><Link className='inline-flex items-center space-x-1' href={'/'}><span>صفحه اصلی</span><IoMdHome size={18}/></Link></li>
+                <li><Link className='inline-flex items-center space-x-1' href={'/'}><span>جستجو کتاب</span><IoMdSearch size={18}/></Link></li>
                 <li><Link href={'/'}>درباره ما</Link></li>
-                <li><Link href={'/'}>ورود/ساخت حساب</Link></li>
+                <li><Link className='inline-flex items-center space-x-1' href={'/'}><span>ورود/ساخت حساب</span><IoMdLogIn size={18}/></Link></li>
             </ul>
         </nav>
         <button 
