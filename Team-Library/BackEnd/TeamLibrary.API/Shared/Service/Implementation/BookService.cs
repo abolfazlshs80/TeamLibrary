@@ -137,5 +137,32 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
             return books;
         }
+
+        public async Task<ErrorOr<string>> UpdateBookAsync(UpdateBookRequestDto dto)
+        {
+            var book = await _unitOfWork.Books.GetByIdAsync(dto.Id);
+            if (book == null)
+            {
+                return Error.NotFound(description: "کتاب پیدا نشد");
+            }
+
+            book.Title = dto.Title;
+            book.Slug = dto.Slug;
+            book.CategoryId = dto.CategoryId;
+            book.ImagePath = dto.ImagePath;
+            book.PdfPath = dto.PdfPath;
+            book.Description = dto.Description;
+            book.UserId = dto.UserId;
+            book.Rank = dto.Rank;
+            book.PublicationYear = dto.PublicationYear;
+            book.Author = dto.Author;
+            book.Pages = dto.Pages;
+            book.Price = dto.Price;
+            book.Language = dto.Language;
+
+            await _unitOfWork.Books.UpdateAsync(book);
+            return "کتاب با موفقیت ویرایش شد";
+        }
+
     }
 }
