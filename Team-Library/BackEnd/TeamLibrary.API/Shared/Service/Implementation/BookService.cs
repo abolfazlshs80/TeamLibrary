@@ -152,7 +152,6 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             book.ImagePath = dto.ImagePath;
             book.PdfPath = dto.PdfPath;
             book.Description = dto.Description;
-            book.UserId = dto.UserId;
             book.Rank = dto.Rank;
             book.PublicationYear = dto.PublicationYear;
             book.Author = dto.Author;

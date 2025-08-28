@@ -16,16 +16,14 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
         [Required(ErrorMessage = "شناسه دسته‌بندی الزامی است.")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "تصویر کتاب الزامی است.")]
+        //[Required(ErrorMessage = "تصویر کتاب الزامی است.")]
         public string ImagePath { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "فایل PDF کتاب الزامی است.")]
+        //[Required(ErrorMessage = "فایل PDF کتاب الزامی است.")]
         public string PdfPath { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "توضیحات کتاب الزامی است.")]
         public string Description { get; set; } = string.Empty;
-
-        public int? UserId { get; set; }
 
         public int Rank { get; set; }
 
