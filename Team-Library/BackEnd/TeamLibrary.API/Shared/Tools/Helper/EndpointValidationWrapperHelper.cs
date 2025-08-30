@@ -1,7 +1,6 @@
 ﻿using TeamLibrary.API.Shared.Contracts;
-using TeamLibrary.API.Shared.Tools.Helper;
 
-namespace TeamLibrary.API.Shared.Helper;
+namespace TeamLibrary.API.Shared.Tools.Helper;
 
 
 public class ValidationFilter<TRequest> : BaseEndpoint, IEndpointFilter where TRequest : class
