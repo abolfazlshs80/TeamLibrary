@@ -1,6 +1,7 @@
 
 using TeamLibrary.API.Data.Repository.Implementation;
 using TeamLibrary.API.Data.Repository.Interface;
+using TeamLibrary.API.Shared.Middleware;
 using TeamLibrary.API.Shared.Service.Implementation;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Extentions;
@@ -19,7 +20,7 @@ builder.Services.AddDbContextService(builder.Configuration);
 var app = builder.Build();
 
 
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
