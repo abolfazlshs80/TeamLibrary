@@ -19,6 +19,7 @@ const Header = () => {
     };
   }, []);
   return (
+
     <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white/10 backdrop-blur-md shadow-sm">
       <div className="flex items-center gap-2">
         <Image src={logo} alt="logo" width={35} height={35} />
@@ -122,6 +123,7 @@ const Header = () => {
                   ورود/ساخت حساب
                 </Link>
               </li>
+
             </ul>
           </div>
         </div>
