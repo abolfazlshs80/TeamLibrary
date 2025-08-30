@@ -15,7 +15,7 @@ const Header = () => {
                 <li ><Link className='inline-flex items-center space-x-1' href={'/'}><span>صفحه اصلی</span><IoMdHome size={18}/></Link></li>
                 <li><Link className='inline-flex items-center space-x-1' href={'/'}><span>جستجو کتاب</span><IoMdSearch size={18}/></Link></li>
                 <li><Link href={'/'}>درباره ما</Link></li>
-                <li><Link className='inline-flex items-center space-x-1' href={'/'}><span>ورود/ساخت حساب</span><IoMdLogIn size={18}/></Link></li>
+                <li><Link className='inline-flex items-center space-x-1' href={'/login'}><span>ورود/ساخت حساب</span><IoMdLogIn size={18}/></Link></li>
             </ul>
         </div>
         
