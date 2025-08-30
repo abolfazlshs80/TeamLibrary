@@ -22,6 +22,13 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         {
             try
             {
+                var slugexists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Slug == category.Slug);
+
+                if (slugexists)
+                {
+                    return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
+                }
+
                 await _unitOfWork.Categories.AddAsync(new Category
                 {
                     Name = category.Name?.Trim() ?? string.Empty,
@@ -45,7 +52,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
 
 
-        public async Task<ErrorOr<bool>> DeleteCategoryByIdAsync(int categoryId)
+        public async Task<ErrorOr<string>> DeleteCategoryByIdAsync(int categoryId)
         {
             var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
 
@@ -55,7 +62,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             }
 
             await _unitOfWork.Categories.DeleteAsync(category.Id);
-            return true;
+            return "دسته بندی حذف شد";
         }
 
         public async Task<PagedList<GetCategoryListResponseDto>> GetAllCategoryAsync(GetCategoryListRequestDto request)
@@ -104,7 +111,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             category.Description = dto.Description;
 
             await _unitOfWork.Categories.UpdateAsync(category);
-            return "دسته بندی حذف شد";
+            return "دسته بندی بروزرسانی شد";
         }
 
 

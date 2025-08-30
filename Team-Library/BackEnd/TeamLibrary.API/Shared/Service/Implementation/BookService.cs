@@ -28,7 +28,12 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             {
                 return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
             }
+            var categoryExists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Id == book.CategoryId);
 
+            if (!categoryExists)
+            {
+                return Error.Validation("category", "دسته بندی یافت نشد");
+            }
             await _unitOfWork.Books.AddAsync(new Book
             {
                 Author = book.Author,
@@ -138,7 +143,12 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             {
                 return Error.NotFound(description: "کتاب پیدا نشد");
             }
+            var categoryExists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Id == dto.CategoryId);
 
+            if (!categoryExists)
+            {
+                return Error.Validation("category", "دسته بندی یافت نشد");
+            }
             book.Title = dto.Title;
             book.Slug = dto.Slug;
             book.CategoryId = dto.CategoryId;

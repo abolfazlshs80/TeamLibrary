@@ -9,5 +9,8 @@ public class CreateCategoryRequestDto
 
     [Required(ErrorMessage = "لطفا Slug را وارد کنید")]
     public string Slug { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [Display(Name ="توضیحات")]
     public string? Description { get; set; }
 }
