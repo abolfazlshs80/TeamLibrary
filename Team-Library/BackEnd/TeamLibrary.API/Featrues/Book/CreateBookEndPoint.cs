@@ -15,15 +15,15 @@ namespace TeamLibrary.API.Featrues.Book
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapPost($"{ApiInfo.Prefix}/books/create",
+                app.MapPost($"{ApiInfo.Prefix}/create",
                     async ([FromBody] CreateBookRequestDto request, IBookService bookService) =>
                     {
                         var status = await bookService.AddBookAsync(request);
 
                         if (status.IsError)
-                            return Results.BadRequest(status.Errors.GetMessageError());
+                            return BadRequest(status.Errors.GetMessageError());
 
-                        return Results.Ok(status.Value);
+                        return Ok(status.Value);
                     })
                     .AddEndpointFilter(new ValidationFilter<CreateBookRequestDto>())
                     .WithTags(ApiInfo.Tag);
