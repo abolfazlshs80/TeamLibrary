@@ -5,7 +5,7 @@
 namespace TeamLibrary.API.Migrations
 {
     /// <inheritdoc />
-    public partial class useSqlite : Migration
+    public partial class initdatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +51,13 @@ namespace TeamLibrary.API.Migrations
                     ImagePath = table.Column<string>(type: "TEXT", nullable: false),
                     PdfPath = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Rank = table.Column<int>(type: "INTEGER", nullable: false),
+                    PublicationYear = table.Column<int>(type: "INTEGER", nullable: false),
+                    Author = table.Column<string>(type: "TEXT", nullable: false),
+                    Pages = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Language = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
