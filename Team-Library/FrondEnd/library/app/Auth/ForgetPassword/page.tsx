@@ -7,12 +7,12 @@ import { TbLockPassword } from "react-icons/tb";
 
 const ForgetPassword = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const[step ,setStep]= useState(1);// start step 1
+    const [step ,setStep] = useState(1);// start step 1
     const [email, setEmail] = useState('');// useState for email 
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const[error , setError] = useState('');
+    const [error , setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const pageTitle = isLoggedIn ? "تغییر  " : "بازیابی ";
