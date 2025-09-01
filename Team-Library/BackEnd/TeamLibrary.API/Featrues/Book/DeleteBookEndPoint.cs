@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
-using TeamLibrary.API.Shared.Helper;
+
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Extentions;
+using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Book
 {
@@ -13,15 +14,15 @@ namespace TeamLibrary.API.Featrues.Book
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapDelete($"{ApiInfo.Prefix}/books/Delete",
+                app.MapDelete($"{ApiInfo.Prefix}Delete",
                     async (IBookService bookService, [FromBody] DeleteBookRequestDto request) =>
                     {
                         var status = await bookService.DeleteBookByIdAsync(request.Id);
 
                         if (status.IsError)
-                            return Results.BadRequest(status.Errors.GetMessageError());
+                            return BadRequest(status.Errors.GetMessageError());
 
-                        return Results.Ok(status.Value);
+                        return Ok(status.Value);
                     }
                 )
                 .AddEndpointFilter(new ValidationFilter<DeleteBookRequestDto>())

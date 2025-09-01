@@ -28,7 +28,12 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             {
                 return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
             }
+            var categoryExists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Id == book.CategoryId);
 
+            if (!categoryExists)
+            {
+                return Error.Validation("category", "دسته بندی یافت نشد");
+            }
             await _unitOfWork.Books.AddAsync(new Book
             {
                 Author = book.Author,
@@ -108,6 +113,38 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return book;
 
         }
+        public async Task<GetBookBySlugResponseDto> GetBookBySlugForShowDetailAsync(string slug)
+        {
+            var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Slug == slug);
+
+            if (bookExist == null)
+            {
+                return null;
+            }
+
+            var book = new GetBookBySlugResponseDto
+            {
+          
+                Title = bookExist.Title,
+                Slug = bookExist.Slug,
+                Description = bookExist.Description,
+                Author = bookExist.Author,
+                PublicationYear = bookExist.PublicationYear,
+                Pages = bookExist.Pages,
+                Price = bookExist.Price,
+                Language = bookExist.Language,
+                ImagePath = bookExist.ImagePath,
+                PdfPath = bookExist.PdfPath,
+                CategoryName = bookExist.Category.Name,
+                Translators=bookExist.Translator,
+                Rank=bookExist.Rank,
+                
+            };
+
+            return book;
+
+        }
 
         public async Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug)
         {
@@ -138,7 +175,12 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             {
                 return Error.NotFound(description: "کتاب پیدا نشد");
             }
+            var categoryExists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Id == dto.CategoryId);
 
+            if (!categoryExists)
+            {
+                return Error.Validation("category", "دسته بندی یافت نشد");
+            }
             book.Title = dto.Title;
             book.Slug = dto.Slug;
             book.CategoryId = dto.CategoryId;
