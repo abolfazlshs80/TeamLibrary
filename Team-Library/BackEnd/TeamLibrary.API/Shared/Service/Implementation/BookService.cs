@@ -113,6 +113,38 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return book;
 
         }
+        public async Task<GetBookBySlugResponseDto> GetBookBySlugForShowDetailAsync(string slug)
+        {
+            var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Slug == slug);
+
+            if (bookExist == null)
+            {
+                return null;
+            }
+
+            var book = new GetBookBySlugResponseDto
+            {
+          
+                Title = bookExist.Title,
+                Slug = bookExist.Slug,
+                Description = bookExist.Description,
+                Author = bookExist.Author,
+                PublicationYear = bookExist.PublicationYear,
+                Pages = bookExist.Pages,
+                Price = bookExist.Price,
+                Language = bookExist.Language,
+                ImagePath = bookExist.ImagePath,
+                PdfPath = bookExist.PdfPath,
+                CategoryName = bookExist.Category.Name,
+                Translators=bookExist.Translator,
+                Rank=bookExist.Rank,
+                
+            };
+
+            return book;
+
+        }
 
         public async Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug)
         {
