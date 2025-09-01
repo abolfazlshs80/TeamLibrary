@@ -6,8 +6,7 @@ import bookPic2 from "@/assets/footer2.svg"; // Adjust the path as necessary
 
 const Footer = () => {
   return (
-    <div className="relative mt-20">
-      <footer className="bg-[#F0E1DE]  py-4 mt-6">
+      <footer className="bg-[#F0E1DE] py-4 w-full mt-20">
         <div className="flex justify-center mt-8 gap-16 sm:gap-12 md:gap-32 lg:gap-80">
           <div className="">
             <p className="text-[#653329] font-semibold text-base sm:text-lg ">
@@ -78,7 +77,7 @@ const Footer = () => {
           </p>
           <p className="text-xs mt-2">طراحی و توسعه توسط تیم ...</p>
         </div>
-
+        <div className="relative">
         <Image
           src={bookPic1}
           alt="book pic"
@@ -93,8 +92,8 @@ const Footer = () => {
           height={100}
           className="absolute bottom-0 left-0"
         />
+        </div>
       </footer>
-    </div>
   );
 };
 

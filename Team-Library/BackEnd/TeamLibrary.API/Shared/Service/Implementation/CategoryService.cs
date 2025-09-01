@@ -14,7 +14,7 @@ using TeamLibrary.API.Featrues.Category.DTOs.Request;
 
 namespace TeamLibrary.API.Shared.Service.Implementation
 {
-    public class CategoryService(IUnitOfWork _unitOfWork, ICategoryRepository _repository) : ICategoryService
+    public class CategoryService(IUnitOfWork _unitOfWork) : ICategoryService
     {
 
 
@@ -22,7 +22,14 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         {
             try
             {
-                await _repository.AddCategoryAsync(new Category
+                var slugexists = await _unitOfWork.Categories.AsQueryable().AnyAsync(b => b.Slug == category.Slug);
+
+                if (slugexists)
+                {
+                    return Error.Validation("Slug", "این اسلاگ قبلاً استفاده شده است.");
+                }
+
+                await _unitOfWork.Categories.AddAsync(new Category
                 {
                     Name = category.Name?.Trim() ?? string.Empty,
                     Slug = category.Slug?.Trim() ?? string.Empty,
@@ -45,17 +52,17 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
 
 
-        public async Task<ErrorOr<bool>> DeleteCategoryByIdAsync(int categoryId)
+        public async Task<ErrorOr<string>> DeleteCategoryByIdAsync(int categoryId)
         {
-            var category = await _repository.GetCategoryByIdAsync(categoryId);
+            var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
 
             if (category == null)
             {
                 return Error.NotFound(description: "دسته‌بندی پیدا نشد");
             }
 
-            await _repository.DeleteCategoryByIdAsync(category);
-            return true;
+            await _unitOfWork.Categories.DeleteAsync(category.Id);
+            return "دسته بندی حذف شد";
         }
 
         public async Task<PagedList<GetCategoryListResponseDto>> GetAllCategoryAsync(GetCategoryListRequestDto request)
@@ -75,7 +82,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
         public async Task<GetCategoryByIdResponseDto> GetCategoryByIdAsync(int id)
         {
-            var categores = await _repository.GetCategoryByIdAsync(id);
+            var categores = await _unitOfWork.Categories.GetByIdAsync(id);
 
             if (categores == null)
                 return null;
@@ -93,7 +100,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         public async Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryRequestDto dto)
         {
 
-            var category = await _repository.GetCategoryByIdAsync(dto.Id);
+            var category = await _unitOfWork.Categories.GetByIdAsync(dto.Id);
             if (category == null)
             {
                 return Error.NotFound(description: "دسته‌بندی پیدا نشد");
@@ -103,8 +110,8 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             category.Slug = dto.Slug;
             category.Description = dto.Description;
 
-            await _repository.UpdateCategoryAsync(category);
-            return "دسته بندی حذف شد";
+            await _unitOfWork.Categories.UpdateAsync(category);
+            return "دسته بندی بروزرسانی شد";
         }
 
 

@@ -1,17 +1,40 @@
 @import "tailwindcss";
 
-@font-face {
+/* @font-face {
   font-family: "Vazir";
   src: url("/fonts/Vazir.woff2") format("woff2"),
     url("/fonts/Vazir.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+} */
+
+@font-face {
+  font-family: "Gandom";
+  src: url("/fonts/gandom/Gandom.eot");
+  src: url("/fonts/gandom/Gandom.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/gandom/Gandom.woff") format("woff"),
+    url("/fonts/gandom/Gandom.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
+@font-face {
+  font-family: "Nahid";
+  src: url("/fonts/nahid/Nahid.eot");
+  src: url("/fonts/nahid/Nahid.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/nahid/Nahid.woff") format("woff"),
+    url("/fonts/nahid/Nahid.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
-  background-color: #F7F5E9;
+  /* font-family: 'Gandom', sans-serif; */
+  font-family: "Nahid", sans-serif;
+  background-color: #f7f5e9;
   /* background-image: radial-gradient(at 47% 33%, #b2695a17 0, transparent 59%),
     radial-gradient(at 82% 65%, #435f5633 0, transparent 55%),
     radial-gradient(at 20% 65%, #f0e1de 0, transparent 55%); */
@@ -23,10 +46,11 @@ body {
   color: var(--foreground);
 }
 
-
 /* 
 #B2685A
 #653329
 #435F56
 #F7F5E9
-#F0E1DE */
+#F0E1DE
+
+*/

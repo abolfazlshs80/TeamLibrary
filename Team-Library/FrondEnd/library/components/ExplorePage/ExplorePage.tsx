@@ -1,0 +1,131 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { SearchIcon } from "lucide-react";
+import { BookCategories } from "@/modal/BookCategories";
+import { LibraryBig } from "lucide-react";
+import { books } from "@/modal/mockData";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { libraryRoutes } from "@/routes";
+import defaultBook from "../../assets/default-book.jpg";
+
+const ExplorePage = () => {
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("");
+
+  // مقدار اولیه category رو از localStorage بگیر
+  useEffect(() => {
+    const savedCategory = localStorage.getItem("selectedCategory");
+    if (savedCategory) {
+      setCategory(savedCategory);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (category) {
+      localStorage.setItem("selectedCategory", category);
+    }
+  }, [category]);
+
+  useEffect(() => {
+    return () => {
+      if (!window.location.pathname.includes("/explore")) {
+        localStorage.removeItem("selectedCategory");
+      }
+    };
+  }, []);
+
+  const filteredBooks = books.filter((book) => {
+    const matchesSearchTerm =
+      book.bookName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory = category === "" || book.category === category;
+
+    return matchesSearchTerm && matchesCategory;
+  });
+
+  return (
+    <div className="pt-6 px-4 mt-9 mx-auto">
+      <div className="mt-16 max-w-7xl mx-auto">
+        <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
+          جستجو کتاب
+        </h4>
+
+        <div className="flex gap-2 w-full">
+          <div className="relative w-full">
+            <label className="text-[#777574] text-sm pr-3 font-medium">
+              جستجو کتاب
+            </label>
+            <input
+              type="text"
+              placeholder="جستجو..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-10 mt-1 pb-2 pt-1 rounded-full border-2 border-[#a8a7a6] ring-0 focus:overflow-hidden focus:border-[#B2685A] outline-0 bg-white "
+            />
+            <SearchIcon
+              className="absolute right-2 top-[35px]"
+              color="#a8a7a6"
+            />
+          </div>
+          {/* ===================== */}
+          <div className="relative w-full flex flex-col mt-1">
+            <label className="text-[#777574] text-sm pr-3 font-medium">
+              دسته‌بندی کتاب
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-10 mt-1 pb-2 pt-1 text-[#838382] rounded-full border-2 border-[#a8a7a6] ring-0 focus:overflow-hidden focus:border-[#B2685A] outline-0 bg-white "
+            >
+              {BookCategories.map((category) => (
+                <option key={category.id} value={category.value} className="text-[#838382] hover:bg-gray-200">
+                  {category.category}
+                </option>
+              ))}
+            </select>
+            <LibraryBig
+              className="absolute right-3 top-[32px]"
+              color="#a8a7a6"
+            />
+          </div>
+        </div>
+
+        {/* =========================== */}
+
+        <div>
+          {filteredBooks.length === 0 ? (
+            <p className="text-center text-gray-500 mt-10">کتابی یافت نشد.</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6">
+              {filteredBooks.map((book) => (
+                <div
+                  key={book.id}
+                  onClick={() =>
+                    router.push(`${libraryRoutes.detail}/${book.id}`)
+                  }
+                  className="border cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
+                >
+                  <Image
+                    src={book.image ?? defaultBook}
+                    alt={book.bookName}
+                    className=" h-48 w-40 object-cover mb-2 rounded"
+                    width={200}
+                    height={300}
+                  />
+
+                  <h3 className="text-sm font-semibold">{book.bookName}</h3>
+                  <p className="text-xs text-gray-600">{book.author}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExplorePage;
