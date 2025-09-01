@@ -41,3 +41,33 @@ public static class GetBookByIdEndPoint
     }
 }
 
+public static class GetBookBySlugEndPoint
+{
+    public class EndPoint : BaseEndpoint, IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+
+            app.MapGet($"{ApiInfo.Prefix}/GetBySlug", handler: async (
+                IBookService service,
+              [AsParameters] GetBookBySlugRequestDto request,
+                     HttpContext context
+                ) =>
+            {
+
+                var book = await service.GetBookBySlugForShowDetailAsync(request.Slug);
+
+                if (book == null)
+                    return BadRequest("کتاب پیدا نشد");
+
+                return Ok(book);
+
+            })
+            .AddEndpointFilter(new ValidationFilter<GetBookBySlugRequestDto>())
+            .WithTags(ApiInfo.Tag);
+
+        }
+
+    }
+}
+
