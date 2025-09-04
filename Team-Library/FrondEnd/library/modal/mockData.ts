@@ -8,10 +8,25 @@ import wuthering from "../assets/wuthering.jpg";
 import ulysses from "../assets/ulysses.jpg";
 import hajibaba from "../assets/hajibaba.jpg";
 import magic_mountain from "../assets/magic_mountain.jpg";
-
-export const books = [
+import { StaticImageData } from "next/image";
+export interface Book {
+  id: number;
+  slug :string ;
+  bookName: string;
+  image: string | StaticImageData | null;
+  author: string;
+  translator?: string | null;
+  description: string;
+  year: number;
+  rank: number;
+  category?: string;
+  pages?: string | number;
+  price?: string | number;
+}
+export const books :Book[] = [
   {
     id: 1,
+    slug : "جنایت-و-مکافات",
     bookName: "جنایت و مکافات",
     image: crime,
     author: "فئودور داستایفسکی",
@@ -25,6 +40,7 @@ export const books = [
   },
   {
     id: 2,
+    slug : "جنگ-و-صلح",
     bookName: "جنگ و صلح",
     image: war,
     author: "لئو تولستوی",
@@ -38,6 +54,7 @@ export const books = [
   },
   {
     id: 3,
+    slug :"غرور-و-تعصب",
     bookName: "غرور و تعصب",
     image: pride,
     author: "جین آستن",
@@ -51,6 +68,7 @@ export const books = [
   },
   {
     id: 4,
+    slug :"برادران-کارامازوف",
     bookName: "برادران کارامازوف",
     image: karamazov,
     author: "فئودور داستایفسکی",
@@ -64,6 +82,7 @@ export const books = [
   },
   {
     id: 5,
+    slug : "دن-کیشوت",
     bookName: "دن کیشوت",
     image: don_quixote,
     author: "میگل د سروانتس",
@@ -77,6 +96,7 @@ export const books = [
   },
   {
     id: 6,
+    slug : "صد-سال-تنهایی",
     bookName: "صد سال تنهایی",
     image: one_hundred,
     author: "گابریل گارسیا مارکز",
@@ -90,6 +110,7 @@ export const books = [
   },
   {
     id: 7,
+    slug : "اولیس",
     bookName: "اولیس",
     image: ulysses,
     author: "جیمز جویس",
@@ -103,6 +124,7 @@ export const books = [
   },
   {
     id: 8,
+    slug : "بلندی‌های-بادگیر",
     bookName: "بلندی‌های بادگیر",
     image: wuthering,
     author: "امیلی برونته",
@@ -116,6 +138,7 @@ export const books = [
   },
   {
     id: 9,
+    slug : "سرگذشت-حاجی-بابای-اصفهانی",
     bookName: "سرگذشت حاجی بابای اصفهانی",
     image: hajibaba,
     author: "جیمز موریه",
@@ -129,6 +152,7 @@ export const books = [
   },
   {
     id: 10,
+    slug : "کوه-جادو",
     bookName: "کوه جادو",
     image: magic_mountain,
     author: "توماس مان",
@@ -142,6 +166,7 @@ export const books = [
   },
   {
     id: 11,
+    slug : "کیمیاگر",
     bookName: "کیمیاگر",
     image: null,
     author: "پائولو کوئیلو",
@@ -154,6 +179,7 @@ export const books = [
   },
   {
     id: 12,
+    slug : "یادداشت‌های-زیرزمینی",
     bookName: "یادداشت‌های زیرزمینی",
     image: null,
     author: "فئودور داستایفسکی",
@@ -166,6 +192,7 @@ export const books = [
   },
   {
     id: 13,
+    slug : "کشف-ساختار-DNA",
     bookName: "کشف ساختار DNA",
     image: null,
     author: "جیمز واتسون",
@@ -178,6 +205,7 @@ export const books = [
   },
   {
     id: 14,
+    slug : "تاریخ-جهان",
     bookName: "تاریخ جهان",
     image: null,
     author: "ارنولد توین‌بی",
@@ -190,6 +218,7 @@ export const books = [
   },
   {
     id: 15,
+    slug :"هابیت",
     bookName: "هابیت",
     image: null,
     author: "جی. آر. آر. تالکین",
@@ -202,6 +231,7 @@ export const books = [
   },
   {
     id: 16,
+    slug : "پزشک-دهکده",
     bookName: "پزشک دهکده",
     image: null,
     author: "آنتون چخوف",
@@ -214,6 +244,7 @@ export const books = [
   },
   {
     id: 17,
+    slug : "شازده-کوچولو",
     bookName: "شازده کوچولو",
     image: null,
     author: "آنتوان دو سنت‌اگزوپری",
@@ -226,6 +257,7 @@ export const books = [
   },
   {
     id: 18,
+    slug : "تاریخ-هنر",
     bookName: "تاریخ هنر",
     image: null,
     author: "ارنست گامبریچ",
@@ -238,6 +270,7 @@ export const books = [
   },
   {
     id: 19,
+    slug : "انسان-در-جستجوی-معنا",
     bookName: "انسان در جستجوی معنا",
     image: null,
     author: "ویکتور فرانکل",
@@ -251,6 +284,7 @@ export const books = [
   },
   {
     id: 20,
+    slug : "انقلاب-دیجیتال",
     bookName: "انقلاب دیجیتال",
     image: null,
     author: "دان تَپ‌اسکات",
@@ -263,6 +297,7 @@ export const books = [
   },
   {
     id: 21,
+    slug : "دیوید-کاپرفیلد",
     bookName: "دیوید کاپرفیلد",
     image: null,
     author: "چارلز دیکنز",
@@ -275,6 +310,7 @@ export const books = [
   },
   {
     id: 22,
+    slug : "سفرهای-گالیور",
     bookName: "سفرهای گالیور",
     image: null,
     author: "جاناتان سوئیفت",
@@ -287,6 +323,7 @@ export const books = [
   },
   {
     id: 23,
+    slug :"نظریه-نسبیت",
     bookName: "نظریه نسبیت",
     image: null,
     author: "آلبرت اینشتین",
@@ -299,6 +336,7 @@ export const books = [
   },
   {
     id: 24,
+    slug : "سقوط-قسطنطنیه",
     bookName: "سقوط قسطنطنیه",
     image: null,
     author: "استیون رنسیمان",
@@ -311,6 +349,7 @@ export const books = [
   },
   {
     id: 25,
+    slug :"بازی-تاج‌وتخت",
     bookName: "بازی تاج‌وتخت",
     image: null,
     author: "جورج آر. آر. مارتین",
@@ -323,6 +362,7 @@ export const books = [
   },
   {
     id: 26,
+    slug : "بدن-انسان",
     bookName: "بدن انسان",
     image: null,
     author: "بیل برایسون",
@@ -335,6 +375,7 @@ export const books = [
   },
   {
     id: 27,
+    slug :  "پیتر-پن",
     bookName: "پیتر پن",
     image: null,
     author: "جیمز متیو بَری",
@@ -347,6 +388,7 @@ export const books = [
   },
   {
     id: 28,
+    slug :  "تاریخ-تمدن",
     bookName: "تاریخ تمدن",
     image: null,
     author: "ویل دورانت",
@@ -359,6 +401,7 @@ export const books = [
   },
   {
     id: 29,
+    slug : "قدرت-عادت",
     bookName: "قدرت عادت",
     image: null,
     author: "چارلز داهیگ",
@@ -371,6 +414,7 @@ export const books = [
   },
   {
     id: 30,
+    slug : "انقلاب-صنعتی-چهارم",
     bookName: "انقلاب صنعتی چهارم",
     image: null,
     author: "کلاوس شواب",
@@ -383,6 +427,7 @@ export const books = [
   },
   {
     id: 31,
+    slug :"الیور-تویست",
     bookName: "الیور تویست",
     image: null,
     author: "چارلز دیکنز",
@@ -395,6 +440,7 @@ export const books = [
   },
   {
     id: 32,
+    slug : "فرانکنشتاین",
     bookName: "فرانکنشتاین",
     image: null,
     author: "مری شلی",
@@ -408,6 +454,7 @@ export const books = [
   },
   {
     id: 33,
+    slug : "کیهان",
     bookName: "کیهان",
     image: null,
     author: "کارل سیگن",
@@ -420,6 +467,7 @@ export const books = [
   },
   {
     id: 34,
+    slug :"تاریخ-ایران-باستان",
     bookName: "تاریخ ایران باستان",
     image: null,
     author: "حسن پیرنیا",
@@ -432,6 +480,7 @@ export const books = [
   },
   {
     id: 35,
+    slug : "ارباب-حلقه‌ها",
     bookName: "ارباب حلقه‌ها",
     image: null,
     author: "جی. آر. آر. تالکین",
@@ -444,6 +493,7 @@ export const books = [
   },
   {
     id: 36,
+    slug : "اطلس-آناتومی",
     bookName: "اطلس آناتومی",
     image: null,
     author: "فرانک نتر",
@@ -456,6 +506,7 @@ export const books = [
   },
   {
     id: 37,
+    slug : "ماجراهای-آلیس-در-سرزمین-عجایب",
     bookName: "ماجراهای آلیس در سرزمین عجایب",
     image: null,
     author: "لوییس کارول",
@@ -468,6 +519,7 @@ export const books = [
   },
   {
     id: 38,
+    slug :  "تاریخ-هنر-ایران",
     bookName: "تاریخ هنر ایران",
     image: null,
     author: "آرتور پوپ",
@@ -480,6 +532,7 @@ export const books = [
   },
   {
     id: 39,
+    slug : "اثر-مرکب",
     bookName: "اثر مرکب",
     image: null,
     author: "دارن هاردی",
@@ -492,6 +545,7 @@ export const books = [
   },
   {
     id: 40,
+    slug : "عصر-هوش-مصنوعی",
     bookName: "عصر هوش مصنوعی",
     image: null,
     author: "اریک اشمیت",
@@ -504,6 +558,7 @@ export const books = [
   },
   {
     id: 41,
+    slug : "بینوایان",
     bookName: "بینوایان",
     image: null,
     author: "ویکتور هوگو",
@@ -516,6 +571,7 @@ export const books = [
   },
   {
     id: 42,
+    slug : "رابینسون-کروزو",
     bookName: "رابینسون کروزو",
     image: null,
     author: "دانیل دفو",
@@ -528,6 +584,7 @@ export const books = [
   },
   {
     id: 43,
+    slug : "زمان-فیزیکی",
     bookName: "زمان فیزیکی",
     image: null,
     author: "استفان هاوکینگ",
@@ -540,6 +597,7 @@ export const books = [
   },
   {
     id: 44,
+    slug : "جنگ‌های-صلیبی",
     bookName: "جنگ‌های صلیبی",
     image: null,
     author: "استیون رنسیمان",
@@ -552,6 +610,7 @@ export const books = [
   },
   {
     id: 45,
+    slug : "نارنیا",
     bookName: "نارنیا",
     image: null,
     author: "سی. اس. لوئیس",
@@ -564,6 +623,7 @@ export const books = [
   },
   {
     id: 46,
+    slug : "فیزیولوژی-پزشکی",
     bookName: "فیزیولوژی پزشکی",
     image: null,
     author: "آرتور گایتون",
@@ -576,6 +636,7 @@ export const books = [
   },
   {
     id: 47,
+    slug : "هاکلبری-فین",
     bookName: "هاکلبری فین",
     image: null,
     author: "مارک تواین",
@@ -588,6 +649,7 @@ export const books = [
   },
   {
     id: 48,
+    slug : "تام-سایر",
     bookName: "تام سایر",
     image: null,
     author: "مارک تواین",
@@ -600,6 +662,7 @@ export const books = [
   },
   {
     id: 49,
+    slug : "هنر-رزم",
     bookName: "هنر رزم",
     image: null,
     author: "سان تزو",
@@ -612,6 +675,7 @@ export const books = [
   },
   {
     id: 50,
+    slug : "هوش-مصنوعی-مدرن",
     bookName: "هوش مصنوعی مدرن",
     image: null,
     author: "استوارت راسل",
@@ -624,6 +688,7 @@ export const books = [
   },
   {
     id: 51,
+    slug : "کمدی-الهی",
     bookName: "کمدی الهی",
     image: null,
     author: "دانته آلیگیری",
@@ -636,7 +701,8 @@ export const books = [
   },
   {
     id: 52,
-    bookName: "کالیله و دمنه",
+    slug : "کلیله-و-دمنه",
+    bookName: "کلیله و دمنه",
     image: null,
     author: "ابن مقفع",
     description: "مجموعه‌ای از داستان‌های اخلاقی و تمثیلی.",
@@ -648,6 +714,7 @@ export const books = [
   },
   {
     id: 53,
+    slug : "جهان-کوانتوم",
     bookName: "جهان کوانتوم",
     image: null,
     author: "برایان گرین",
@@ -660,6 +727,7 @@ export const books = [
   },
   {
     id: 54,
+    slug : "ایران-در-زمان-ساسانیان",
     bookName: "ایران در زمان ساسانیان",
     image: null,
     author: "آرتور کریستن‌سن",
@@ -672,6 +740,7 @@ export const books = [
   },
   {
     id: 85,
+    slug : "جنایت-و-مکافات",
     bookName: "جنایت و مکافات",
     image: null,
     author: "فئودور داستایوفسکی",
@@ -684,6 +753,7 @@ export const books = [
   },
   {
     id: 86,
+    slug : "بینوایان",
     bookName: "بینوایان",
     image: null,
     author: "ویکتور هوگو",
@@ -696,6 +766,7 @@ export const books = [
   },
   {
     id: 87,
+    slug : "عقاید-یک-دلقک",
     bookName: "عقاید یک دلقک",
     image: null,
     author: "هاینریش بل",
@@ -708,6 +779,7 @@ export const books = [
   },
   {
     id: 88,
+    slug : "چراغ‌ها-را-من-خاموش-می‌کنم",
     bookName: "چراغ‌ها را من خاموش می‌کنم",
     image: null,
     author: "زویا پیرزاد",
@@ -720,6 +792,7 @@ export const books = [
   },
   {
     id: 89,
+    slug : "ملت-عشق",
     bookName: "ملت عشق",
     image: null,
     author: "الیف شافاک",
@@ -732,6 +805,7 @@ export const books = [
   },
   {
     id: 90,
+    slug : "کلیدر",
     bookName: "کلیدر",
     image: null,
     author: "محمود دولت‌آبادی",
@@ -744,6 +818,7 @@ export const books = [
   },
   {
     id: 91,
+    slug :"زمان-فضا",
     bookName: "زمان فضا",
     image: null,
     author: "استیون هاوکینگ",
@@ -756,6 +831,7 @@ export const books = [
   },
   {
     id: 92,
+    slug : "ژن-خودخواه",
     bookName: "ژن خودخواه",
     image: null,
     author: "ریچارد داوکینز",
@@ -768,6 +844,7 @@ export const books = [
   },
   {
     id: 93,
+    slug : "تاریخچه-زمان",
     bookName: "تاریخچه زمان",
     image: null,
     author: "استیون هاوکینگ",
@@ -780,6 +857,7 @@ export const books = [
   },
   {
     id: 94,
+    slug : "ایران-باستان",
     bookName: "ایران باستان",
     image: null,
     author: "حسن پیرنیا",
@@ -792,6 +870,7 @@ export const books = [
   },
   {
     id: 95,
+    slug : "اسکندر",
     bookName: "اسکندر",
     image: null,
     author: "مری رنو",
@@ -804,6 +883,7 @@ export const books = [
   },
   {
     id: 96,
+    slug : "جنگ-جهانی-دوم",
     bookName: "جنگ جهانی دوم",
     image: null,
     author: "آنتونی بیور",
@@ -816,6 +896,7 @@ export const books = [
   },
   {
     id: 97,
+    slug : "ارباب-حلقه‌ها",
     bookName: "ارباب حلقه‌ها",
     image: null,
     author: "جی. آر. آر. تالکین",
@@ -828,7 +909,8 @@ export const books = [
   },
   {
     id: 98,
-    bookName: "نارنیا: شیر، کمد و جادوگر",
+    slug : "نارنیا-شیر-کمد-و-جادوگر",
+    bookName: "نارنیا شیر-کمد و جادوگر",
     image: null,
     author: "سی. اس. لوئیس",
     description: "اولین کتاب مجموعه نارنیا، ماجرای دنیای جادویی.",
@@ -840,6 +922,7 @@ export const books = [
   },
   {
     id: 99,
+    slug : "هری-پاتر-و-زندانی-آزکابان",
     bookName: "هری پاتر و زندانی آزکابان",
     image: null,
     author: "جی. کی. رولینگ",
@@ -852,6 +935,7 @@ export const books = [
   },
   {
     id: 100,
+    slug : "اصول-طب-داخلی-هاریسون",
     bookName: "اصول طب داخلی هاریسون",
     image: null,
     author: "دن لونگو",
@@ -864,6 +948,7 @@ export const books = [
   },
   {
     id: 101,
+    slug : "آناتومی-گری",
     bookName: "آناتومی گری",
     image: null,
     author: "هنری گری",
@@ -876,6 +961,7 @@ export const books = [
   },
   {
     id: 102,
+    slug :"فیزیولوژی-گایتون",
     bookName: "فیزیولوژی گایتون",
     image: null,
     author: "آرتور گایتون",
@@ -888,6 +974,7 @@ export const books = [
   },
   {
     id: 103,
+    slug : "شازده-کوچولو",
     bookName: "شازده کوچولو",
     image: null,
     author: "آنتوان دو سنت‌اگزوپری",
@@ -900,6 +987,7 @@ export const books = [
   },
   {
     id: 104,
+    slug : "قصه‌های-مجید",
     bookName: "قصه‌های مجید",
     image: null,
     author: "هوشنگ مرادی کرمانی",
@@ -912,6 +1000,7 @@ export const books = [
   },
   {
     id: 105,
+    slug : "مهمان-مامان",
     bookName: "مهمان مامان",
     image: null,
     author: "هوشنگ مرادی کرمانی",
@@ -924,6 +1013,7 @@ export const books = [
   },
   {
     id: 106,
+    slug : "تاریخ-هنر",
     bookName: "تاریخ هنر",
     image: null,
     author: "ارنست گامبریچ",
@@ -936,6 +1026,7 @@ export const books = [
   },
   {
     id: 107,
+    slug : "زندگی-نامه-ون-گوگ",
     bookName: "زندگی نامه ون گوگ",
     image: null,
     author: "اروینگ استون",
@@ -948,6 +1039,7 @@ export const books = [
   },
   {
     id: 108,
+    slug : "هنر-مدرن",
     bookName: "هنر مدرن",
     image: null,
     author: "نوربرت لینتون",
@@ -960,6 +1052,7 @@ export const books = [
   },
   {
     id: 109,
+    slug : "اثر-مرکب",
     bookName: "اثر مرکب",
     image: null,
     author: "دارن هاردی",
@@ -972,6 +1065,7 @@ export const books = [
   },
   {
     id: 110,
+    slug : "چهار-میثاق",
     bookName: "چهار میثاق",
     image: null,
     author: "دون میگوئل روئیز",
@@ -984,6 +1078,7 @@ export const books = [
   },
   {
     id: 111,
+    slug : "زندگی-خود-را-طراحی-کنید",
     bookName: "زندگی خود را طراحی کنید",
     image: null,
     author: "بیل برنت و دیو ایوانز",
@@ -996,6 +1091,7 @@ export const books = [
   },
   {
     id: 112,
+    slug : "یادگیری-عمیق",
     bookName: "یادگیری عمیق",
     image: null,
     author: "یان گودفلو",
@@ -1008,6 +1104,7 @@ export const books = [
   },
   {
     id: 113,
+    slug :  "عصر-هوش-مصنوعی",
     bookName: "عصر هوش مصنوعی",
     image: null,
     author: "اریک برینجولفسون",
@@ -1020,6 +1117,7 @@ export const books = [
   },
   {
     id: 114,
+    slug : "کدنویسی-پاک",
     bookName: "کدنویسی پاک",
     image: null,
     author: "رابرت سی. مارتین",

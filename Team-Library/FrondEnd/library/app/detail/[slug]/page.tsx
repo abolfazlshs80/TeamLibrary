@@ -1,44 +1,64 @@
 "use client";
-
-import { use } from "react";
+import { useEffect ,useState } from "react";
 import Image from "next/image";
-import { books } from "@/modal/mockData";
 import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button";
 import { useRouter } from "next/navigation";
 import defaultBook from "../../../assets/default-book.jpg"
-
-
-interface Book {
-  id: number;
-  bookName: string;
-  image: string;
-  author: string;
-  description: string;
-  year: number;
-  rank: number;
+import {books, Book}  from "@/modal/mockData";
+import Loader from '@/components/Loader/Loader'
+import axios from "axios"
+type DetailPageProps ={
+  params: {
+    slug : string;
+  }
 }
-
-export default function DetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default function DetailPage({params}:
+  DetailPageProps) {
   const router = useRouter();
-  const unWrappedParams = use(params);
-  const bookId = parseInt(unWrappedParams.id || "1");
-  const book = books.find((b) => b.id === bookId) || books[0];
+  const [book, setBook] = useState<Book | null>(null);
+  const [loading,setLoading]= useState(true);
+  
+   useEffect(()=> {
+    const fetchBook = async () =>{
+     try{
+      const encodedSlug = encodeURIComponent(params.slug)
+      console.log("slug params", encodedSlug);
+      console.log("Base_url", process.env.NEXT_PUBLIC_API_BASE_URL);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetBySlug?slug=${encodedSlug}`,
+        {params: {slug : encodedSlug}}
+        
+      );
+       console.log("fetched Book:" , res.data);
+        setBook(res.data);
+     } catch (error){
+      console.error("خطاگرفتن از سرور", error)
+     } finally {
+      setLoading(false);
+     }
+   }
+   fetchBook();
+ } , [params.slug])
+ 
+ if ( !book) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader/>
+    </div>
+  );
+ }
+
 
   const handleAddToFavorite = () => {
     // Add to favorites logic
-    console.log("Added to favorites:", book.bookName);
+    console.log("Added to favorites:", book?.id);
   };
 
   const handleReadBook = () => {
     // Read book logic
-    console.log("Reading book:", book.bookName);
+    console.log("Reading book:", book?.id);
   };
-
+ 
   const renderStars = (rank: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <span
@@ -51,6 +71,7 @@ export default function DetailPage({
       </span>
     ));
   };
+ 
 
   return (
     <div className="min-h-screen bg-[#F7F5E9]">
@@ -116,6 +137,12 @@ export default function DetailPage({
                     </span>
                     <span className="text-sm text-gray-800">{book.author}</span>
                   </div>
+                  {book.translator && (
+                    <div className="flex  items-center justify-between">
+                       <span className="text-sm font-medium text-[#435F56]">مترجم</span>
+                       <span className="text-sm text-gray-800">{book.translator}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -128,6 +155,13 @@ export default function DetailPage({
                   <p className="text-lg text-gray-600 mb-4">
                     نوشته: <span className="text-black">{book.author}</span>
                   </p>
+                  {book.translator && (
+                    <p className="text-lg text-gray-600 mb-4">
+                               ترجمه:<span className="text-black">
+                                 {book.translator}
+                               </span>
+                    </p>
+                  )}
                 </div>
 
                 <div className="prose prose-lg max-w-none">
@@ -199,17 +233,17 @@ export default function DetailPage({
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {books
-                .filter((b) => b.id !== book.id)
+                .filter((b) => b.slug !== book.slug)
                 .slice(0, 5)
                 .map((relatedBook) => (
                   <div
-                    key={relatedBook.id}
+                    key={relatedBook.slug}
                     className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-                    onClick={() => router.push(`/detail/${relatedBook.id}`)}
+                    onClick={() => router.push(`/detail/${relatedBook.slug}`)}
                   >
                     <div className="relative aspect-[3/4]">
                       <Image
-                        src={relatedBook.image ?? defaultBook}
+                        src={relatedBook.image ? relatedBook.image : defaultBook}
                         alt={relatedBook.bookName}
                         fill
                         className="object-cover"

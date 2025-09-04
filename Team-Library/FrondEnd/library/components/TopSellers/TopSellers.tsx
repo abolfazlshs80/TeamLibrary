@@ -43,7 +43,7 @@ const TopSellers = () => {
         {books?.map((book) => (
           <SwiperSlide key={book.id}>
             <Link
-              href={`${libraryRoutes.detail}/${book.id}`}
+              href={`${libraryRoutes.detail}/${encodeURIComponent(book.slug)}`}
               className="w-full h-full flex flex-col items-center justify-center"
             >
               <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
