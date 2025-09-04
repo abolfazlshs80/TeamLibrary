@@ -27,6 +27,7 @@ public static class ServiceConfigs
         #region Services
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IMediaService, MediaService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         #endregion

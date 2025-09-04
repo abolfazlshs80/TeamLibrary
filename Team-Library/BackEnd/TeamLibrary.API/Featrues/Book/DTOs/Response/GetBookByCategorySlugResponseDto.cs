@@ -10,5 +10,7 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Response
         public string Description { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? UpdateDateTime { get; set; }
     }
 }
