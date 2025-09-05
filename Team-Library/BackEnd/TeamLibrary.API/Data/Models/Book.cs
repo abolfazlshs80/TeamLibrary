@@ -19,4 +19,9 @@ public class Book : BaseEntity
     public DateTime? UpdateDateDatetime { get; set; }
     public Category Category { get; set; }
     public Users? User { get; set; }
+    public Book()
+    {
+        CreateDateDatetime = DateTime.Now;
+        UpdateDateDatetime = DateTime.Now;
+    }
 }
