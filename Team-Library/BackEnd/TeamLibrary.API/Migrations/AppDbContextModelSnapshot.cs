@@ -74,10 +74,6 @@ namespace TeamLibrary.API.Migrations
                     b.Property<DateTime?>("UpdateDateDatetime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Translator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
