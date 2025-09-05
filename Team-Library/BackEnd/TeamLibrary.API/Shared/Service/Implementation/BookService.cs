@@ -54,6 +54,8 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                     Author = book.Author,
                     Title = book.Title,
                     Description = book.Description,
+                    Translator = book.Translator,
+                    
                     ImagePath = imagePath,
                     Language = book.Language,
                     PdfPath = book.PdfPath,

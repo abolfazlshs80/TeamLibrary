@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TeamLibrary.API.Migrations
 {
     /// <inheritdoc />
-    public partial class initsqlserver : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,7 @@ namespace TeamLibrary.API.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     Rank = table.Column<int>(type: "int", nullable: false),
+                    Translator = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublicationYear = table.Column<int>(type: "int", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pages = table.Column<int>(type: "int", nullable: false),

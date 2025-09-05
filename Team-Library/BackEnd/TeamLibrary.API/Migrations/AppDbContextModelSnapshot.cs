@@ -78,6 +78,9 @@ namespace TeamLibrary.API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("Translator")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdateDateDatetime")
                         .HasColumnType("datetime2");
 
@@ -90,7 +93,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Category", b =>
@@ -123,7 +126,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Users", b =>
@@ -146,7 +149,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Book", b =>
