@@ -27,6 +27,8 @@
 
     <Folder Include="Featrues\Account\DTOs\" />
 
+    <Folder Include="wwwroot\Uploads\Blog\" />
+
   </ItemGroup>
 
 </Project>
