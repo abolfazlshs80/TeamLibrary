@@ -209,6 +209,38 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
             return book;
         }
+        public async Task<GetBookBySlugResponseDto> GetBookBySlugForShowDetailAsync(string slug)
+        {
+            var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Slug == slug);
+
+            if (bookExist == null)
+            {
+                return null;
+            }
+
+            var book = new GetBookBySlugResponseDto
+            {
+          
+                Title = bookExist.Title,
+                Slug = bookExist.Slug,
+                Description = bookExist.Description,
+                Author = bookExist.Author,
+                PublicationYear = bookExist.PublicationYear,
+                Pages = bookExist.Pages,
+                Price = bookExist.Price,
+                Language = bookExist.Language,
+                ImagePath = bookExist.ImagePath,
+                PdfPath = bookExist.PdfPath,
+                CategoryName = bookExist.Category.Name,
+                Translators=bookExist.Translator,
+                Rank=bookExist.Rank,
+                
+            };
+
+            return book;
+
+        }
 
         public async Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug)
         {
@@ -218,17 +250,13 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 .Where(b => b.Category.Slug == slug)
                 .Select(b => new GetBookByCategorySlugResponseDto
                 {
-                    Id = b.Id,
                     Title = b.Title,
                     Slug = b.Slug,
-                    ImagePath = _mediaService.GetImageUrl(b.ImagePath), // Convert to URL
-                    PdfPath = b.PdfPath,
-                    Description = b.Description,
-                    CategoryId = b.CategoryId,
-                    CategoryName = b.Category.Name,
-                    CreateDateTime = b.CreateDateDatetime,
-                    UpdateDateTime = b.UpdateDateDatetime.HasValue ? b.UpdateDateDatetime : null
+                    ImagePath = b.ImagePath,
+                    Author = b.Author                 
                 })
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
 
             return books;

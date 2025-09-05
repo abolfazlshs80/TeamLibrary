@@ -10,6 +10,7 @@ namespace TeamLibrary.API.Shared.Service.Interface
         Task<List<GetBookByCategorySlugResponseDto>> GetBooksByCategorySlugAsync(string slug);
         Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book, IFormFile imageFile);
         Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId);
+        Task<GetBookBySlugResponseDto> GetBookBySlugForShowDetailAsync(string slug);
         Task<ErrorOr<string>> DeleteBookByIdAsync(int id);
         Task<ErrorOr<string>> UpdateBookAsync(UpdateBookRequestDto dto, IFormFile imageFile);
         Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request);
