@@ -83,7 +83,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Category", b =>
@@ -114,7 +114,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Users", b =>
@@ -135,7 +135,7 @@ namespace TeamLibrary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TeamLibrary.API.Data.Models.Book", b =>

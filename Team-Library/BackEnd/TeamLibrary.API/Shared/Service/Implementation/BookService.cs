@@ -218,17 +218,13 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 .Where(b => b.Category.Slug == slug)
                 .Select(b => new GetBookByCategorySlugResponseDto
                 {
-                    Id = b.Id,
                     Title = b.Title,
                     Slug = b.Slug,
-                    ImagePath = _mediaService.GetImageUrl(b.ImagePath), // Convert to URL
-                    PdfPath = b.PdfPath,
-                    Description = b.Description,
-                    CategoryId = b.CategoryId,
-                    CategoryName = b.Category.Name,
-                    CreateDateTime = b.CreateDateDatetime,
-                    UpdateDateTime = b.UpdateDateDatetime.HasValue ? b.UpdateDateDatetime : null
+                    ImagePath = b.ImagePath,
+                    Author = b.Author                 
                 })
+                .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
 
             return books;
