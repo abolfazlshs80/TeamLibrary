@@ -14,5 +14,7 @@
         public string ImagePath { get; set; }
         public string PdfPath { get; set; }
         public string CategoryName { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? UpdateDateTime { get; set; }
     }
 }
