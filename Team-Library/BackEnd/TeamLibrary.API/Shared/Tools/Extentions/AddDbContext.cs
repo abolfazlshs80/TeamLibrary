@@ -9,7 +9,7 @@ namespace TeamLibrary.API.Shared.Tools.Extentions
         public static IServiceCollection AddDbContextService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                     options.UseSqlite(configuration.GetConnectionString("LibraryConnection")));
+                     options.UseSqlServer(configuration.GetConnectionString("LibraryConnection")));
 
             return services;
         }
