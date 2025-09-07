@@ -18,27 +18,32 @@ export default function DetailPage({params}:
   const router = useRouter();
   const [book, setBook] = useState<Book | null>(null);
   const [loading,setLoading]= useState(true);
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const encodedSlug = encodeURIComponent(params.slug);
+        console.log("slug params:", encodedSlug);
+        console.log("Base_url:", process.env.NEXT_PUBLIC_API_BASE_URL);
   
-   useEffect(()=> {
-    const fetchBook = async () =>{
-     try{
-      const encodedSlug = encodeURIComponent(params.slug)
-      console.log("slug params", encodedSlug);
-      console.log("Base_url", process.env.NEXT_PUBLIC_API_BASE_URL);
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetBySlug?slug=${encodedSlug}`,
-        {params: {slug : encodedSlug}}
-        
-      );
-       console.log("fetched Book:" , res.data);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetBySlug`,
+          {
+            params: { slug: encodedSlug }, 
+          }
+        );
+  
+        console.log("fetched Book:", res.data);
         setBook(res.data);
-     } catch (error){
-      console.error("خطاگرفتن از سرور", error)
-     } finally {
-      setLoading(false);
-     }
-   }
-   fetchBook();
- } , [params.slug])
+      } catch (error) {
+        console.error("خطا در گرفتن از سرور", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchBook();
+  }, [params.slug]);
  
  if ( !book) {
   return (

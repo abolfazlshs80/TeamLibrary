@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bookBanner from "../../assets/banner2.svg";
 import TopRankBooks from "../TopRankBooks/TopRankBooks";
 import TopSellers from "../TopSellers/TopSellers";
@@ -8,9 +8,19 @@ import Categories from "../Categories/Categories";
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
 import { libraryRoutes } from "@/routes";
+import axios from "axios";
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+}
 
 const MainPage = () => {
-  const router = useRouter()
+  const router = useRouter();
+
+
   return (
     <div className="pt-6 mt-9 mx-auto">
       {/* ====================header section==================== */}
@@ -52,6 +62,7 @@ const MainPage = () => {
       </div>
 
       {/* ====================top books section==================== */}
+    
       <TopRankBooks />
       <TopSellers />
       <Categories />
