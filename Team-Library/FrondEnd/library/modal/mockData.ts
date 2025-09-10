@@ -12,7 +12,7 @@ import { StaticImageData } from "next/image";
 export interface Book {
   id: number;
   slug :string ;
-  bookName: string;
+  title: string;
   image: string | StaticImageData | null;
   author: string;
   translator?: string | null;
@@ -27,7 +27,7 @@ export const books :Book[] = [
   {
     id: 1,
     slug : "جنایت-و-مکافات",
-    bookName: "جنایت و مکافات",
+    title: "جنایت و مکافات",
     image: crime,
     author: "فئودور داستایفسکی",
     description:
@@ -41,7 +41,7 @@ export const books :Book[] = [
   {
     id: 2,
     slug : "جنگ-و-صلح",
-    bookName: "جنگ و صلح",
+    title: "جنگ و صلح",
     image: war,
     author: "لئو تولستوی",
     description:
@@ -55,7 +55,7 @@ export const books :Book[] = [
   {
     id: 3,
     slug :"غرور-و-تعصب",
-    bookName: "غرور و تعصب",
+    title: "غرور و تعصب",
     image: pride,
     author: "جین آستن",
     description:
@@ -69,7 +69,7 @@ export const books :Book[] = [
   {
     id: 4,
     slug :"برادران-کارامازوف",
-    bookName: "برادران کارامازوف",
+    title: "برادران کارامازوف",
     image: karamazov,
     author: "فئودور داستایفسکی",
     description:
@@ -83,7 +83,7 @@ export const books :Book[] = [
   {
     id: 5,
     slug : "دن-کیشوت",
-    bookName: "دن کیشوت",
+    title: "دن کیشوت",
     image: don_quixote,
     author: "میگل د سروانتس",
     description:
@@ -97,7 +97,7 @@ export const books :Book[] = [
   {
     id: 6,
     slug : "صد-سال-تنهایی",
-    bookName: "صد سال تنهایی",
+    title: "صد سال تنهایی",
     image: one_hundred,
     author: "گابریل گارسیا مارکز",
     description:
@@ -111,7 +111,7 @@ export const books :Book[] = [
   {
     id: 7,
     slug : "اولیس",
-    bookName: "اولیس",
+    title: "اولیس",
     image: ulysses,
     author: "جیمز جویس",
     description:
@@ -125,7 +125,7 @@ export const books :Book[] = [
   {
     id: 8,
     slug : "بلندی‌های-بادگیر",
-    bookName: "بلندی‌های بادگیر",
+    title: "بلندی‌های بادگیر",
     image: wuthering,
     author: "امیلی برونته",
     description:
@@ -139,7 +139,7 @@ export const books :Book[] = [
   {
     id: 9,
     slug : "سرگذشت-حاجی-بابای-اصفهانی",
-    bookName: "سرگذشت حاجی بابای اصفهانی",
+    title: "سرگذشت حاجی بابای اصفهانی",
     image: hajibaba,
     author: "جیمز موریه",
     description:
@@ -153,7 +153,7 @@ export const books :Book[] = [
   {
     id: 10,
     slug : "کوه-جادو",
-    bookName: "کوه جادو",
+    title: "کوه جادو",
     image: magic_mountain,
     author: "توماس مان",
     description:
@@ -167,7 +167,7 @@ export const books :Book[] = [
   {
     id: 11,
     slug : "کیمیاگر",
-    bookName: "کیمیاگر",
+    title: "کیمیاگر",
     image: null,
     author: "پائولو کوئیلو",
     description: "سفر عرفانی و نمادین چوپانی جوان برای یافتن رویای خود.",
@@ -180,7 +180,7 @@ export const books :Book[] = [
   {
     id: 12,
     slug : "یادداشت‌های-زیرزمینی",
-    bookName: "یادداشت‌های زیرزمینی",
+    title: "یادداشت‌های زیرزمینی",
     image: null,
     author: "فئودور داستایفسکی",
     description: "روایتی فلسفی و روانشناختی از انسان معاصر و جدال درونی او.",
@@ -193,7 +193,7 @@ export const books :Book[] = [
   {
     id: 13,
     slug : "کشف-ساختار-DNA",
-    bookName: "کشف ساختار DNA",
+    title: "کشف ساختار DNA",
     image: null,
     author: "جیمز واتسون",
     description: "خاطراتی علمی از کشف ساختار مولکولی DNA.",
@@ -206,7 +206,7 @@ export const books :Book[] = [
   {
     id: 14,
     slug : "تاریخ-جهان",
-    bookName: "تاریخ جهان",
+    title: "تاریخ جهان",
     image: null,
     author: "ارنولد توین‌بی",
     description: "مروری تحلیلی بر تاریخ تمدن‌ها در طول قرون.",
@@ -219,7 +219,7 @@ export const books :Book[] = [
   {
     id: 15,
     slug :"هابیت",
-    bookName: "هابیت",
+    title: "هابیت",
     image: null,
     author: "جی. آر. آر. تالکین",
     description: "ماجراجویی بیلبو بگینز در جهانی فانتزی.",
@@ -232,7 +232,7 @@ export const books :Book[] = [
   {
     id: 16,
     slug : "پزشک-دهکده",
-    bookName: "پزشک دهکده",
+    title: "پزشک دهکده",
     image: null,
     author: "آنتون چخوف",
     description: "روایت‌هایی کوتاه درباره زندگی پزشکان و بیماران.",
@@ -245,7 +245,7 @@ export const books :Book[] = [
   {
     id: 17,
     slug : "شازده-کوچولو",
-    bookName: "شازده کوچولو",
+    title: "شازده کوچولو",
     image: null,
     author: "آنتوان دو سنت‌اگزوپری",
     description: "یکی از محبوب‌ترین کتاب‌های کودک و فلسفی قرن بیستم.",
@@ -258,7 +258,7 @@ export const books :Book[] = [
   {
     id: 18,
     slug : "تاریخ-هنر",
-    bookName: "تاریخ هنر",
+    title: "تاریخ هنر",
     image: null,
     author: "ارنست گامبریچ",
     description: "کتابی مرجع درباره تحول هنر از دوران باستان تا مدرن.",
@@ -271,7 +271,7 @@ export const books :Book[] = [
   {
     id: 19,
     slug : "انسان-در-جستجوی-معنا",
-    bookName: "انسان در جستجوی معنا",
+    title: "انسان در جستجوی معنا",
     image: null,
     author: "ویکتور فرانکل",
     description:
@@ -285,7 +285,7 @@ export const books :Book[] = [
   {
     id: 20,
     slug : "انقلاب-دیجیتال",
-    bookName: "انقلاب دیجیتال",
+    title: "انقلاب دیجیتال",
     image: null,
     author: "دان تَپ‌اسکات",
     description: "تحلیل تحول تکنولوژی و تأثیر آن بر جامعه.",
@@ -298,7 +298,7 @@ export const books :Book[] = [
   {
     id: 21,
     slug : "دیوید-کاپرفیلد",
-    bookName: "دیوید کاپرفیلد",
+    title: "دیوید کاپرفیلد",
     image: null,
     author: "چارلز دیکنز",
     description: "روایتی کلاسیک از زندگی پرفرازونشیب یک پسر یتیم.",
@@ -311,7 +311,7 @@ export const books :Book[] = [
   {
     id: 22,
     slug : "سفرهای-گالیور",
-    bookName: "سفرهای گالیور",
+    title: "سفرهای گالیور",
     image: null,
     author: "جاناتان سوئیفت",
     description: "داستانی نمادین درباره سفر به سرزمین‌های خیالی.",
@@ -324,7 +324,7 @@ export const books :Book[] = [
   {
     id: 23,
     slug :"نظریه-نسبیت",
-    bookName: "نظریه نسبیت",
+    title: "نظریه نسبیت",
     image: null,
     author: "آلبرت اینشتین",
     description: "توضیحی عمومی درباره نظریه نسبیت خاص و عام.",
@@ -337,7 +337,7 @@ export const books :Book[] = [
   {
     id: 24,
     slug : "سقوط-قسطنطنیه",
-    bookName: "سقوط قسطنطنیه",
+    title: "سقوط قسطنطنیه",
     image: null,
     author: "استیون رنسیمان",
     description: "تحلیل تاریخی سقوط امپراتوری بیزانس.",
@@ -350,7 +350,7 @@ export const books :Book[] = [
   {
     id: 25,
     slug :"بازی-تاج‌وتخت",
-    bookName: "بازی تاج‌وتخت",
+    title: "بازی تاج‌وتخت",
     image: null,
     author: "جورج آر. آر. مارتین",
     description: "جلد اول از مجموعه نغمه یخ و آتش.",
@@ -363,7 +363,7 @@ export const books :Book[] = [
   {
     id: 26,
     slug : "بدن-انسان",
-    bookName: "بدن انسان",
+    title: "بدن انسان",
     image: null,
     author: "بیل برایسون",
     description: "بررسی علمی بدن انسان به زبان ساده.",
@@ -376,7 +376,7 @@ export const books :Book[] = [
   {
     id: 27,
     slug :  "پیتر-پن",
-    bookName: "پیتر پن",
+    title: "پیتر پن",
     image: null,
     author: "جیمز متیو بَری",
     description: "ماجراهای پسربچه‌ای که هرگز بزرگ نمی‌شود.",
@@ -389,7 +389,7 @@ export const books :Book[] = [
   {
     id: 28,
     slug :  "تاریخ-تمدن",
-    bookName: "تاریخ تمدن",
+    title: "تاریخ تمدن",
     image: null,
     author: "ویل دورانت",
     description: "یکی از جامع‌ترین آثار درباره تاریخ بشریت.",
@@ -402,7 +402,7 @@ export const books :Book[] = [
   {
     id: 29,
     slug : "قدرت-عادت",
-    bookName: "قدرت عادت",
+    title: "قدرت عادت",
     image: null,
     author: "چارلز داهیگ",
     description: "تحلیل علمی درباره شکل‌گیری و تغییر عادت‌ها.",
@@ -415,7 +415,7 @@ export const books :Book[] = [
   {
     id: 30,
     slug : "انقلاب-صنعتی-چهارم",
-    bookName: "انقلاب صنعتی چهارم",
+    title: "انقلاب صنعتی چهارم",
     image: null,
     author: "کلاوس شواب",
     description: "نقش تکنولوژی‌های نوین در تغییر اقتصاد و جامعه.",
@@ -428,7 +428,7 @@ export const books :Book[] = [
   {
     id: 31,
     slug :"الیور-تویست",
-    bookName: "الیور تویست",
+    title: "الیور تویست",
     image: null,
     author: "چارلز دیکنز",
     description: "ماجرای یتیمی که با سختی‌های لندن روبه‌رو می‌شود.",
@@ -441,7 +441,7 @@ export const books :Book[] = [
   {
     id: 32,
     slug : "فرانکنشتاین",
-    bookName: "فرانکنشتاین",
+    title: "فرانکنشتاین",
     image: null,
     author: "مری شلی",
     description:
@@ -455,7 +455,7 @@ export const books :Book[] = [
   {
     id: 33,
     slug : "کیهان",
-    bookName: "کیهان",
+    title: "کیهان",
     image: null,
     author: "کارل سیگن",
     description: "نگاهی جامع به جهان و جایگاه انسان در آن.",
@@ -468,7 +468,7 @@ export const books :Book[] = [
   {
     id: 34,
     slug :"تاریخ-ایران-باستان",
-    bookName: "تاریخ ایران باستان",
+    title: "تاریخ ایران باستان",
     image: null,
     author: "حسن پیرنیا",
     description: "کتابی مرجع درباره تاریخ ایران پیش از اسلام.",
@@ -481,7 +481,7 @@ export const books :Book[] = [
   {
     id: 35,
     slug : "ارباب-حلقه‌ها",
-    bookName: "ارباب حلقه‌ها",
+    title: "ارباب حلقه‌ها",
     image: null,
     author: "جی. آر. آر. تالکین",
     description: "سه‌گانه فانتزی معروف با محوریت حلقه یگانه.",
@@ -494,7 +494,7 @@ export const books :Book[] = [
   {
     id: 36,
     slug : "اطلس-آناتومی",
-    bookName: "اطلس آناتومی",
+    title: "اطلس آناتومی",
     image: null,
     author: "فرانک نتر",
     description: "یکی از معتبرترین منابع درسی پزشکی درباره بدن انسان.",
@@ -507,7 +507,7 @@ export const books :Book[] = [
   {
     id: 37,
     slug : "ماجراهای-آلیس-در-سرزمین-عجایب",
-    bookName: "ماجراهای آلیس در سرزمین عجایب",
+    title: "ماجراهای آلیس در سرزمین عجایب",
     image: null,
     author: "لوییس کارول",
     description: "رمانی کودکانه و فانتزی درباره دختری در سرزمین عجایب.",
@@ -520,7 +520,7 @@ export const books :Book[] = [
   {
     id: 38,
     slug :  "تاریخ-هنر-ایران",
-    bookName: "تاریخ هنر ایران",
+    title: "تاریخ هنر ایران",
     image: null,
     author: "آرتور پوپ",
     description: "کتابی مرجع درباره هنر ایران در دوره‌های مختلف.",
@@ -533,7 +533,7 @@ export const books :Book[] = [
   {
     id: 39,
     slug : "اثر-مرکب",
-    bookName: "اثر مرکب",
+    title: "اثر مرکب",
     image: null,
     author: "دارن هاردی",
     description: "راهکارهایی برای موفقیت با تغییرات کوچک روزمره.",
@@ -546,7 +546,7 @@ export const books :Book[] = [
   {
     id: 40,
     slug : "عصر-هوش-مصنوعی",
-    bookName: "عصر هوش مصنوعی",
+    title: "عصر هوش مصنوعی",
     image: null,
     author: "اریک اشمیت",
     description: "تحلیلی درباره آینده هوش مصنوعی و تکنولوژی‌های نوین.",
@@ -559,7 +559,7 @@ export const books :Book[] = [
   {
     id: 41,
     slug : "بینوایان",
-    bookName: "بینوایان",
+    title: "بینوایان",
     image: null,
     author: "ویکتور هوگو",
     description: "حماسه‌ای اجتماعی و تاریخی درباره عدالت و عشق.",
@@ -572,7 +572,7 @@ export const books :Book[] = [
   {
     id: 42,
     slug : "رابینسون-کروزو",
-    bookName: "رابینسون کروزو",
+    title: "رابینسون کروزو",
     image: null,
     author: "دانیل دفو",
     description: "ماجرای زندگی مردی تنها در جزیره‌ای دورافتاده.",
@@ -585,7 +585,7 @@ export const books :Book[] = [
   {
     id: 43,
     slug : "زمان-فیزیکی",
-    bookName: "زمان فیزیکی",
+    title: "زمان فیزیکی",
     image: null,
     author: "استفان هاوکینگ",
     description: "بررسی علمی زمان و قوانین جهان.",
@@ -598,7 +598,7 @@ export const books :Book[] = [
   {
     id: 44,
     slug : "جنگ‌های-صلیبی",
-    bookName: "جنگ‌های صلیبی",
+    title: "جنگ‌های صلیبی",
     image: null,
     author: "استیون رنسیمان",
     description: "تحلیل تاریخی جنگ‌های صلیبی.",
@@ -611,7 +611,7 @@ export const books :Book[] = [
   {
     id: 45,
     slug : "نارنیا",
-    bookName: "نارنیا",
+    title: "نارنیا",
     image: null,
     author: "سی. اس. لوئیس",
     description: "مجموعه‌ای فانتزی برای نوجوانان و کودکان.",
@@ -624,7 +624,7 @@ export const books :Book[] = [
   {
     id: 46,
     slug : "فیزیولوژی-پزشکی",
-    bookName: "فیزیولوژی پزشکی",
+    title: "فیزیولوژی پزشکی",
     image: null,
     author: "آرتور گایتون",
     description: "کتاب مرجع درباره عملکرد بدن انسان.",
@@ -637,7 +637,7 @@ export const books :Book[] = [
   {
     id: 47,
     slug : "هاکلبری-فین",
-    bookName: "هاکلبری فین",
+    title: "هاکلبری فین",
     image: null,
     author: "مارک تواین",
     description: "ماجرای سفر یک نوجوان در رودخانه می‌سی‌سی‌پی.",
@@ -650,7 +650,7 @@ export const books :Book[] = [
   {
     id: 48,
     slug : "تام-سایر",
-    bookName: "تام سایر",
+    title: "تام سایر",
     image: null,
     author: "مارک تواین",
     description: "ماجراهای کودکانه و پرهیجان در کنار رودخانه.",
@@ -663,7 +663,7 @@ export const books :Book[] = [
   {
     id: 49,
     slug : "هنر-رزم",
-    bookName: "هنر رزم",
+    title: "هنر رزم",
     image: null,
     author: "سان تزو",
     description: "کتابی کلاسیک درباره استراتژی جنگی.",
@@ -676,7 +676,7 @@ export const books :Book[] = [
   {
     id: 50,
     slug : "هوش-مصنوعی-مدرن",
-    bookName: "هوش مصنوعی مدرن",
+    title: "هوش مصنوعی مدرن",
     image: null,
     author: "استوارت راسل",
     description: "کتابی مرجع درباره الگوریتم‌ها و آینده هوش مصنوعی.",
@@ -689,7 +689,7 @@ export const books :Book[] = [
   {
     id: 51,
     slug : "کمدی-الهی",
-    bookName: "کمدی الهی",
+    title: "کمدی الهی",
     image: null,
     author: "دانته آلیگیری",
     description: "سفری حماسی در دوزخ، برزخ و بهشت.",
@@ -702,7 +702,7 @@ export const books :Book[] = [
   {
     id: 52,
     slug : "کلیله-و-دمنه",
-    bookName: "کلیله و دمنه",
+    title: "کلیله و دمنه",
     image: null,
     author: "ابن مقفع",
     description: "مجموعه‌ای از داستان‌های اخلاقی و تمثیلی.",
@@ -715,7 +715,7 @@ export const books :Book[] = [
   {
     id: 53,
     slug : "جهان-کوانتوم",
-    bookName: "جهان کوانتوم",
+    title: "جهان کوانتوم",
     image: null,
     author: "برایان گرین",
     description: "توضیح علمی درباره مکانیک کوانتوم.",
@@ -728,7 +728,7 @@ export const books :Book[] = [
   {
     id: 54,
     slug : "ایران-در-زمان-ساسانیان",
-    bookName: "ایران در زمان ساسانیان",
+    title: "ایران در زمان ساسانیان",
     image: null,
     author: "آرتور کریستن‌سن",
     description: "کتابی مرجع درباره تاریخ ساسانیان.",
@@ -741,7 +741,7 @@ export const books :Book[] = [
   {
     id: 85,
     slug : "جنایت-و-مکافات",
-    bookName: "جنایت و مکافات",
+    title: "جنایت و مکافات",
     image: null,
     author: "فئودور داستایوفسکی",
     description: "یکی از مهم‌ترین رمان‌های کلاسیک روسی درباره اخلاق و وجدان.",
@@ -754,7 +754,7 @@ export const books :Book[] = [
   {
     id: 86,
     slug : "بینوایان",
-    bookName: "بینوایان",
+    title: "بینوایان",
     image: null,
     author: "ویکتور هوگو",
     description: "روایتی عظیم از فقر، عدالت و انسانیت در قرن نوزدهم فرانسه.",
@@ -767,7 +767,7 @@ export const books :Book[] = [
   {
     id: 87,
     slug : "عقاید-یک-دلقک",
-    bookName: "عقاید یک دلقک",
+    title: "عقاید یک دلقک",
     image: null,
     author: "هاینریش بل",
     description: "رمانی تاثیرگذار درباره بحران هویت و روابط انسانی.",
@@ -780,7 +780,7 @@ export const books :Book[] = [
   {
     id: 88,
     slug : "چراغ‌ها-را-من-خاموش-می‌کنم",
-    bookName: "چراغ‌ها را من خاموش می‌کنم",
+    title: "چراغ‌ها را من خاموش می‌کنم",
     image: null,
     author: "زویا پیرزاد",
     description: "داستانی ایرانی درباره زندگی روزمره و دغدغه‌های زن خانه‌دار.",
@@ -793,7 +793,7 @@ export const books :Book[] = [
   {
     id: 89,
     slug : "ملت-عشق",
-    bookName: "ملت عشق",
+    title: "ملت عشق",
     image: null,
     author: "الیف شافاک",
     description: "رمانی پرمخاطب درباره شمس و مولانا و عشق الهی.",
@@ -806,7 +806,7 @@ export const books :Book[] = [
   {
     id: 90,
     slug : "کلیدر",
-    bookName: "کلیدر",
+    title: "کلیدر",
     image: null,
     author: "محمود دولت‌آبادی",
     description: "رمانی چند جلدی درباره زندگی روستاییان خراسان.",
@@ -819,7 +819,7 @@ export const books :Book[] = [
   {
     id: 91,
     slug :"زمان-فضا",
-    bookName: "زمان فضا",
+    title: "زمان فضا",
     image: null,
     author: "استیون هاوکینگ",
     description: "مروری علمی و عمومی بر مفاهیم کیهان‌شناسی.",
@@ -832,7 +832,7 @@ export const books :Book[] = [
   {
     id: 92,
     slug : "ژن-خودخواه",
-    bookName: "ژن خودخواه",
+    title: "ژن خودخواه",
     image: null,
     author: "ریچارد داوکینز",
     description: "کتابی مشهور در زمینه ژنتیک تکاملی و انتخاب طبیعی.",
@@ -845,7 +845,7 @@ export const books :Book[] = [
   {
     id: 93,
     slug : "تاریخچه-زمان",
-    bookName: "تاریخچه زمان",
+    title: "تاریخچه زمان",
     image: null,
     author: "استیون هاوکینگ",
     description: "کتابی علمی پرفروش درباره منشأ جهان و سیاهچاله‌ها.",
@@ -858,7 +858,7 @@ export const books :Book[] = [
   {
     id: 94,
     slug : "ایران-باستان",
-    bookName: "ایران باستان",
+    title: "ایران باستان",
     image: null,
     author: "حسن پیرنیا",
     description: "منبع معتبر درباره تاریخ ایران پیش از اسلام.",
@@ -871,7 +871,7 @@ export const books :Book[] = [
   {
     id: 95,
     slug : "اسکندر",
-    bookName: "اسکندر",
+    title: "اسکندر",
     image: null,
     author: "مری رنو",
     description: "رمانی تاریخی درباره زندگی اسکندر مقدونی.",
@@ -884,7 +884,7 @@ export const books :Book[] = [
   {
     id: 96,
     slug : "جنگ-جهانی-دوم",
-    bookName: "جنگ جهانی دوم",
+    title: "جنگ جهانی دوم",
     image: null,
     author: "آنتونی بیور",
     description: "بررسی جامع جنگ جهانی دوم از نگاه نظامی و انسانی.",
@@ -897,7 +897,7 @@ export const books :Book[] = [
   {
     id: 97,
     slug : "ارباب-حلقه‌ها",
-    bookName: "ارباب حلقه‌ها",
+    title: "ارباب حلقه‌ها",
     image: null,
     author: "جی. آر. آر. تالکین",
     description: "اثر حماسی و فانتزی درباره سرزمین میانه.",
@@ -910,7 +910,7 @@ export const books :Book[] = [
   {
     id: 98,
     slug : "نارنیا-شیر-کمد-و-جادوگر",
-    bookName: "نارنیا شیر-کمد و جادوگر",
+    title: "نارنیا شیر-کمد و جادوگر",
     image: null,
     author: "سی. اس. لوئیس",
     description: "اولین کتاب مجموعه نارنیا، ماجرای دنیای جادویی.",
@@ -923,7 +923,7 @@ export const books :Book[] = [
   {
     id: 99,
     slug : "هری-پاتر-و-زندانی-آزکابان",
-    bookName: "هری پاتر و زندانی آزکابان",
+    title: "هری پاتر و زندانی آزکابان",
     image: null,
     author: "جی. کی. رولینگ",
     description: "سومین جلد از مجموعه محبوب هری پاتر.",
@@ -936,7 +936,7 @@ export const books :Book[] = [
   {
     id: 100,
     slug : "اصول-طب-داخلی-هاریسون",
-    bookName: "اصول طب داخلی هاریسون",
+    title: "اصول طب داخلی هاریسون",
     image: null,
     author: "دن لونگو",
     description: "کتاب مرجع پزشکی در تشخیص و درمان بیماری‌ها.",
@@ -949,7 +949,7 @@ export const books :Book[] = [
   {
     id: 101,
     slug : "آناتومی-گری",
-    bookName: "آناتومی گری",
+    title: "آناتومی گری",
     image: null,
     author: "هنری گری",
     description: "منبع جامع و معتبر آناتومی بدن انسان.",
@@ -962,7 +962,7 @@ export const books :Book[] = [
   {
     id: 102,
     slug :"فیزیولوژی-گایتون",
-    bookName: "فیزیولوژی گایتون",
+    title: "فیزیولوژی گایتون",
     image: null,
     author: "آرتور گایتون",
     description: "کتاب مرجع فیزیولوژی پزشکی.",
@@ -975,7 +975,7 @@ export const books :Book[] = [
   {
     id: 103,
     slug : "شازده-کوچولو",
-    bookName: "شازده کوچولو",
+    title: "شازده کوچولو",
     image: null,
     author: "آنتوان دو سنت‌اگزوپری",
     description: "داستانی فلسفی و کودکانه درباره عشق و دوستی.",
@@ -988,7 +988,7 @@ export const books :Book[] = [
   {
     id: 104,
     slug : "قصه‌های-مجید",
-    bookName: "قصه‌های مجید",
+    title: "قصه‌های مجید",
     image: null,
     author: "هوشنگ مرادی کرمانی",
     description: "مجموعه داستان‌های محبوب درباره پسری به نام مجید.",
@@ -1001,7 +1001,7 @@ export const books :Book[] = [
   {
     id: 105,
     slug : "مهمان-مامان",
-    bookName: "مهمان مامان",
+    title: "مهمان مامان",
     image: null,
     author: "هوشنگ مرادی کرمانی",
     description: "داستانی کودکانه و خانوادگی درباره محبت و همبستگی.",
@@ -1014,7 +1014,7 @@ export const books :Book[] = [
   {
     id: 106,
     slug : "تاریخ-هنر",
-    bookName: "تاریخ هنر",
+    title: "تاریخ هنر",
     image: null,
     author: "ارنست گامبریچ",
     description: "کتابی معتبر در بررسی تاریخ هنر جهان.",
@@ -1027,7 +1027,7 @@ export const books :Book[] = [
   {
     id: 107,
     slug : "زندگی-نامه-ون-گوگ",
-    bookName: "زندگی نامه ون گوگ",
+    title: "زندگی نامه ون گوگ",
     image: null,
     author: "اروینگ استون",
     description: "روایتی داستانی از زندگی و هنر ون گوگ.",
@@ -1040,7 +1040,7 @@ export const books :Book[] = [
   {
     id: 108,
     slug : "هنر-مدرن",
-    bookName: "هنر مدرن",
+    title: "هنر مدرن",
     image: null,
     author: "نوربرت لینتون",
     description: "بررسی هنر مدرن از قرن نوزدهم تاکنون.",
@@ -1053,7 +1053,7 @@ export const books :Book[] = [
   {
     id: 109,
     slug : "اثر-مرکب",
-    bookName: "اثر مرکب",
+    title: "اثر مرکب",
     image: null,
     author: "دارن هاردی",
     description: "کتابی درباره تغییر عادت‌ها و موفقیت تدریجی.",
@@ -1066,7 +1066,7 @@ export const books :Book[] = [
   {
     id: 110,
     slug : "چهار-میثاق",
-    bookName: "چهار میثاق",
+    title: "چهار میثاق",
     image: null,
     author: "دون میگوئل روئیز",
     description: "اصول چهارگانه برای داشتن زندگی شادتر.",
@@ -1079,7 +1079,7 @@ export const books :Book[] = [
   {
     id: 111,
     slug : "زندگی-خود-را-طراحی-کنید",
-    bookName: "زندگی خود را طراحی کنید",
+    title: "زندگی خود را طراحی کنید",
     image: null,
     author: "بیل برنت و دیو ایوانز",
     description: "کتابی کاربردی برای طراحی مسیر زندگی و شغلی.",
@@ -1092,7 +1092,7 @@ export const books :Book[] = [
   {
     id: 112,
     slug : "یادگیری-عمیق",
-    bookName: "یادگیری عمیق",
+    title: "یادگیری عمیق",
     image: null,
     author: "یان گودفلو",
     description: "منبعی تخصصی در زمینه یادگیری ماشین و شبکه‌های عصبی.",
@@ -1105,7 +1105,7 @@ export const books :Book[] = [
   {
     id: 113,
     slug :  "عصر-هوش-مصنوعی",
-    bookName: "عصر هوش مصنوعی",
+    title: "عصر هوش مصنوعی",
     image: null,
     author: "اریک برینجولفسون",
     description: "بررسی تاثیر هوش مصنوعی بر اقتصاد و جامعه.",
@@ -1118,7 +1118,7 @@ export const books :Book[] = [
   {
     id: 114,
     slug : "کدنویسی-پاک",
-    bookName: "کدنویسی پاک",
+    title: "کدنویسی پاک",
     image: null,
     author: "رابرت سی. مارتین",
     description: "کتاب مرجع در زمینه اصول کدنویسی تمیز و توسعه نرم‌افزار.",

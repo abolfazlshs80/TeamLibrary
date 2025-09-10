@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation, Autoplay } from "swiper/modules";
+import {fixImageUrl} from "@/ulits/fixImageurl"
 import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
@@ -13,9 +14,9 @@ import defaultBook from "../../assets/default-book.jpg";
 interface Book {
   id: number;
   slug: string;
-  bookName: string;
+  title: string;
   author: string;
-  image?: string | null;
+  imageUrl?: string | null;
 }
 
 const TopSellers = () => {
@@ -29,13 +30,13 @@ const TopSellers = () => {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks`,
           {
             params: {
-              pageNumber: 1, // صفحه‌ی اول
-              pageSize: 10,  // تعداد کتاب‌ها
+              pageNumber: 1, 
+              pageSize: 10,  
             },
           }
         );
 
-        console.log("API response (new books):", res.data);
+        console.log("API response (new books):", res.data.data.list);
 
         let AllBooks: Book[] = [];
         if (typeof res.data?.data?.list === "string") {
@@ -103,15 +104,15 @@ const TopSellers = () => {
               >
                 <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
                   <Image
-                    src={book.image ?? defaultBook}
-                    alt={book.bookName}
+                    src={fixImageUrl(book.imageUrl) ?? defaultBook}
+                    alt={book.title}
                     width={200}
                     height={500}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <p className="text-[#182420] text-sm font-semibold mt-2">
-                  {book.bookName}
+                  {book.title}
                 </p>
                 <p className="text-[#435f56] text-sm font-semibold">
                   {"نویسنده: "}

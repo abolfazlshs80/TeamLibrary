@@ -8,15 +8,17 @@ import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
+import {fixImageUrl} from "@/ulits/fixImageurl"
 import defaultBook from "../../assets/default-book.jpg";
 
 interface Book {
   id: number;
   slug: string;
-  bookName: string;
+  title: string;
   author: string;
-  image?: string | null;
+  imageUrl?: string | null;
 }
+
 
 const TopRankBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -29,13 +31,13 @@ const TopRankBooks = () => {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks`,
           {
             params: {
-              pageNumber: 1, // صفحه‌ای که می‌خوای
-              pageSize: 10, // تعداد آیتم‌ها در هر صفحه
+              pageNumber: 1, 
+              pageSize: 10, 
             },
           }
         );
   
-        console.log("API response for books:", res.data);
+        console.log("API response for books:", res.data.data.list);
   
         let AllBooks: Book[] = [];
         if (typeof res.data?.data?.list === "string") {
@@ -102,16 +104,16 @@ const TopRankBooks = () => {
                 className="w-full h-full flex flex-col items-center justify-center"
               >
                 <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
-                  <Image
-                    src={book.image ?? defaultBook}
-                    alt={book.bookName}
+                <Image
+                    src={fixImageUrl(book.imageUrl) ?? defaultBook}
+                    alt={book.title}
                     width={200}
                     height={500}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <p className="text-[#182420] text-sm font-semibold mt-2">
-                  {book.bookName}
+                  {book.title}
                 </p>
                 <p className="text-[#435f56] text-sm font-semibold">
                   {"نویسنده: "}
