@@ -43,6 +43,9 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
 
         [Required(ErrorMessage = "زبان کتاب الزامی است.")]
         public string Translator { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "تصویر الزامی است.")]
+        public string Image { get; set; } = string.Empty;
     }
 
 }
