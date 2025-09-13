@@ -1,28 +1,72 @@
 "use client";
-import { BookCategories } from "@/modal/BookCategories";
+import React, { useEffect, useState } from "react";
 import { libraryRoutes } from "@/routes";
 import { useRouter } from "next/navigation";
-import React from "react";
+import axios from "axios";
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+}
 
 const Categories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory`);
+         let categoryList: Category[] = [];
+
+        if (typeof res.data.data.list === "string") {
+   
+          categoryList = JSON.parse(res.data.data.list);
+        } else if (Array.isArray(res.data.data.list)) {
+          categoryList = res.data.data.list;
+        } else {
+          console.warn("APIپاسخی نداد");
+        }
+
+        console.log("categoryList نهایی:", categoryList);
+        setCategories(categoryList);
+      } catch (error) {
+        console.error("خطا در گرفتن دسته‌بندی‌ها:", error);
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center mt-6">در حال بارگذاری دسته‌بندی‌ها...</p>;
+  }
+
+  
+
   return (
     <div className="mt-16 max-w-7xl mx-auto">
       <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
-        دسته بندی کتاب ها بر اساس موضوع
+        دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
 
       <div className="flex flex-wrap gap-3">
-        {BookCategories.map((category) => (
+        {categories.map((category) => (
           <div
-            key={category.id}
+            key={category.slug}
             onClick={() => {
               router.push(libraryRoutes.explore);
-              localStorage.setItem("selectedCategory", category.value);
+              localStorage.setItem("selectedCategory", category.slug);
             }}
             className="border-2 cursor-pointer border-[#435F56] px-6 py-2 text-sm font-semibold text-[#435F56] rounded-full hover:bg-[#435F56] hover:text-white transition-colors duration-300 text-center"
           >
-            {category.category}
+            {category.name}
           </div>
         ))}
       </div>
