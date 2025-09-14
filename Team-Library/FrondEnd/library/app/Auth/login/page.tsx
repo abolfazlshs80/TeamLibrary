@@ -47,7 +47,7 @@ const Login = () => {
         </form>
 
         <p className="text-center text-sm text-[#653329c0] mt-6">
-            حساب کاربری ندارید؟ <Link href="/signup" className='underline text-[#25463c]'>ثبت نام</Link>
+            حساب کاربری ندارید؟ <Link href="/Auth/signup" className='underline text-[#25463c]'>ثبت نام</Link>
         </p>
       </div>
     </div>

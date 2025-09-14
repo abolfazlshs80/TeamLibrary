@@ -17,7 +17,7 @@ interface Book {
   title: string;
   author: string;
   description?: string;
-  imagePath?: string | null;
+  imagePath: string | null;
   rank?: number;
   year?: number;
   translator?: string;
@@ -34,7 +34,7 @@ type DetailPageProps = {
 
 export default function DetailPage({ params }: DetailPageProps) {
   const router = useRouter();
-  const resolved = React.use(params as any);
+  const resolved:any  = React.use(params as any);
   const slug = Array.isArray(resolved.slug) ? resolved.slug[0] : resolved.slug;
   const [book, setBook] = useState<Book | null>(null);
   const [relatedBooks, setRelatedBooks] = useState<Book[]>([]);

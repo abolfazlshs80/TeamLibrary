@@ -3,6 +3,6 @@ export const libraryRoutes = {
   explore: "/explore",
   detail: "/detail",
   category: "/category",
-  login: "/login",
+  login: "/Auth/login",
   aboutUs:'/aboutUs'
 };
