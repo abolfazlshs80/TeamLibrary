@@ -14,10 +14,10 @@ namespace TeamLibrary.API.Featrues.Book
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
                 app.MapPut($"{ApiInfo.Prefix}/update",
-                    async ([FromForm] UpdateBookRequestDto request, IFormFile image, IBookService bookService) =>
+                    async ( UpdateBookRequestDto request, IBookService bookService) =>
                     {
 
-                        var status = await bookService.UpdateBookAsync(request, image);
+                        var status = await bookService.UpdateBookAsync(request);
                         if (status.IsError)
                         {
                             return BadRequest(status.FirstError.Description);
@@ -26,7 +26,7 @@ namespace TeamLibrary.API.Featrues.Book
 
                     }
                 )
-                .DisableAntiforgery()
+            
                 .AddEndpointFilter(new ValidationFilter<UpdateBookRequestDto>())
                 .WithTags(ApiInfo.Tag);
             }

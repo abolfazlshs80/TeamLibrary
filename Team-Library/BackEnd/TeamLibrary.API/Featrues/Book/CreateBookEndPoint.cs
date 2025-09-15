@@ -16,18 +16,18 @@ namespace TeamLibrary.API.Featrues.Book
                 public void MapEndpoint(IEndpointRouteBuilder app)
                 {
                     app.MapPost($"{ApiInfo.Prefix}/create",
-                        async ([FromForm] CreateBookRequestDto request, IFormFile image, IBookService bookService) =>
+                        async (/*[FromForm] */CreateBookRequestDto request, IBookService bookService) =>
                         {
                             if (!string.IsNullOrEmpty(request.Slug))
                             {
                                 request.Slug = request.Slug.Trim().ToLower();
                             }
-                            var status = await bookService.AddBookAsync(request, image);
+                            var status = await bookService.AddBookAsync(request);
                             if (status.IsError)
                                 return BadRequest(status.FirstError.Description);
                             return Ok(AppMessages.Create);
                         })
-                        .DisableAntiforgery()
+                        //.DisableAntiforgery()
                         .AddEndpointFilter(new ValidationFilter<CreateBookRequestDto>())
                         .WithTags(ApiInfo.Tag);
                 }

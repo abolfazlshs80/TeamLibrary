@@ -23,6 +23,9 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
         [Required(ErrorMessage = "سال انتشار الزامی است.")]
         public int PublicationYear { get; set; }
 
+        [Required(ErrorMessage = "تصویر الزامی است.")]
+        public string Image { get; set; }=string.Empty;
+
         [Required(ErrorMessage = "نام نویسنده الزامی است.")]
         public string Author { get; set; } = null!;
 

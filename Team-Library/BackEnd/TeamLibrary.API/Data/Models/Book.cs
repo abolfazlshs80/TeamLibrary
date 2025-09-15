@@ -10,7 +10,7 @@ public class Book : BaseEntity
     public string Description { get; set; }
     public int? UserId { get; set; }
     public int Rank { get; set; }
-    public string Translator { get; set; } = string.Empty;
+    public string? Translator { get; set; } = string.Empty;
     public int PublicationYear { get; set; }
     public string Author { get; set; }
     public int Pages { get; set; }

@@ -21,7 +21,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             _mediaService = mediaService;
         }
 
-        public async Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book, IFormFile imageFile)
+        public async Task<ErrorOr<string>> AddBookAsync(CreateBookRequestDto book)
         {
             try
             {
@@ -38,22 +38,24 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 }
 
                 // Handle image upload if provided
-                string imagePath = string.Empty;
-                if (imageFile != null)
-                {
-                    var uploadResult = await _mediaService.UploadImageAsync(imageFile, FolderImagesType.Blog);
-                    if (uploadResult.IsError)
-                    {
-                        return Error.Failure("Upload", uploadResult.FirstError.Description);
-                    }
-                    imagePath = uploadResult.Value;
-                }
+                string imagePath = book.Image;
+                //if (imageFile != null)
+                //{
+                //    var uploadResult = await _mediaService.UploadImageAsync(imageFile, FolderImagesType.Blog);
+                //    if (uploadResult.IsError)
+                //    {
+                //        return Error.Failure("Upload", uploadResult.FirstError.Description);
+                //    }
+                //    imagePath = uploadResult.Value;
+                //}
 
                 await _unitOfWork.Books.AddAsync(new Book
                 {
                     Author = book.Author,
                     Title = book.Title,
                     Description = book.Description,
+                    Translator = book.Translator,
+                    
                     ImagePath = imagePath,
                     Language = book.Language,
                     PdfPath = book.PdfPath,
@@ -102,7 +104,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             }
         }
 
-        public async Task<ErrorOr<string>> UpdateBookAsync(UpdateBookRequestDto dto, IFormFile imageFile)
+        public async Task<ErrorOr<string>> UpdateBookAsync(UpdateBookRequestDto dto)
         {
             try
             {
@@ -119,21 +121,22 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 }
 
                 // Handle image update if new image is provided
-                if (imageFile != null)
+                if (dto.Image != null)
                 {
                     // Delete old image if it exists
-                    if (!string.IsNullOrEmpty(book.ImagePath))
-                    {
-                        await _mediaService.DeleteImageAsync(book.ImagePath);
-                    }
+                    //if (!string.IsNullOrEmpty(book.ImagePath))
+                    //{
+                    //    await _mediaService.DeleteImageAsync(book.ImagePath);
+                    //}
 
-                    // Upload new image
-                    var uploadResult = await _mediaService.UploadImageAsync(imageFile, FolderImagesType.Blog);
-                    if (uploadResult.IsError)
-                    {
-                        return Error.Failure("Upload", uploadResult.FirstError.Description);
-                    }
-                    book.ImagePath = uploadResult.Value;
+                    //// Upload new image
+                    //var uploadResult = await _mediaService.UploadImageAsync(imageFile, FolderImagesType.Blog);
+                    //if (uploadResult.IsError)
+                    //{
+                    //    return Error.Failure("Upload", uploadResult.FirstError.Description);
+                    //}
+                    //book.ImagePath = uploadResult.Value;
+                    book.ImagePath = dto.Image;
                 }
 
                 book.Title = dto.Title;
