@@ -18,7 +18,7 @@ public static class CreateTokenEndPoint
                 ) =>
             {
 
-
+                //use userId
                 return Ok(jwtService.CreateToken(1, UserType.USER));
 
             })
