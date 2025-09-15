@@ -20,6 +20,8 @@ public class UserService(IUnitOfWork unitOfWork) : IUserService
         {
             UserId = user.Id,
             UserName = user.UserName,
+            FullName = user.FullName,
+            Email = user.Email,
         };
     }
 }
