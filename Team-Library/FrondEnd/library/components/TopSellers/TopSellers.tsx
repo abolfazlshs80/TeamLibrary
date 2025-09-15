@@ -43,8 +43,6 @@ const TopSellers = () => {
           AllBooks = JSON.parse(res.data.data.list);
         } else if (Array.isArray(res.data?.data?.list)) {
           AllBooks = res.data.data.list;
-        } else if (Array.isArray(res.data)) {
-          AllBooks = res.data;
         } else {
           console.warn("ساختار API غیرمنتظره بود");
         }
