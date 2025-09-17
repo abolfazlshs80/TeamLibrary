@@ -7,6 +7,8 @@ import { IoMdHome, IoMdSearch, IoMdLogIn } from "react-icons/io";
 import { libraryRoutes } from "@/routes";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, SetUser] = useState<any>(null);
+  const [dropdrownopen , SetDropDownopen]  =  useState(false);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -18,6 +20,26 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+     useEffect(()=>{
+       const token = document.cookie.split("; ").find((row)=>
+        row.startsWith("token="))?.split("=")[1];
+       if (token) {
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/GetDetailUser`,
+          {
+            headers: {Authorization: `Bearer ${token}`}
+          }
+        ).then((res) =>{
+          if (!res.ok) throw new Error("Unauthorized");
+          return res.json();
+          }).then((data)=>SetUser(data.data))
+          .catch(()=> SetUser(null));
+       }
+     }, []);
+     const handleLogout = ()=> {
+       document.cookie = "token=; path=/;";
+       SetUser(null);
+       window.location.href = "/";
+     };
   return (
 
     <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white/10 backdrop-blur-md shadow-sm">
@@ -50,15 +72,41 @@ const Header = () => {
           <li>
             <Link href={"/"}>درباره ما</Link>
           </li>
-          <li>
+          {!user?(
+           <li>
             <Link
               className="inline-flex items-center space-x-1"
-              href={libraryRoutes.login}
+              href={libraryRoutes.profile}
             >
               <span>ورود/ساخت حساب</span>
               <IoMdLogIn size={18} />
             </Link>
-          </li>
+           </li>
+          ) : (
+            <li className="relative">
+              <button onClick={()=>
+                SetDropDownopen(!dropdrownopen)} className="inline-flex 
+                items-center space-x-1 hover:underline">
+                 <span>{user.fullName || "کاربر"}</span>
+              </button>
+              {dropdrownopen && (
+                <ul className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border">
+                  <li>
+                    <link href={libraryRoutes.profile} className="block px-4 py-2 text-sm hover:bg-gray-100">
+                    پروفایل
+                    </link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} 
+                    className="w-full text-left block px-4 py-2 text-sm hover:bg-gray-100">
+                       خروج
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </li>
+          )}
+
         </ul>
       </nav>
       <button

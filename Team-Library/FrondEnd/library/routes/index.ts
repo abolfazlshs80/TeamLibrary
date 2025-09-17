@@ -4,5 +4,6 @@ export const libraryRoutes = {
   detail: "/detail",
   category: "/category",
   login: "/Auth/login",
-  aboutUs:'/aboutUs'
+  aboutUs:'/aboutUs',
+  profile: '/Auth/Profile'
 };
