@@ -2,8 +2,8 @@
 
 public enum UserType
 {
-    NONE=0,
-    USER=1,
+    NONE = 0,
+    USER = 1,
     ADMIN
 
 }

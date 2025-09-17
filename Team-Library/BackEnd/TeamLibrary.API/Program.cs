@@ -1,6 +1,3 @@
-
-using TeamLibrary.API.Data.Repository.Implementation;
-using TeamLibrary.API.Data.Repository.Interface;
 using TeamLibrary.API.Shared.Middleware;
 using TeamLibrary.API.Shared.Service.Implementation;
 using TeamLibrary.API.Shared.Service.Interface;
@@ -16,6 +13,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextService(builder.Configuration);
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<IRateLimitService, RateLimitService>();
 
 var app = builder.Build();
 
