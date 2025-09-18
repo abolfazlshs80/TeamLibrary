@@ -34,12 +34,12 @@ public static class LoginEndPoint
                     }
                 }
 
-                var authResult = await userService.AuthenticateUserAsync(request.UserName, request.Email, request.Password);
+                var authResult = await userService.AuthenticateUserAsync(request.UserName, request.Password);
 
                 if (authResult.IsError)
                 {
                     await rateLimitService.RecordFailedAttemptAsync(identifier);
-                    return BadRequest("نام کاربری، ایمیل یا رمز عبور نامعتبر است");
+                    return BadRequest("نام کاربری یا رمز عبور نامعتبر است");
                 }
 
                 var user = authResult.Value;

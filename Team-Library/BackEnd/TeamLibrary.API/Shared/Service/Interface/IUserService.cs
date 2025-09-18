@@ -11,7 +11,7 @@ public interface IUserService
     Task<ErrorOr<object>> GetUserDetails(int UserId);
     Task<ErrorOr<Users>> AuthorizeAsync(string token);
     Task<ErrorOr<Users>> GetUserByEmailAsync(string email);
-    Task<ErrorOr<Users>> AuthenticateUserAsync(string userName, string email, string password);
+    Task<ErrorOr<Users>> AuthenticateUserAsync(string userNameOrEmail, string password);
 }
 
 public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUserService
@@ -66,21 +66,24 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUser
         }
     }
 
-    public async Task<ErrorOr<Users>> AuthenticateUserAsync(string userName, string email, string password)
+    public async Task<ErrorOr<Users>> AuthenticateUserAsync(string userNameOrEmail, string password)
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(userNameOrEmail) || string.IsNullOrWhiteSpace(password))
+            {
+                return Error.Validation("Credentials.Required", "نام کاربری و رمز عبور الزامی است");
+            }
+
+            // Try to find user by userName first, then by email
             var user = await unitOfWork.Users.AsQueryable()
-                .FirstOrDefaultAsync(u => u.UserName == userName && u.Email == email && u.Password == password);
+                .FirstOrDefaultAsync(u => 
+                    (u.UserName == userNameOrEmail || u.Email == userNameOrEmail) && 
+                    u.Password == password);
 
             if (user is null)
             {
-                return Error.Unauthorized("User.NotFound", "نام کاربری یا ایمیل نامعتبر است");
-            }
-
-            if (password is null)
-            {
-                return Error.Unauthorized("Password.Invalid", "رمز عبور نامعتبر است");
+                return Error.Unauthorized("User.NotFound", "نام کاربری، ایمیل یا رمز عبور نامعتبر است");
             }
 
             return user;

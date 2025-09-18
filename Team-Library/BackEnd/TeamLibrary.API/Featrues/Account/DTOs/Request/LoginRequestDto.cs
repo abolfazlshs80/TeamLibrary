@@ -4,11 +4,8 @@ namespace TeamLibrary.API.Featrues.Account.DTOs.Request;
 
 public class LoginRequestDto
 {
-    [Required(ErrorMessage = "نام کاربری الزامی است")]
+    [Required(ErrorMessage = "نام کاربری یا ایمیل الزامی است")]
     public string UserName { get; set; } = string.Empty;
-
-    [EmailAddress(ErrorMessage = "فرمت ایمیل نامعتبر است")]
-    public string? Email { get; set; }
 
     [Required(ErrorMessage = "رمز عبور الزامی است")]
     [MinLength(6, ErrorMessage = "رمز عبور باید حداقل 6 کاراکتر باشد")]
