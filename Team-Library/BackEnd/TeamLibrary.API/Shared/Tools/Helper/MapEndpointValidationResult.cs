@@ -21,9 +21,14 @@ public static class MapEndpointValidationResult<T> where T : class
         if (model is LoginRequestDto loginRequest)
         {
             var additionalErrors = new List<string>();
-            if (string.IsNullOrWhiteSpace(loginRequest.Token) || loginRequest.Token.Length < 10)
+
+            if (string.IsNullOrWhiteSpace(loginRequest.UserName))
             {
-                additionalErrors.Add("توکن نامعتبر است");
+                additionalErrors.Add("نام کاربری الزامی است");
+            }
+            if (string.IsNullOrWhiteSpace(loginRequest.Password) || loginRequest.Password.Length < 6)
+            {
+                additionalErrors.Add("رمز عبور باید حداقل 6 کاراکتر باشد");
             }
 
             if (additionalErrors.Any())

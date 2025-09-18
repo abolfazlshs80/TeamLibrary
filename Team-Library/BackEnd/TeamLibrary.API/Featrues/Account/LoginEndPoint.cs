@@ -1,4 +1,4 @@
-using DrMeet.Api.Shared.Services.JwtService;
+﻿using DrMeet.Api.Shared.Services.JwtService;
 using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Account.DTOs.Request;
 using TeamLibrary.API.Featrues.Account.DTOs.Response;
@@ -21,70 +21,57 @@ public static class LoginEndPoint
                 [FromServices] IRateLimitService rateLimitService,
                 HttpContext context) =>
             {
-                // ?????? IP ???? ???? Rate Limiting
                 var clientIp = GetClientIpAddress(context);
-                var identifier = $"{request.Token.Substring(0, Math.Min(10, request.Token.Length))}_{clientIp}";
+                var identifier = $"{request.UserName}_{clientIp}";
 
-                // ????? Rate Limit
                 var isAllowed = await rateLimitService.IsAllowedAsync(identifier);
                 if (!isAllowed)
                 {
                     var (isBlocked, remainingTime) = await rateLimitService.GetBlockStatusAsync(identifier);
                     if (isBlocked)
                     {
-                        return BadRequest($"????? ???????? ?????? ???? ???. ????? {remainingTime.Minutes} ????? ? {remainingTime.Seconds} ????? ???? ???? ????.");
+                        return BadRequest($"تعداد تلاش‌های ناموفق زیاد است. لطفاً {remainingTime.Minutes} دقیقه و {remainingTime.Seconds} ثانیه دیگر تلاش کنید.");
                     }
                 }
 
-                // ?????????? ???? ? ?????? ??????? ?????
-                var authResult = await userService.AuthorizeAsync(request.Token);
+                var authResult = await userService.AuthenticateUserAsync(request.UserName, request.Email, request.Password);
 
                 if (authResult.IsError)
                 {
-                    // ??? ???? ??????
                     await rateLimitService.RecordFailedAttemptAsync(identifier);
-
-                    return BadRequest("???? ??????? ??? ?? ????? ??? ???");
+                    return BadRequest("نام کاربری، ایمیل یا رمز عبور نامعتبر است");
                 }
 
                 var user = authResult.Value;
 
-
-                // ???? ???? ???????? ??????
                 await rateLimitService.ResetAttemptsAsync(identifier);
 
-                // Extract token expiration info
-                var (userType, userId) = jwtService.ExteractToken(request.Token);
+                var tokenResult = jwtService.CreateToken(user.Id, user.UserType);
 
                 var response = new LoginResponseDto
                 {
-                    Token = request.Token, // Return the same token
-                    ExpireDate = DateTime.UtcNow.AddDays(1), // Default expiration, could be extracted from token
+                    Token = tokenResult.Token,
+                    ExpireDate = tokenResult.ExpireDate,
                     UserType = user.UserType,
-                    Email = user.Email,
                     UserId = user.Id
                 };
 
-                return Ok(response, "???? ?? ?????? ????? ??");
+                return Ok(response, "ورود با موفقیت انجام شد");
             })
             .AddEndpointFilter<ValidationFilter<LoginRequestDto>>()
             .WithTags(ApiInfo.Tag)
-            .WithName("Login")
-            .WithSummary("???? ????? ?? ?????")
-            .WithDescription("???? ????? ?? ????? ?? ???? ????? ?? Rate Limiting");
+            .WithName("Login");
         }
 
         private static string GetClientIpAddress(HttpContext context)
         {
             var ipAddress = context.Connection.RemoteIpAddress?.ToString();
 
-            // ????? X-Forwarded-For header ???? proxy ??
             if (context.Request.Headers.ContainsKey("X-Forwarded-For"))
             {
                 ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault()?.Split(',').FirstOrDefault()?.Trim();
             }
 
-            // ????? X-Real-IP header
             if (string.IsNullOrEmpty(ipAddress) && context.Request.Headers.ContainsKey("X-Real-IP"))
             {
                 ipAddress = context.Request.Headers["X-Real-IP"].FirstOrDefault();
@@ -92,6 +79,5 @@ public static class LoginEndPoint
 
             return ipAddress ?? "unknown";
         }
-
     }
 }
