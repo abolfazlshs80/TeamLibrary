@@ -111,9 +111,38 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUser
         };
     }
 
-    public Task<ErrorOr<Users>> RegisterAsync(string userName, string fullName, string password, string email)
+    public async Task<ErrorOr<Users>> RegisterAsync(string userName, string fullName, string password, string email)
     {
-        throw new NotImplementedException();
+        var userExists = await unitOfWork.Users.AsQueryable()
+            .AnyAsync(u => u.UserName == userName || u.Email == email);
+
+        if (userExists)
+        {
+            return Error.Validation("UsernameOrEmailExists", "نام کاربری یا ایمیل قبلاً ثبت شده است");
+        }
+
+
+        if (!IsValidPassword(password))
+        {
+            return Error.Validation("InvalidPassword", "رمز عبور باید حداقل 8 کاراکتر شامل حروف بزرگ، کوچک و عدد باشد");
+        }
+
+        if (!IsValidEmail(email))
+        {
+            return Error.Validation("InvalidEmail", "ایمیل وارد شده معتبر نیست");
+        }
+
+        var user = new Users
+        {
+            UserName = userName,
+            FullName = fullName,
+            Email = email,
+            Password = password,
+            UserType = UserType.USER
+        };
+        await unitOfWork.Users.AddAsync(user);
+
+        return user;
     }
 
     private bool IsValidPassword(string password)
