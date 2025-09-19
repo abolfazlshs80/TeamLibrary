@@ -74,7 +74,7 @@ export default function Profile() {
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 justify-center w-full bg-red-500 hover:bg-[#9c5a4d] text-white py-2 px-4 rounded-lg font-medium transition-colors"
+          className="flex items-center gap-2 justify-center w-full bg-red-500 hover:bg-red-800 text-white py-2 px-4 rounded-lg font-medium transition-colors"
         >
           <AiOutlineLogout size={20} />
          خروج از حساب 
