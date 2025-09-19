@@ -76,7 +76,7 @@ const Header = () => {
            <li>
             <Link
               className="inline-flex items-center space-x-1"
-              href={libraryRoutes.profile}
+              href={libraryRoutes.login}
             >
               <span>ورود/ساخت حساب</span>
               <IoMdLogIn size={18} />
