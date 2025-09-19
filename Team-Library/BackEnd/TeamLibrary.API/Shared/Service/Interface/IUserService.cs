@@ -12,6 +12,7 @@ public interface IUserService
     Task<ErrorOr<Users>> AuthorizeAsync(string token);
     Task<ErrorOr<Users>> GetUserByEmailAsync(string email);
     Task<ErrorOr<Users>> AuthenticateUserAsync(string userNameOrEmail, string password);
+    Task<ErrorOr<Users>> RegisterAsync(string userName, string fullName, string password, string email);
 }
 
 public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUserService
