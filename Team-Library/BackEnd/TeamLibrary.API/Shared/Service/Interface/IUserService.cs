@@ -2,6 +2,7 @@
 using DrMeet.Api.Shared.Services.JwtService;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using TeamLibrary.API.Data.Models;
 
 namespace TeamLibrary.API.Shared.Service.Interface;
@@ -108,5 +109,16 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUser
             FullName = user.FullName,
             Email = user.Email,
         };
+    }
+
+    public Task<ErrorOr<Users>> RegisterAsync(string userName, string fullName, string password, string email)
+    {
+        throw new NotImplementedException();
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$");
+        return regex.IsMatch(password);
     }
 }
