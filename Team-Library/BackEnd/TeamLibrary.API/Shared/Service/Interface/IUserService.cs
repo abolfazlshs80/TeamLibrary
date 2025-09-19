@@ -79,8 +79,8 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUser
 
             // Try to find user by userName first, then by email
             var user = await unitOfWork.Users.AsQueryable()
-                .FirstOrDefaultAsync(u => 
-                    (u.UserName == userNameOrEmail || u.Email == userNameOrEmail) && 
+                .FirstOrDefaultAsync(u =>
+                    (u.UserName == userNameOrEmail || u.Email == userNameOrEmail) &&
                     u.Password == password);
 
             if (user is null)
@@ -120,5 +120,11 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService) : IUser
     {
         var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$");
         return regex.IsMatch(password);
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        var emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+        return emailRegex.IsMatch(email);
     }
 }
