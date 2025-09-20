@@ -21,7 +21,7 @@ public static class GetDetailsUserEndPoint
                      HttpContext context
                 ) =>
             {
-
+                
                 var authHeader = context.Request.Headers["Authorization"].ToString();
 
                 var model = new DetailsUserDto();
@@ -35,6 +35,7 @@ public static class GetDetailsUserEndPoint
                 {
                     return Ok(new { userType = result.userType, user = user.Value });
                 }
+
                 else
                     return BadRequest("توکن نا معتبر است");
 
