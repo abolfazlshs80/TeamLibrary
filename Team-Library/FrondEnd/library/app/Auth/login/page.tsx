@@ -1,10 +1,11 @@
 "use client"
 import Link from 'next/link'
 import { useState } from 'react';
-import toast from "react-hot-toast";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   return (
     <div className="min-h-screen bg-[#F7F5E9] pt-20 pb-10 px-4">
       <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 mt-10">
