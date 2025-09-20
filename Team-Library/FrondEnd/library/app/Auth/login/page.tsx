@@ -5,28 +5,6 @@ import toast from "react-hot-toast";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account?CreateToken?${email}&password=${password}`,
-        {
-          method: "GET",
-        }
-      );
-      if(!res.ok) {
-        toast.error("ایمیل یا رمز عبور اشتباه است");
-        return;
-      }
-      const result = await res.json();
-      const token = result.data.token;
-      document.cookie = `token=${token};path=/;`;
-      toast.success("ورود با موفقیت بود");
-      window.location.href = "/profile";
-    }catch (error) {
-      console.error(error);
-      toast.error("خطایی رخ داد دوباره تلاش کنید");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#F7F5E9] pt-20 pb-10 px-4">
       <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 mt-10">
@@ -65,7 +43,7 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="button"
-            className="w-full bg-[#435F56] text-white py-2 px-4 rounded-md hover:bg-[#653329] transition-colors duration-200 font-medium"
+            className="w-full bg-[#435F56] text-white py-2 rounded-md hover:bg-[#365048]"
           >
             ورود
           </button>
