@@ -149,6 +149,7 @@ const ExplorePage = () => {
                 >
                   <Image
                     src={book.imageUrl ?? defaultBook}
+                    // src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${book.imageUrl}`}
                     alt={book.title}
                     className=" h-48 w-40 object-cover mb-2 rounded"
                     width={200}
