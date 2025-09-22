@@ -5,7 +5,7 @@ export const libraryRoutes = {
   category: "/category",
   // login: "/login",
   aboutUs:'/aboutUs',
-  signup:'/signup',
+  signup:'/Auth/signup',
   login: "/Auth/login",
   profile: '/Auth/Profile'
 };
