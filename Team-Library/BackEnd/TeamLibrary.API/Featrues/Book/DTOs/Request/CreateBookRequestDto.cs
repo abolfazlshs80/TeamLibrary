@@ -10,19 +10,21 @@ namespace TeamLibrary.API.Featrues.Book.DTOs.Request
         [Required(ErrorMessage = "شناسه دسته‌بندی الزامی است.")]
         public int CategoryId { get; set; }
 
-        //[Required(ErrorMessage = "تصویر کتاب الزامی است.")]
-        public string ImagePath { get; set; }
-
         //[Required(ErrorMessage = "فایل PDF کتاب الزامی است.")]
-        public string PdfPath { get; set; } 
+        public string PdfPath { get; set; } = null!;
 
         [Required(ErrorMessage = "توضیحات کتاب الزامی است.")]
         public string Description { get; set; } = null!;
-           
-        public int Rank { get; set; } 
+
+        [Required(ErrorMessage = "رتبه کتاب الزامی است.")]
+        [Range(1, 5, ErrorMessage = "رتبه باید بین 1 تا 5 باشد.")]
+        public int Rank { get; set; }
 
         [Required(ErrorMessage = "سال انتشار الزامی است.")]
         public int PublicationYear { get; set; }
+
+        [Required(ErrorMessage = "تصویر الزامی است.")]
+        public string Image { get; set; }=string.Empty;
 
         [Required(ErrorMessage = "نام نویسنده الزامی است.")]
         public string Author { get; set; } = null!;

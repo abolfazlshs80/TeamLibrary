@@ -5,25 +5,25 @@
 namespace TeamLibrary.API.Migrations
 {
     /// <inheritdoc />
-    public partial class add_Translator_Books : Migration
+    public partial class AddUserTypeinUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Translator",
-                table: "Books",
-                type: "TEXT",
+            migrationBuilder.AddColumn<int>(
+                name: "UserType",
+                table: "Users",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Translator",
-                table: "Books");
+                name: "UserType",
+                table: "Users");
         }
     }
 }

@@ -7,7 +7,7 @@ public class FileUploadManager
     {
         if (file == null)
             return string.Empty;
-        string _path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Uploads\\" + type.ToString()+"\\");
+        string _path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Uploads\\" + type.ToString() + "\\");
         string filename = Guid.NewGuid().ToString() + Path.GetExtension(file?.FileName);
         if (!Directory.Exists(_path))
             Directory.CreateDirectory(_path);
@@ -20,7 +20,7 @@ public class FileUploadManager
     }
     public static async Task<bool> DeleteAsync(string path)
     {
-     
+
         if (File.Exists(path))
         {
             File.Delete(path);
@@ -30,9 +30,9 @@ public class FileUploadManager
         return false;
     }
 
-    public bool ValidationSizeFile( IFormFile file)
+    public bool ValidationSizeFile(IFormFile file)
     {
-        if (file != null && file.Length > 204800)
+        if (file != null && file.Length > 2048000000)
         {
             return false;
         }

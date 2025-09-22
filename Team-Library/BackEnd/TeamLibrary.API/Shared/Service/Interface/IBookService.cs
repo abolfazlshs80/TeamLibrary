@@ -14,6 +14,7 @@ namespace TeamLibrary.API.Shared.Service.Interface
         Task<ErrorOr<string>> DeleteBookByIdAsync(int id);
         Task<ErrorOr<string>> UpdateBookAsync(UpdateBookRequestDto dto);
         Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request);
-
+        Task<List<GetBookListResponseDto>> GetNewBooksAsync();
+        Task<List<GetBookListResponseDto>> GetTopRatedBooksAsync();
     }
 }
