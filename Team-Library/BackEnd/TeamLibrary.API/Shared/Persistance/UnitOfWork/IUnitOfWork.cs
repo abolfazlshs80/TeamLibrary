@@ -6,5 +6,6 @@ namespace DrMeet.Api.Shared.Persistence.UnitOfWork;
 public interface IUnitOfWork
 {
     IRepository<Category> Categories { get; }
+    IRepository<Users> Users { get; }
     IRepository<Book> Books { get; } // اضافه کردن Books
 }

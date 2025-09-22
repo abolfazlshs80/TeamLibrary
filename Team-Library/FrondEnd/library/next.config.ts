@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+const hostname = apiBaseUrl ? new URL(apiBaseUrl).hostname : "";
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -14,6 +17,10 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   /* config options here */
-};
+    domains: [hostname],
+  }
+
 
 export default nextConfig;
+
+

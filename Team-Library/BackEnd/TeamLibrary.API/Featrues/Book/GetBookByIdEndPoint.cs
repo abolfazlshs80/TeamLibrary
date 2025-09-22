@@ -3,7 +3,7 @@ using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Featrues.Category.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
-using TeamLibrary.API.Shared.Helper;
+using TeamLibrary.API.Shared.Tools.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Helper;
 
@@ -34,6 +34,36 @@ public static class GetBookByIdEndPoint
 
             })
             .AddEndpointFilter(new ValidationFilter<GetBookByIdRequestDto>())
+            .WithTags(ApiInfo.Tag);
+
+        }
+
+    }
+}
+
+public static class GetBookBySlugEndPoint
+{
+    public class EndPoint : BaseEndpoint, IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+
+            app.MapGet($"{ApiInfo.Prefix}/GetBySlug", handler: async (
+                IBookService service,
+              [AsParameters] GetBookBySlugRequestDto request,
+                     HttpContext context
+                ) =>
+            {
+
+                var book = await service.GetBookBySlugForShowDetailAsync(request.Slug);
+
+                if (book == null)
+                    return BadRequest("کتاب پیدا نشد");
+
+                return Ok(book);
+
+            })
+            .AddEndpointFilter(new ValidationFilter<GetBookBySlugRequestDto>())
             .WithTags(ApiInfo.Tag);
 
         }

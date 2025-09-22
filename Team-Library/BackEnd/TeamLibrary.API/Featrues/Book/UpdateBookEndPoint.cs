@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
-using TeamLibrary.API.Shared.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
-using TeamLibrary.API.Shared.Tools.Extentions;
+using TeamLibrary.API.Shared.Tools.Api;
+using TeamLibrary.API.Shared.Tools.Helper;
 
 namespace TeamLibrary.API.Featrues.Book
 {
@@ -14,20 +14,22 @@ namespace TeamLibrary.API.Featrues.Book
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
                 app.MapPut($"{ApiInfo.Prefix}/update",
-                    async (IBookService bookService, [FromBody] UpdateBookRequestDto request) =>
+                    async ( UpdateBookRequestDto request, IBookService bookService) =>
                     {
+
                         var status = await bookService.UpdateBookAsync(request);
-
                         if (status.IsError)
-                            return BadRequest(status.Errors.GetMessageError());
+                        {
+                            return BadRequest(status.FirstError.Description);
+                        }
+                        return Ok(AppMessages.Edit);
 
-                        return Ok(status.Value);
                     }
                 )
+            
                 .AddEndpointFilter(new ValidationFilter<UpdateBookRequestDto>())
                 .WithTags(ApiInfo.Tag);
             }
         }
     }
-
 }

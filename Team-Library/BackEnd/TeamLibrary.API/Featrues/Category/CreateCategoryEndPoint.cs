@@ -5,7 +5,7 @@ using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Category.DTOs;
 using TeamLibrary.API.Featrues.Category.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
-using TeamLibrary.API.Shared.Helper;
+using TeamLibrary.API.Shared.Tools.Helper;
 using TeamLibrary.API.Shared.Service.Interface;
 using TeamLibrary.API.Shared.Tools.Api;
 using TeamLibrary.API.Shared.Tools.Extentions;

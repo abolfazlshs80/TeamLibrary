@@ -12,7 +12,7 @@ namespace TeamLibrary.API.Shared.Service.Interface
         Task<GetCategoryByIdResponseDto> GetCategoryByIdAsync(int id);
         Task<ErrorOr<string>> AddCategoryAsync(CreateCategoryRequestDto category);
         Task<ErrorOr<string>> UpdateCategoryAsync(UpdateCategoryRequestDto category);
-        Task<ErrorOr<bool>> DeleteCategoryByIdAsync(int categoryId);
+        Task<ErrorOr<string>> DeleteCategoryByIdAsync(int categoryId);
 
     }
 }
