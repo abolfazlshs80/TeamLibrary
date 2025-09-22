@@ -1,7 +1,11 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import { useState } from 'react';
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="min-h-screen bg-[#F7F5E9] pt-20 pb-10 px-4">
       <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 mt-10">
@@ -40,14 +44,14 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="button"
-            className="w-full bg-[#435F56] text-white py-2 px-4 rounded-md hover:bg-[#653329] transition-colors duration-200 font-medium"
+            className="w-full bg-[#435F56] text-white py-2 rounded-md hover:bg-[#365048]"
           >
             ورود
           </button>
         </form>
 
         <p className="text-center text-sm text-[#653329c0] mt-6">
-            حساب کاربری ندارید؟ <Link href="/signup" className='underline text-[#25463c]'>ثبت نام</Link>
+            حساب کاربری ندارید؟ <Link href="/Auth/signup" className='underline text-[#25463c]'>ثبت نام</Link>
         </p>
       </div>
     </div>

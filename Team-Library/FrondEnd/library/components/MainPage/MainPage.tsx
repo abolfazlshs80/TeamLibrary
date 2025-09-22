@@ -8,7 +8,7 @@ import Categories from "../Categories/Categories";
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
 import { libraryRoutes } from "@/routes";
-import axios from "axios";
+
 
 interface Category {
   id: number;

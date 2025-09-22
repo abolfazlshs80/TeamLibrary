@@ -1,8 +1,9 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
+import ToastProvider from "@/components/ToastMessage/ToastProvider";
 export const metadata: Metadata = {
   title: "کتابخانه",
   description: "سایت مدیریت کتابخانه",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <Header />
       <main className="flex-grow">
         {children}
+        <ToastProvider />
       </main>
       <Footer />
     </div>

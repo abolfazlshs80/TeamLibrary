@@ -10,7 +10,7 @@ import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
 import defaultBook from "../../assets/default-book.jpg";
-
+import Loader from "../Loader/Loader";
 interface Book {
   id: number;
   slug: string;
@@ -43,8 +43,6 @@ const TopSellers = () => {
           AllBooks = JSON.parse(res.data.data.list);
         } else if (Array.isArray(res.data?.data?.list)) {
           AllBooks = res.data.data.list;
-        } else if (Array.isArray(res.data)) {
-          AllBooks = res.data;
         } else {
           console.warn("ساختار API غیرمنتظره بود");
         }
@@ -61,7 +59,9 @@ const TopSellers = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center mt-10">در حال بارگذاری...</p>;
+    return <div className="flex items-center justify-center">
+      <Loader/>
+    </div>;
   }
 
   return (
