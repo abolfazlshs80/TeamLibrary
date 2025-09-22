@@ -38,7 +38,7 @@ const ExplorePage = () => {
 
   const filteredBooks = books.filter((book) => {
     const matchesSearchTerm =
-      book.bookName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       book.author.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCategory = category === "" || book.category === category;
@@ -110,13 +110,13 @@ const ExplorePage = () => {
                 >
                   <Image
                     src={book.image ?? defaultBook}
-                    alt={book.bookName}
+                    alt={book.title}
                     className=" h-48 w-40 object-cover mb-2 rounded"
                     width={200}
                     height={300}
                   />
 
-                  <h3 className="text-sm font-semibold">{book.bookName}</h3>
+                  <h3 className="text-sm font-semibold">{book.title}</h3>
                   <p className="text-xs text-gray-600">{book.author}</p>
                 </div>
               ))}
