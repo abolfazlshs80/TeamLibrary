@@ -16,6 +16,7 @@ public class Book : BaseEntity
     public int Pages { get; set; }
     public decimal Price { get; set; }
     public string Language { get; set; }
+    public int ViewCount { get; set; } = 0;
     public DateTime CreateDateDatetime { get; set; }
     public DateTime? UpdateDateDatetime { get; set; }
     public Category Category { get; set; }

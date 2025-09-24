@@ -192,6 +192,9 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 return null;
             }
 
+            // Increment view count
+            await IncrementViewCountAsync(bookId);
+
             var book = new GetBookByIdResponseDto
             {
                 Id = bookExist.Id,
@@ -212,6 +215,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
             return book;
         }
+
         public async Task<GetBookBySlugResponseDto> GetBookBySlugForShowDetailAsync(string slug)
         {
             var bookExist = await _unitOfWork.Books.AsQueryable().Include(b => b.Category)
@@ -221,6 +225,10 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             {
                 return null;
             }
+
+            // Increment view count
+            bookExist.ViewCount++;
+            await _unitOfWork.Books.UpdateAsync(bookExist);
 
             var book = new GetBookBySlugResponseDto
             {
@@ -308,6 +316,26 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                         .ToListAsync();
 
             return books;
+        }
+
+        public async Task<ErrorOr<string>> IncrementViewCountAsync(int bookId)
+        {
+            try
+            {
+                var book = await _unitOfWork.Books.GetByIdAsync(bookId);
+                if (book == null)
+                {
+                    return Error.NotFound("Book.NotFound", "کتاب یافت نشد.");
+                }
+
+                book.ViewCount++;
+                await _unitOfWork.Books.UpdateAsync(book);
+                return "تعداد بازدید به‌روزرسانی شد";
+            }
+            catch (Exception ex)
+            {
+                return Error.Failure("IncrementViewCount", ex.Message);
+            }
         }
     }
 }
