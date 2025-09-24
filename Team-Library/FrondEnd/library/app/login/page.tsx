@@ -1,7 +1,20 @@
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 
 const Login = () => {
+
+  const { login } = useAuth();
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+
+  const handleLogin = () => {
+    login(username || "کاربر");
+    router.push("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-[#F7F5E9] pt-20 pb-10 px-4">
       <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 mt-10">
@@ -19,8 +32,10 @@ const Login = () => {
             <input
               type="text"
               id="username"
+              value={username}
               className="w-full px-3 py-2 border border-[#F0E1DE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#B2685A] focus:border-transparent bg-white/50"
               placeholder="نام کاربری خود را وارد کنید"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
@@ -40,6 +55,7 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="button"
+            onClick={handleLogin}
             className="w-full bg-[#435F56] text-white py-2 px-4 rounded-md hover:bg-[#653329] transition-colors duration-200 font-medium"
           >
             ورود

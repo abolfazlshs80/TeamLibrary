@@ -5,8 +5,13 @@ import Link from "next/link";
 import logo from "../../assets/logo.png";
 import { IoMdHome, IoMdSearch, IoMdLogIn } from "react-icons/io";
 import { libraryRoutes } from "@/routes";
+import { useAuth } from "@/context/AuthContext";
+
+
 const Header = () => {
+  const { isLoggedIn, username, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -18,24 +23,24 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  return (
 
-    <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white/10 backdrop-blur-md shadow-sm">
-      <div className="flex items-center gap-2">
+  return (
+    <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white backdrop-blur-md shadow-sm min-w-full">
+      <div className="flex items-center gap-3">
         <Image src={logo} alt="logo" width={35} height={35} />
         <p className="flex gap-4 text-[#435F56] text-base font-bold">
           کتابخانه{" "}
         </p>
       </div>
       <nav className="hidden md:block">
-        <ul className="flex gap-4 text-[#435F56] text-[14px] font-semibold">
+        <ul className="flex gap-8 text-[#435F56] text-[14px] font-semibold w-full">
           <li>
             <Link
               className="inline-flex items-center space-x-1"
               href={libraryRoutes.homepage}
             >
-              <span>صفحه اصلی</span>
               <IoMdHome size={18} />
+              <span>صفحه اصلی</span>
             </Link>
           </li>
           <li>
@@ -43,22 +48,31 @@ const Header = () => {
               className="inline-flex items-center space-x-1"
               href={libraryRoutes.explore}
             >
-              <span>جستجو کتاب</span>
               <IoMdSearch size={18} />
+              <span>جستجو کتاب</span>
             </Link>
           </li>
           <li>
             <Link href={"/"}>درباره ما</Link>
           </li>
-          <li>
-            <Link
-              className="inline-flex items-center space-x-1"
-              href={libraryRoutes.login}
-            >
-              <span>ورود/ساخت حساب</span>
-              <IoMdLogIn size={18} />
-            </Link>
-          </li>
+          {!isLoggedIn ? (
+            <li>
+              <Link href={libraryRoutes.login} className="inline-flex items-center space-x-1">
+                <IoMdLogIn size={18} />
+                <span>ورود/ثبت نام</span>
+              </Link>
+            </li>
+          ) : (
+            <>
+              <li><Link href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link></li>
+              <li>
+                <button onClick={logout} className="text-[#914a37] font-bold">
+                  خروج
+                </button>
+              </li>
+            </>
+          )}
+
         </ul>
       </nav>
       <button
@@ -112,6 +126,18 @@ const Header = () => {
                   درباره ما
                 </Link>
               </li>
+              {/* <li
+                className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200"
+              >
+                <Link
+                  href={libraryRoutes.login}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  ورود/ثبت نام
+                </Link>
+              </li> */}
+          {!isLoggedIn ? (
               <li
                 className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
                transition-all duration-200"
@@ -120,10 +146,25 @@ const Header = () => {
                   href={libraryRoutes.login}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  ورود/ساخت حساب
+                  ورود/ثبت نام
                 </Link>
               </li>
-
+          ) : (
+            <>
+              <li className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200">
+                <Link 
+                onClick={() => setIsMenuOpen(false)}
+                href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link>
+              </li>
+              <li className="hover:bg-[#F7F5E9] text-[#da4848] hover:text-[#5e2a2a] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200">
+                <button onClick={logout}>
+                  خروج
+                </button>
+              </li>
+            </>
+          )}
             </ul>
           </div>
         </div>
