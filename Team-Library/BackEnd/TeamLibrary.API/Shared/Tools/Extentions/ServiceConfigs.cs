@@ -34,6 +34,7 @@ public static class ServiceConfigs
         services.AddScoped<IMediaService, MediaService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IAdminService, AdminService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         #endregion
