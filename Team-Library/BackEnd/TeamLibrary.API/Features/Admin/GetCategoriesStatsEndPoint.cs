@@ -1,5 +1,6 @@
 ﻿using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
+using DrMeet.Api.Shared.Services.JwtService;
 
 namespace TeamLibrary.API.Features.Admin
 {
@@ -11,29 +12,29 @@ namespace TeamLibrary.API.Features.Admin
             {
                 app.MapGet($"{ApiInfo.Prefix}/categories/stats", handler: async (
                     IAdminService adminService,
-                    int userId,
+                    IJwtService jwtService,
                     HttpContext context
                 ) =>
                 {
-                    // Check if user is admin
-                    var isAdmin = await adminService.IsUserAdminAsync(userId);
+                    // Validate admin access using JWT token
+                    var (isAdmin, userId, errorMessage) = ValidateAdminAccess(context, jwtService);
                     if (!isAdmin)
                     {
-                        return Unauthorized("فقط ادمین اجازه دسترسی دارد");
+                        return Unauthorized(errorMessage);
                     }
 
                     var dashboard = await adminService.GetAdminDashboardAsync(new Features.Admin.DTOs.Request.GetAdminDashboardRequestDto { UserId = userId });
-
-                    return Ok(new
+                    
+                    return Ok(new 
                     {
                         TotalCategories = dashboard.Statistics.TotalCategories,
                         CategoryStats = dashboard.Statistics.CategoryStats
-                    }, "اطلاعات موردنظر با موفقیت دریافت شد");
+                    }, "آمار دسته‌بندی‌ها با موفقیت دریافت شد");
                 })
                 .RequireAuthorization()
                 .WithTags(ApiInfo.Tag)
                 .WithName("GetCategoriesStats")
-                ;
+                .WithDescription("دریافت آمار کامل دسته‌بندی‌ها شامل تعداد کل و آمار هر دسته‌بندی");
             }
         }
     }

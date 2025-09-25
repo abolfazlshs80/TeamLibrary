@@ -1,4 +1,5 @@
-﻿using TeamLibrary.API.Shared.Contracts;
+﻿using DrMeet.Api.Shared.Services.JwtService;
+using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 
 namespace TeamLibrary.API.Features.Admin
@@ -11,12 +12,11 @@ namespace TeamLibrary.API.Features.Admin
             {
                 app.MapGet($"{ApiInfo.Prefix}/books/stats", handler: async (
                     IAdminService adminService,
-                    int userId,
+                    IJwtService jwtService,
                     HttpContext context
                 ) =>
                 {
-                    // Check if user is admin
-                    var isAdmin = await adminService.IsUserAdminAsync(userId);
+                    var (isAdmin, userId, errorMessage) = ValidateAdminAccess(context, jwtService);
                     if (!isAdmin)
                     {
                         return Unauthorized("فقط ادمین اجازه دسترسی دارد");
@@ -29,12 +29,12 @@ namespace TeamLibrary.API.Features.Admin
                         TotalBooks = dashboard.Statistics.TotalBooks,
                         TopViewedBooks = dashboard.Statistics.TopViewedBooks,
                         TotalViews = dashboard.Statistics.TotalViews
-                    }, "اطلاعات با موفقیت دریافت شد");
+                    }, "آمار کتاب‌ها با موفقیت دریافت شد");
                 })
                 .RequireAuthorization()
                 .WithTags(ApiInfo.Tag)
                 .WithName("GetBooksStats")
-               ;
+                .WithDescription("دریافت آمار کامل کتاب‌ها شامل تعداد کل، پربازدیدترین کتاب‌ها و مجموع بازدیدها");
             }
         }
     }

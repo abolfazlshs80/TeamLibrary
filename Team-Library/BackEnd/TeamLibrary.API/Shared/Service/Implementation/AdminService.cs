@@ -80,5 +80,29 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
             return !string.IsNullOrEmpty(user.FullName) ? user.FullName : user.UserName;
         }
+
+        public async Task<AdminProfileResponseDto?> GetAdminProfileAsync(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.ADMIN)
+                return null;
+
+            return new AdminProfileResponseDto
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                FullName = user.FullName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                UserType = "?????",
+                LastLogin = DateTime.Now, // You can track this separately if needed
+                Permissions = new AdminPermissionsDto
+                {
+                    CanManageBooks = true,
+                    CanManageCategories = true,
+                    CanViewReports = true,
+                    CanManageUsers = true
+                }
+            };
+        }
     }
 }

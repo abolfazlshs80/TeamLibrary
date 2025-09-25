@@ -1,17 +1,16 @@
-using TeamLibrary.API.Features.Admin.DTOs.Request;
+using DrMeet.Api.Shared.Services.JwtService;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
-using DrMeet.Api.Shared.Services.JwtService;
 
 namespace TeamLibrary.API.Features.Admin
 {
-    public static class GetAdminDashboardEndPoint
+    public static class GetAdminProfileEndPoint
     {
         public class EndPoint : BaseEndpoint, IEndpoint
         {
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
-                app.MapGet($"{ApiInfo.Prefix}/dashboard", handler: async (
+                app.MapGet($"{ApiInfo.Prefix}/profile", handler: async (
                     IAdminService adminService,
                     IJwtService jwtService,
                     HttpContext context
@@ -24,14 +23,18 @@ namespace TeamLibrary.API.Features.Admin
                         return Unauthorized(errorMessage);
                     }
 
-                    var request = new GetAdminDashboardRequestDto { UserId = userId };
-                    var dashboard = await adminService.GetAdminDashboardAsync(request);
-                    return Ok(dashboard, "??????? ????? ?? ?????? ???????? ??");
+                    var adminProfile = await adminService.GetAdminProfileAsync(userId);
+                    if (adminProfile == null)
+                    {
+                        return NotFound("??????? ????? ???? ???");
+                    }
+
+                    return Ok(adminProfile, "??????? ????? ?? ?????? ?????? ??");
                 })
                 .RequireAuthorization()
                 .WithTags(ApiInfo.Tag)
-                .WithName("GetAdminDashboard")
-                .WithDescription("?????? ??????? ??????? ??? ????? ???? ???? ???????? ???????????? ? ????????");
+                .WithName("GetAdminProfile")
+                .WithDescription("?????? ??????? ??????? ????? ???? ??????? ???? ? ?????????");
             }
         }
     }
