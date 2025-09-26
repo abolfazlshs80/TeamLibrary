@@ -46,7 +46,7 @@ const Header = () => {
 
   }, [])
  const handleLogout = () => {
-  Cookies.remove("token") 
+  Cookies.remove("tokenlogin") 
   setFullName(null) 
   window.location.href = "/" 
 }

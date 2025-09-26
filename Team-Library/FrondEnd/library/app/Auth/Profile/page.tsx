@@ -46,7 +46,7 @@ export default function Profile() {
   }, [router])
 
   const handleLogout = () => {
-    Cookies.remove("accessToken", { path: "/" })
+    Cookies.remove("tokenlogin")
     router.push(libraryRoutes.login);
   }
 
