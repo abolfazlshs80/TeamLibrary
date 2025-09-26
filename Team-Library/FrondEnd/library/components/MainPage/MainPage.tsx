@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import bookBanner from "../../assets/banner2.svg";
 import TopRankBooks from "../TopRankBooks/TopRankBooks";
 import TopSellers from "../TopSellers/TopSellers";

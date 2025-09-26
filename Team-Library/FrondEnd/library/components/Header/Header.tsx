@@ -24,17 +24,25 @@ const Header = () => {
     };
   }, []);
   useEffect(() => {
-    const token = Cookies.get("token") 
-    if (!token) return 
+    const token = Cookies.get("tokenlogin"); 
+    console.log("token in Header:", token);
+    if (!token) return ;
 
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/GetDetailUser`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/GetDetailsUser`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setFullName(data.data?.user?.fullName || null)
+      .then((res) => {
+        console.log("status:", res.status);
+        return res.json();
       })
-      .catch(() => setFullName(null))
+      .then((data) => {
+        console.log("data from API:", data);
+        setFullName(data.data?.user?.fullName || null);
+      })
+      .catch((err) => {
+        console.error("fetch error:", err);
+        setFullName(null);
+      });
 
   }, [])
  const handleLogout = () => {
@@ -93,7 +101,7 @@ const Header = () => {
               <ul className="absolute left-3 mt-2 w-40 bg-[#435F56] text-[#f9fdfc] rounded-md shadow-lg border z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <li>
                   <Link
-                    href="/profile"
+                    href={libraryRoutes.profile}
                     className="block text-center px-4 py-2 text-sm hover:bg-[#1e362e] hover:rounded-md "
                   >
                     پروفایل
