@@ -34,16 +34,16 @@ const Signup = () => {
         throw new Error(data.message || "ثبت‌نام ناموفق بود")
       }
 
-      const token = data?.data?.accessToken
+      const tokenSigup = data?.data?.accessToken
       const expiresAt = data?.data?.expiresAt
 
-      if (token) {
+      if (tokenSigup) {
        
         const expiryDate = new Date(expiresAt)
         const now = new Date()
         const maxAgeSeconds = Math.floor((expiryDate.getTime() - now.getTime()) / 1000)
 
-        Cookies.set("accessToken", token, {
+        Cookies.set("accessToken", tokenSigup, {
           expires: maxAgeSeconds / 86400, 
           path: "/",
         })

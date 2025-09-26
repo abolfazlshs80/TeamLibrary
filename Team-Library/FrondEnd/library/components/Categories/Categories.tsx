@@ -1,4 +1,5 @@
 "use client";
+
 import { libraryRoutes } from "@/routes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,47 +10,20 @@ interface Category {
   id: number;
   name: string;
   slug: string;
+  description?: string;
 }
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
-        );
-        setCategories(res.data.data.list);
-        console.log("Fetched categories:", res.data);
-      } catch (error) {
-        console.error("Fetching categories failed:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, []);
-
   const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`);
          let categoryList: Category[] = [];
-
-        if (typeof res.data.data.list === "string") {
-   
-          categoryList = JSON.parse(res.data.data.list);
-        } else if (Array.isArray(res.data.data.list)) {
-          categoryList = res.data.data.list;
-        } else {
-          console.warn("APIپاسخی نداد");
-        }
-
+         categoryList = res.data.data.list;
         console.log("categoryList نهایی:", categoryList);
         setCategories(categoryList);
       } catch (error) {
@@ -99,6 +73,7 @@ const Categories = () => {
           ))}
         </div>
       )}
+
     </div>
   );
 };

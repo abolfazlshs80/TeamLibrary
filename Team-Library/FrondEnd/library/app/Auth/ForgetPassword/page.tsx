@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiOutlineMail } from "react-icons/hi";
 import { GoUnverified } from "react-icons/go";
 import { TbLockPassword } from "react-icons/tb";
-
+import Cookies from 'js-cookie';
 const ForgetPassword = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     const [step ,setStep] = useState(1);// start step 1
     const [email, setEmail] = useState('');// useState for email 
     const [verificationCode, setVerificationCode] = useState('');//verificayion email
@@ -14,7 +14,11 @@ const ForgetPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error , setError] = useState('');
     const [success, setSuccess] = useState('');
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+useEffect(()=>{
+   const token = Cookies.get("tokenlogin");
+   setIsLoggedIn(!!token);
+},[])
     const pageTitle = isLoggedIn ? "تغییر  " : "بازیابی ";
       const handleSendCode = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();

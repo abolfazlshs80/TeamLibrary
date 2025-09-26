@@ -86,9 +86,12 @@ namespace TeamLibrary.API.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
+<<<<<<< HEAD
+=======
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
 
                     b.HasKey("Id");
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { api } from "@/lib/APIs/axiosInstance";
 import { libraryRoutes } from "@/routes";
 import axios, { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 interface LoginResponse {
   data: {
@@ -71,23 +72,28 @@ const Login = () => {
     try {
       setLoading(true);
 
-      const response = await api.post<LoginResponse>("/api/Account/Login", {
+      const response = await api.post<LoginResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/Login`, {
         userName,
         password,
       });
 
       const expiresAt = response.data.data.expireDate;
       const accessToken = response.data.data.token;
-
+      
+      // ذخیره در localStorage (اختیاری)
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("expiresAt", expiresAt);
       localStorage.setItem("userName", userName);
-
-      // موفقیت → ریست تلاش‌ها
+      
+      // ذخیره در Cookie
+      Cookies.set("tokenlogin", accessToken, { path: "/" });
+      console.log("accessToken:",accessToken);
+      // ریست تلاش‌ها
       localStorage.removeItem("failedAttempts");
       localStorage.removeItem("lockUntil");
-
-      router.push(libraryRoutes.homepage);
+      
+      // رفتن به صفحه اصلی
+      window.location.href = libraryRoutes.homepage;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const serverError = error as AxiosError<{ message?: string }>;
@@ -191,6 +197,14 @@ const Login = () => {
             ثبت نام
           </Link>
         </p>
+       
+          <Link
+            href={libraryRoutes.ForgetPassword}
+            className="underline text-[#25463c] flex justify-center items-center"
+          >
+             فراموشی رمز عبور
+          </Link>
+
       </div>
     </div>
   );
