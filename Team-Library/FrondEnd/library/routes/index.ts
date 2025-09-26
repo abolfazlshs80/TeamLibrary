@@ -8,5 +8,6 @@ export const libraryRoutes = {
   signup:'/Auth/signup',
   login: "/Auth/login",
   profile: '/Auth/Profile',
-  ForgetPassword: '/Auth/ForgetPassword'
+  ForgetPassword: '/Auth/ForgetPassword',
+  dashboard: '/dashboard'
 };
