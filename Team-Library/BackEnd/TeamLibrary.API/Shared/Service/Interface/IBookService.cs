@@ -16,5 +16,9 @@ namespace TeamLibrary.API.Shared.Service.Interface
         Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request);
         Task<List<GetBookListResponseDto>> GetNewBooksAsync();
         Task<List<GetBookListResponseDto>> GetTopRatedBooksAsync();
+<<<<<<< HEAD
+=======
+        Task<ErrorOr<string>> IncrementViewCountAsync(int bookId);
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
     }
 }

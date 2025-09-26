@@ -1,19 +1,53 @@
 "use client";
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
 import { libraryRoutes } from "@/routes";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+import axios from "axios";
+=======
+import React, { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
 
 interface Category {
   id: number;
   name: string;
   slug: string;
+<<<<<<< HEAD
   description?: string;
+=======
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
 }
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
+=======
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
+        );
+        setCategories(res.data.data.list);
+        console.log("Fetched categories:", res.data);
+      } catch (error) {
+        console.error("Fetching categories failed:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
   const router = useRouter();
 
   useEffect(() => {
@@ -56,6 +90,7 @@ const Categories = () => {
         دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
 
+<<<<<<< HEAD
       <div className="flex flex-wrap gap-3">
         {categories.map((category) => (
           <div
@@ -70,6 +105,32 @@ const Categories = () => {
           </div>
         ))}
       </div>
+=======
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <BeatLoader color="#d4b091" />
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-3">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              onClick={() => {
+                router.push(libraryRoutes.explore);
+                localStorage.setItem("selectedCategory", category.name);
+                localStorage.setItem(
+                  "selectedCategoryId",
+                  (category.id).toString()
+                );
+              }}
+              className="border-2 cursor-pointer border-[#435F56] px-6 py-2 text-sm font-semibold text-[#435F56] rounded-full hover:bg-[#435F56] hover:text-white transition-colors duration-300 text-center"
+            >
+              {category.name}
+            </div>
+          ))}
+        </div>
+      )}
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
     </div>
   );
 };

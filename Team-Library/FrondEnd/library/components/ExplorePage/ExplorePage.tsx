@@ -3,16 +3,29 @@ import React, { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
 import { BookCategories } from "@/modal/BookCategories";
 import { LibraryBig } from "lucide-react";
-import { books } from "@/modal/mockData";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { libraryRoutes } from "@/routes";
 import defaultBook from "../../assets/default-book.jpg";
+import axios from "axios";
+import { BeatLoader } from "react-spinners";
+
+interface Books {
+  id: number;
+  title: string;
+  author: string;
+  slug: string;
+  categoryName: string;
+  imageUrl: string;
+  rank: number;
+}
 
 const ExplorePage = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
+  const [books, setBooks] = useState<Books[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // مقدار اولیه category رو از localStorage بگیر
   useEffect(() => {
@@ -29,6 +42,24 @@ const ExplorePage = () => {
   }, [category]);
 
   useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks?PageNumber=1&PageSize=100`
+        );
+        setBooks(res.data.data.list);
+        console.log("Fetched books:", res.data);
+      } catch (error) {
+        console.error("Fetching books failed:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  useEffect(() => {
     return () => {
       if (!window.location.pathname.includes("/explore")) {
         localStorage.removeItem("selectedCategory");
@@ -41,7 +72,7 @@ const ExplorePage = () => {
       book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       book.author.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesCategory = category === "" || book.category === category;
+    const matchesCategory = category === "" || book.categoryName === category;
 
     return matchesSearchTerm && matchesCategory;
   });
@@ -81,7 +112,11 @@ const ExplorePage = () => {
               className="w-full px-10 mt-1 pb-2 pt-1 text-[#838382] rounded-full border-2 border-[#a8a7a6] ring-0 focus:overflow-hidden focus:border-[#B2685A] outline-0 bg-white "
             >
               {BookCategories.map((category) => (
-                <option key={category.id} value={category.value} className="text-[#838382] hover:bg-gray-200">
+                <option
+                  key={category.id}
+                  value={category.value}
+                  className="text-[#838382] hover:bg-gray-200"
+                >
                   {category.category}
                 </option>
               ))}
@@ -96,7 +131,11 @@ const ExplorePage = () => {
         {/* =========================== */}
 
         <div>
-          {filteredBooks.length === 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center mt-16">
+              <BeatLoader color="#d4b091" />
+            </div>
+          ) : filteredBooks.length === 0 ? (
             <p className="text-center text-gray-500 mt-10">کتابی یافت نشد.</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6">
@@ -109,7 +148,12 @@ const ExplorePage = () => {
                   className="border cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
                 >
                   <Image
+<<<<<<< HEAD
                     src={book.image ?? defaultBook}
+=======
+                    src={book.imageUrl ?? defaultBook}
+                    // src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${book.imageUrl}`}
+>>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
                     alt={book.title}
                     className=" h-48 w-40 object-cover mb-2 rounded"
                     width={200}
