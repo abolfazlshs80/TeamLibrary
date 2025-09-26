@@ -8,6 +8,7 @@ const Dashboard = () => {
 
   const [bookCount, setBookCount] = useState<number | null>(null);
   const [categoryCount, setCategoryCount] = useState<number | null>(null);
+  const [viewsCount, setViewsCount] = useState<number | null>(null);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -32,6 +33,21 @@ const Dashboard = () => {
         );
         const catJson = await catRes.json();
         setCategoryCount(catJson.data?.pagination?.totalCount ?? 0);
+
+        const viewsRes = await fetch(
+          "http://abolfazl11111.runasp.net/api/admin/books/stats",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxMiIsIkFjY2Vzc0xldmVsIjoidXNlclR5cGUiLCJuYmYiOjE3NTg4OTU3MjQsImV4cCI6MTc1ODk4MjEyNCwiaWF0IjoxNzU4ODk1NzI0fQ.URqAxTwFCQBRItXgN63r8ycDaV6Y-v-5-qroHyoCMjU`,
+            },
+          }
+        );
+        const viewsJson = await viewsRes.json();
+        setViewsCount(viewsJson.data?.totalViews ?? 0);
+
+
       } catch (error) {
         console.error("❌ خطا در گرفتن داده‌ها:", error);
       }
@@ -92,7 +108,9 @@ const Dashboard = () => {
           </div>
           <div className="bg-white rounded-lg shadow p-6 text-center">
             <h2 className="text-lg font-semibold">👀 تعداد بازدید</h2>
-            <p className="text-3xl font-bold text-[#914a37]">540</p>
+            <p className="text-3xl font-bold text-[#914a37]">
+              {viewsCount !== null ? viewsCount : "…"}
+            </p>
           </div>
         </div>
 
