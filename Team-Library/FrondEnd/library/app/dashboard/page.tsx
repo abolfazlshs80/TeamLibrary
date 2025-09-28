@@ -34,7 +34,7 @@ const Dashboard = () => {
         const catJson = await catRes.json();
         setCategoryCount(catJson.data?.pagination?.totalCount ?? 0);
 
-        const viewsRes = await fetch(
+       /* const viewsRes = await fetch(
           "http://abolfazl11111.runasp.net/api/admin/books/stats",
           {
             method: "GET",
@@ -45,7 +45,7 @@ const Dashboard = () => {
           }
         );
         const viewsJson = await viewsRes.json();
-        setViewsCount(viewsJson.data?.totalViews ?? 0);
+        setViewsCount(viewsJson.data?.totalViews ?? 0);*/
 
 
       } catch (error) {
