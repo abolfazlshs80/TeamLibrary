@@ -317,8 +317,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
 
             return books;
         }
-<<<<<<< HEAD
-=======
+
 
         public async Task<ErrorOr<string>> IncrementViewCountAsync(int bookId)
         {
@@ -339,6 +338,6 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 return Error.Failure("IncrementViewCount", ex.Message);
             }
         }
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+
     }
 }
