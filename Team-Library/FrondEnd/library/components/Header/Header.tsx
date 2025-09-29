@@ -5,13 +5,12 @@ import Link from "next/link";
 import logo from "../../assets/logo.png";
 import { IoMdHome, IoMdSearch, IoMdLogIn } from "react-icons/io";
 import { libraryRoutes } from "@/routes";
-import Cookies from "js-cookie"
+import { useAuth } from "@/context/AuthContext";
+
 
 const Header = () => {
+  const { isLoggedIn, username, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [fullName, setFullName] = useState<string | null>(null);
-
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -23,43 +22,24 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  useEffect(() => {
-    const token = Cookies.get("token") 
-    if (!token) return 
 
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/GetDetailUser`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setFullName(data.data?.user?.fullName || null)
-      })
-      .catch(() => setFullName(null))
-
-  }, [])
- const handleLogout = () => {
-  Cookies.remove("token") 
-  setFullName(null) 
-  window.location.href = "/" 
-}
   return (
-
-    <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white/10 backdrop-blur-md shadow-sm">
-      <div className="flex items-center gap-2">
+    <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white backdrop-blur-md shadow-sm min-w-full">
+      <div className="flex items-center gap-3">
         <Image src={logo} alt="logo" width={35} height={35} />
         <p className="flex gap-4 text-[#435F56] text-base font-bold">
           کتابخانه{" "}
         </p>
       </div>
       <nav className="hidden md:block">
-        <ul className="flex gap-4 text-[#435F56] text-[14px] font-semibold">
+        <ul className="flex gap-8 text-[#435F56] text-[14px] font-semibold w-full">
           <li>
             <Link
               className="inline-flex items-center space-x-1"
               href={libraryRoutes.homepage}
             >
-              <span>صفحه اصلی</span>
               <IoMdHome size={18} />
+              <span>صفحه اصلی</span>
             </Link>
           </li>
           <li>
@@ -67,51 +47,31 @@ const Header = () => {
               className="inline-flex items-center space-x-1"
               href={libraryRoutes.explore}
             >
-              <span>جستجو کتاب</span>
               <IoMdSearch size={18} />
+              <span>جستجو کتاب</span>
             </Link>
           </li>
           <li>
             <Link href={"/"}>درباره ما</Link>
           </li>
-          {!fullName ?(
-           <li>
-            <Link
-              className="inline-flex items-center space-x-1"
-              href={libraryRoutes.login}
-            >
-              <span>ورود/ساخت حساب</span>
-              <IoMdLogIn size={18} />
-            </Link>
-           </li>
-          ) : (
-            <li className="relative group">
-              <span className="inline-flex items-center space-x-1 px-5  rounded-md cursor-pointer hover:text-[#f9fdfc] hover:bg-[#435F56]">
-                {fullName}
-              </span>
-    
-              <ul className="absolute left-3 mt-2 w-40 bg-[#435F56] text-[#f9fdfc] rounded-md shadow-lg border z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <li>
-                  <Link
-                    href="/profile"
-                    className="block text-center px-4 py-2 text-sm hover:bg-[#1e362e] hover:rounded-md "
-                  >
-                    پروفایل
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-center block px-4 py-2 text-sm hover:bg-[#1e362e] hover:rounded-md"
-                  >
-                    خروج
-                  </button>
-                </li>
-              </ul>
+          {!isLoggedIn ? (
+            <li>
+              <Link href={libraryRoutes.login} className="inline-flex items-center space-x-1">
+                <IoMdLogIn size={18} />
+                <span>ورود/ثبت نام</span>
+              </Link>
             </li>
+          ) : (
+            <>
+              <li><Link href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link></li>
+              <li>
+                <button onClick={logout} className="text-[#914a37] font-bold">
+                  خروج
+                </button>
+              </li>
+            </>
           )}
-
-        </ul>
+          </ul>
       </nav>
       <button
         className="md:hidden text-[#435F56] text-2xl"
@@ -164,28 +124,45 @@ const Header = () => {
                   درباره ما
                 </Link>
               </li>
-              {!fullName ?(
-           <li>
-            <Link
-              className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+              {/* <li
+                className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
                transition-all duration-200"
-              href={libraryRoutes.login}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <span>ورود/ساخت حساب</span>
-              <IoMdLogIn size={18} />
-            </Link>
-           </li>
+              >
+                <Link
+                  href={libraryRoutes.login}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  ورود/ثبت نام
+                </Link>
+              </li> */}
+          {!isLoggedIn ? (
+              <li
+                className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200"
+              >
+                <Link
+                  href={libraryRoutes.login}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  ورود/ثبت نام
+                </Link>
+              </li>
           ) : (
- 
-              <span className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+            <>
+              <li className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
                transition-all duration-200">
-                {fullName}
-              </span>
-    
+                <Link 
+                onClick={() => setIsMenuOpen(false)}
+                href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link>
+              </li>
+              <li className="hover:bg-[#F7F5E9] text-[#da4848] hover:text-[#5e2a2a] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200">
+                <button onClick={logout}>
+                  خروج
+                </button>
+              </li>
+            </>
           )}
-
-
             </ul>
           </div>
         </div>

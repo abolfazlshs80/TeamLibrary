@@ -7,5 +7,7 @@ export const libraryRoutes = {
   aboutUs:'/aboutUs',
   signup:'/Auth/signup',
   login: "/Auth/login",
-  profile: '/Auth/Profile'
+  profile: '/Auth/Profile',
+  ForgetPassword: '/Auth/ForgetPassword',
+  dashboard: '/dashboard'
 };

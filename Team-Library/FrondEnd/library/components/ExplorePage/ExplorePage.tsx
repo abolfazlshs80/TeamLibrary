@@ -27,7 +27,7 @@ const ExplorePage = () => {
   const [books, setBooks] = useState<Books[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // مقدار اولیه category رو از localStorage بگیر
+ 
   useEffect(() => {
     const savedCategory = localStorage.getItem("selectedCategory");
     if (savedCategory) {
@@ -59,13 +59,6 @@ const ExplorePage = () => {
     fetchBooks();
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (!window.location.pathname.includes("/explore")) {
-        localStorage.removeItem("selectedCategory");
-      }
-    };
-  }, []);
 
   const filteredBooks = books.filter((book) => {
     const matchesSearchTerm =
@@ -143,7 +136,7 @@ const ExplorePage = () => {
                 <div
                   key={book.id}
                   onClick={() =>
-                    router.push(`${libraryRoutes.detail}/${book.id}`)
+                    router.push(`${libraryRoutes.detail}/${book.slug}`)
                   }
                   className="border cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
                 >
