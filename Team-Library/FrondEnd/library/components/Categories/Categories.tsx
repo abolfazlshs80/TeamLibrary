@@ -79,24 +79,7 @@ const Categories = () => {
       <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
         دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
-
-
-      <div className="flex flex-wrap gap-3">
-        {categories.map((category) => (
-          <div
-            key={category.slug}
-            onClick={() => {
-              router.push(libraryRoutes.explore);
-              localStorage.setItem("selectedCategory", category.slug);
-            }}
-            className="border-2 cursor-pointer border-[#435F56] px-6 py-2 text-sm font-semibold text-[#435F56] rounded-full hover:bg-[#435F56] hover:text-white transition-colors duration-300 text-center"
-          >
-            {category.name}
-          </div>
-        ))}
-      </div>
-
-      {loading ? (
+    {loading ? (
         <div className="flex items-center justify-center">
           <BeatLoader color="#d4b091" />
         </div>
