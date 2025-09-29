@@ -23,18 +23,18 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const bookRes = await fetch(
-          "http://abolfazl11111.runasp.net/api/Book/GetAllBooks?PageNumber=1&PageSize=10"
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks?PageNumber=1&PageSize=10`
         );
         const bookJson = await bookRes.json();
         setBookCount(bookJson.data?.pagination?.totalCount ?? 0);
 
         const catRes = await fetch(
-          "http://abolfazl11111.runasp.net/api/Category/GetAllCategory"
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory`
         );
         const catJson = await catRes.json();
         setCategoryCount(catJson.data?.pagination?.totalCount ?? 0);
 
-        const viewsRes = await fetch(
+       /* const viewsRes = await fetch(
           "http://abolfazl11111.runasp.net/api/admin/books/stats",
           {
             method: "GET",
@@ -45,7 +45,7 @@ const Dashboard = () => {
           }
         );
         const viewsJson = await viewsRes.json();
-        setViewsCount(viewsJson.data?.totalViews ?? 0);
+        setViewsCount(viewsJson.data?.totalViews ?? 0);*/
 
 
       } catch (error) {

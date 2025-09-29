@@ -11,7 +11,6 @@ import { useAuth } from "@/context/AuthContext";
 const Header = () => {
   const { isLoggedIn, username, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
