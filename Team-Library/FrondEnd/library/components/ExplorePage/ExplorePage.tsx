@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
-import { BookCategories } from "@/modal/BookCategories";
 import { LibraryBig } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,14 +18,20 @@ interface Books {
   imageUrl: string;
   rank: number;
 }
-
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  value: string;
+}
 const ExplorePage = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [bookCategory, setBookCategory] = useState<Category[]>([]);
  
   useEffect(() => {
     const savedCategory = localStorage.getItem("selectedCategory");
@@ -57,6 +62,24 @@ const ExplorePage = () => {
     };
 
     fetchBooks();
+  }, []);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`);
+         let categoryList: Category[] = [];
+         categoryList = res.data.data.list;
+        console.log("categoryList نهایی:", categoryList);
+        setBookCategory(categoryList);
+      } catch (error) {
+        console.error("خطا در گرفتن دسته‌بندی‌ها:", error);
+        setBookCategory([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
 
@@ -104,13 +127,13 @@ const ExplorePage = () => {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-10 mt-1 pb-2 pt-1 text-[#838382] rounded-full border-2 border-[#a8a7a6] ring-0 focus:overflow-hidden focus:border-[#B2685A] outline-0 bg-white "
             >
-              {BookCategories.map((category) => (
+              {bookCategory.map((cat) => (
                 <option
-                  key={category.id}
-                  value={category.value}
+                  key={cat.id}
+                  value={cat.value}
                   className="text-[#838382] hover:bg-gray-200"
                 >
-                  {category.category}
+                  {cat.name}
                 </option>
               ))}
             </select>
