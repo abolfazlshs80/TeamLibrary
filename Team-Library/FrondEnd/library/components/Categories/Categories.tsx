@@ -1,33 +1,23 @@
 "use client";
-<<<<<<< HEAD
+
 import React, { useEffect, useState } from "react";
-=======
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
 import { libraryRoutes } from "@/routes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
-import axios from "axios";
-=======
-import React, { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+
 
 interface Category {
   id: number;
   name: string;
   slug: string;
-<<<<<<< HEAD
   description?: string;
-=======
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+
 }
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-=======
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -47,7 +37,7 @@ const Categories = () => {
     fetchCourses();
   }, []);
 
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+
   const router = useRouter();
 
   useEffect(() => {
@@ -90,7 +80,7 @@ const Categories = () => {
         دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
 
-<<<<<<< HEAD
+
       <div className="flex flex-wrap gap-3">
         {categories.map((category) => (
           <div
@@ -105,7 +95,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
-=======
+
       {loading ? (
         <div className="flex items-center justify-center">
           <BeatLoader color="#d4b091" />
@@ -130,7 +120,7 @@ const Categories = () => {
           ))}
         </div>
       )}
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+
     </div>
   );
 };
