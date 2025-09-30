@@ -1,8 +1,9 @@
 ﻿using DrMeet.Api.Shared.Services.JwtService;
+using TeamLibrary.API.Featrues.Admin.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 
-namespace TeamLibrary.API.Features.Admin
+namespace TeamLibrary.API.Featrues.Admin
 {
     public static class GetBooksStatsEndPoint
     {
@@ -22,13 +23,13 @@ namespace TeamLibrary.API.Features.Admin
                         return Unauthorized("فقط ادمین اجازه دسترسی دارد");
                     }
 
-                    var dashboard = await adminService.GetAdminDashboardAsync(new Features.Admin.DTOs.Request.GetAdminDashboardRequestDto { UserId = userId });
+                    var dashboard = await adminService.GetAdminDashboardAsync(new GetAdminDashboardRequestDto { UserId = userId });
 
                     return Ok(new
                     {
-                        TotalBooks = dashboard.Statistics.TotalBooks,
-                        TopViewedBooks = dashboard.Statistics.TopViewedBooks,
-                        TotalViews = dashboard.Statistics.TotalViews
+                        dashboard.Statistics.TotalBooks,
+                        dashboard.Statistics.TopViewedBooks,
+                        dashboard.Statistics.TotalViews
                     }, "آمار کتاب‌ها با موفقیت دریافت شد");
                 })
                 .RequireAuthorization()

@@ -1,4 +1,4 @@
-namespace TeamLibrary.API.Features.Admin.DTOs.Response
+namespace TeamLibrary.API.Featrues.Admin.DTOs.Response
 {
     public class AdminProfileResponseDto
     {
