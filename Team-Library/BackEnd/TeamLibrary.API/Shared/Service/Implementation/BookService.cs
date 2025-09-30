@@ -164,7 +164,36 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         public async Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request)
         {
             var books = _unitOfWork.Books.AsQueryable()
-                        .Include(b => b.Category);
+                        .Include(b => b.Category)
+                        .AsQueryable();
+
+            if(request.Rank.HasValue)
+            {
+                books = books.Where(b => b.Rank == request.Rank);
+            }
+
+            if (request.MinPageCount.HasValue) 
+            {
+                books = books.Where(b => b.Pages == request.MinPageCount);
+            }
+
+            if (request.MaxPageCount.HasValue)
+            {
+                books = books.Where(b => b.Pages == request.MaxPageCount);
+            }
+
+            if (!string.IsNullOrEmpty(request.Language))
+                books = books.Where(b => b.Language == request.Language);
+
+            if (!string.IsNullOrEmpty(request.Author))
+                books = books.Where(b => b.Author.Contains(request.Author));
+
+            if (!string.IsNullOrEmpty(request.Category))
+                books = books.Where(b => b.Category.Name.Contains(request.Category));
+
+            if (!string.IsNullOrEmpty(request.Search))
+                books = books.Where(b => b.Title.Contains(request.Search)
+                                      || b.Slug.Contains(request.Search));
 
             var result = await books.ToPagedList(s => new GetBookListResponseDto
             {
@@ -175,7 +204,8 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 CategoryName = s.Category.Name,
                 CreateDateTime = s.CreateDateDatetime,
                 UpdateDateTime = s.UpdateDateDatetime.HasValue ? s.UpdateDateDatetime : null,
-                ImageUrl = _mediaService.GetImageUrl(s.ImagePath) // Add image URL
+                ImageUrl = _mediaService.GetImageUrl(s.ImagePath), // Add image URL
+                Rank = s.Rank
             }, request.PageNumber, request.PageSize);
 
             return result;
