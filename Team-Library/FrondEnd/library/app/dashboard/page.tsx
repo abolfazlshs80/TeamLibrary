@@ -23,9 +23,15 @@ const Dashboard = () => {
     description:""
   })
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name:"",
+    slug:"",
+    description:""
+  });
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
- 
+  
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormCategory({ ...formCategory, [e.target.id]: e.target.value });
     };
@@ -71,9 +77,6 @@ const Dashboard = () => {
       if (response.ok) {
         setCategories(prev => prev.filter(cat => cat.id !== categoryId));
         toast.success('دسته‌بندی با موفقیت حذف شد');
-        setTimeout(() => {
-          setSuccessMessage('');
-        }, 5000);
       } else {
         toast.error('خطا در حذف دسته‌بندی');
       }
@@ -84,6 +87,64 @@ const Dashboard = () => {
       setLoading(false);
       setConfirmDelete(null);
     }
+  };
+  const handleUpadateCategory = async (categoryId) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/Update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          id: categoryId,
+          name: editForm.name,
+          slug: editForm.slug,
+          description: editForm.description
+         })
+      });
+
+      if (response.ok) {
+        setCategories(prev => prev.map(cat => 
+          cat.id === categoryId 
+            ? { ...cat, ...editForm }
+            : cat
+        ));
+        setEditingCategory(null);
+        toast.success('دسته‌بندی با موفقیت ویرایش شد');
+      } else {
+        toast.error('خطا در ویرایش دسته‌بندی');
+      }
+    } catch (error) {
+      console.error('Error Update category:', error);
+      toast.error('خطا در ارتباط با سرور');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const startEditing = (category) => {
+    setEditingCategory(category.id);
+    setEditForm({
+      name: category.name,
+      slug: category.slug,
+      description: category.description || ''
+    });
+  };
+  const cancelEditing = () => {
+    setEditingCategory(null);
+    setEditForm({
+      name: '',
+      slug: '',
+      description: ''
+    });
+  };
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   useEffect(() => {
@@ -275,11 +336,56 @@ const Dashboard = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="border-2 cursor-pointer border-[#ebc2a1] p-3
-            rounded-md hover:bg-[#f3dbd1] transition-colors duration-300 min-h-[80px]
+            className="border-2  border-[#ebc2a1] p-3
+            rounded-md  transition-colors duration-300 min-h-[80px]
             flex flex-col justify-center"
           >
-            {confirmDelete === cat.id ? (
+            {editingCategory === cat.id ? (
+              <div className="flex flex-col gap-2">
+                <input
+                  type="text"
+                  name="name"
+                  value={editForm.name}
+                  onChange={handleEditChange}
+                  placeholder="نام دسته‌بندی"
+                  className="border p-1 rounded text-sm ring-1 hover:ring-amber-400 outline-none"
+                />
+                <input
+                  type="text"
+                  name="slug"
+                  value={editForm.slug}
+                  onChange={handleEditChange}
+                  placeholder="اسلاگ"
+                  className="border p-1 rounded text-sm ring-1 hover:ring-amber-400 outline-none"
+                />
+                <input
+                  type="text"
+                  name="description"
+                  value={editForm.description}
+                  onChange={handleEditChange}
+                  placeholder="توضیحات"
+                  className="border p-1 rounded text-sm ring-1 hover:ring-amber-400 outline-none"
+                />
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => handleUpadateCategory(cat.id)}
+                    disabled={loading}
+                    className="flex-1 bg-green-500 hover:bg-green-600 text-white py-1 px-2 
+                    rounded text-xs transition-colors disabled:opacity-50"
+                  >
+                    {loading ? '...' : 'ذخیره'}
+                  </button>
+                  <button
+                    onClick={cancelEditing}
+                    disabled={loading}
+                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 
+                    rounded text-xs transition-colors disabled:opacity-50"
+                  >
+                    لغو
+                  </button>
+                </div>
+              </div>
+            ) :confirmDelete === cat.id ? (
               <div className="flex flex-col gap-3 text-center">
                 <p className="text-sm text-gray-700 font-medium">
                   آیا از حذف "{cat.name}" مطمئن هستید؟
@@ -318,22 +424,30 @@ const Dashboard = () => {
                     {cat.slug}
                   </div>
                 </div>
-                
-                <button  
-                  onClick={() => setConfirmDelete(cat.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 
-                  rounded text-xs transition-colors mt-2 w-full
-                  flex items-center justify-center gap-1"
-                >
-                  حذف
-                </button>
+                <div className="flex gap-1 mt-2">
+                  <button  
+                   onClick={() => setConfirmDelete(cat.id)}
+                   className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 
+                   rounded text-xs transition-colors cursor-pointer mt-2 
+                   flex items-center justify-center w-1/2 "
+                  >
+                   حذف
+                 </button>
+                 <button  
+                    onClick={() => startEditing(cat)}
+                    className="bg-yellow-300 hover:bg-yellow-500 text-black py-1 px-3 
+                   rounded text-xs transition-colors cursor-pointer mt-2 
+                   flex items-center justify-center w-1/2 "
+                  >
+                    ویرایش
+                  </button>
+                </div>
+
               </>
             )}
           </div>
         ))}
       </div>
-
-      {/* پیام وقتی دسته‌بندی وجود ندارد */}
       {categories.length === 0 && (
         <div className="text-center text-gray-500 py-8">
           هیچ دسته‌بندی وجود ندارد
