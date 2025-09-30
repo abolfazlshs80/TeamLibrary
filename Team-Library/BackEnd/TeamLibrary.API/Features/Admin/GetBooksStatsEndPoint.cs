@@ -1,4 +1,5 @@
 ﻿using DrMeet.Api.Shared.Services.JwtService;
+using TeamLibrary.API.Featrues.Admin.DTOs.Request;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 
@@ -22,7 +23,7 @@ namespace TeamLibrary.API.Featrues.Admin
                         return Unauthorized("فقط ادمین اجازه دسترسی دارد");
                     }
 
-                    var dashboard = await adminService.GetAdminDashboardAsync(new Features.Admin.DTOs.Request.GetAdminDashboardRequestDto { UserId = userId });
+                    var dashboard = await adminService.GetAdminDashboardAsync(new GetAdminDashboardRequestDto { UserId = userId });
 
                     return Ok(new
                     {
