@@ -1,5 +1,5 @@
-using TeamLibrary.API.Features.Admin.DTOs.Request;
-using TeamLibrary.API.Features.Admin.DTOs.Response;
+using TeamLibrary.API.Featrues.Admin.DTOs.Request;
+using TeamLibrary.API.Featrues.Admin.DTOs.Response;
 
 namespace TeamLibrary.API.Shared.Service.Interface
 {

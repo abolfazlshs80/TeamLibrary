@@ -2,7 +2,7 @@
 using TeamLibrary.API.Shared.Service.Interface;
 using DrMeet.Api.Shared.Services.JwtService;
 
-namespace TeamLibrary.API.Features.Admin
+namespace TeamLibrary.API.Featrues.Admin
 {
     public static class GetCategoriesStatsEndPoint
     {
@@ -27,8 +27,8 @@ namespace TeamLibrary.API.Features.Admin
                     
                     return Ok(new 
                     {
-                        TotalCategories = dashboard.Statistics.TotalCategories,
-                        CategoryStats = dashboard.Statistics.CategoryStats
+                        dashboard.Statistics.TotalCategories,
+                        dashboard.Statistics.CategoryStats
                     }, "آمار دسته‌بندی‌ها با موفقیت دریافت شد");
                 })
                 .RequireAuthorization()

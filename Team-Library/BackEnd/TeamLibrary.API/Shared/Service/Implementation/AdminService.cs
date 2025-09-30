@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Context;
 using TeamLibrary.API.Data.Models;
-using TeamLibrary.API.Features.Admin.DTOs.Request;
-using TeamLibrary.API.Features.Admin.DTOs.Response;
+using TeamLibrary.API.Featrues.Admin.DTOs.Request;
+using TeamLibrary.API.Featrues.Admin.DTOs.Response;
 using TeamLibrary.API.Shared.Service.Interface;
-using static TeamLibrary.API.Features.Admin.DTOs.Response.AdminDashboardResponseDto;
+using static TeamLibrary.API.Featrues.Admin.DTOs.Response.AdminDashboardResponseDto;
 
 namespace TeamLibrary.API.Shared.Service.Implementation
 {

@@ -3,7 +3,7 @@ using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 using DrMeet.Api.Shared.Services.JwtService;
 
-namespace TeamLibrary.API.Features.Admin
+namespace TeamLibrary.API.Featrues.Admin
 {
     public static class GetAdminDashboardEndPoint
     {

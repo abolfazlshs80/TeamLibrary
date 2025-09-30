@@ -1,4 +1,4 @@
-namespace TeamLibrary.API.Features.Admin.DTOs.Request
+namespace TeamLibrary.API.Featrues.Admin.DTOs.Request
 {
     public class GetAdminDashboardRequestDto
     {

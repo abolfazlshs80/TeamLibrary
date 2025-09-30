@@ -2,7 +2,7 @@
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 
-namespace TeamLibrary.API.Features.Admin
+namespace TeamLibrary.API.Featrues.Admin
 {
     public static class GetBooksStatsEndPoint
     {
@@ -26,9 +26,9 @@ namespace TeamLibrary.API.Features.Admin
 
                     return Ok(new
                     {
-                        TotalBooks = dashboard.Statistics.TotalBooks,
-                        TopViewedBooks = dashboard.Statistics.TopViewedBooks,
-                        TotalViews = dashboard.Statistics.TotalViews
+                        dashboard.Statistics.TotalBooks,
+                        dashboard.Statistics.TopViewedBooks,
+                        dashboard.Statistics.TotalViews
                     }, "آمار کتاب‌ها با موفقیت دریافت شد");
                 })
                 .RequireAuthorization()
