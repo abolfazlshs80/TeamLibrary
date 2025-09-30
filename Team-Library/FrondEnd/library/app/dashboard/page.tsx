@@ -330,7 +330,7 @@ const Dashboard = () => {
               </form>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
-             <h2 className="text-lg font-semibold mb-4">نمایش و حذف دسته بندی</h2>
+             <h2 className="text-lg font-semibold mb-4">نمایش و حذف و ویرایش دسته بندی</h2>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {categories.map((cat) => (
