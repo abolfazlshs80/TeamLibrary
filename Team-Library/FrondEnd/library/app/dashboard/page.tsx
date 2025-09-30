@@ -22,6 +22,7 @@ const Dashboard = () => {
     slug:"",
     description:""
   })
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
  
@@ -56,6 +57,35 @@ const Dashboard = () => {
       setLoading(false);
     }      
   };
+  const handleDeleteCategory = async (categoryId) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/Delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: categoryId })
+      });
+
+      if (response.ok) {
+        setCategories(prev => prev.filter(cat => cat.id !== categoryId));
+        toast.success('دسته‌بندی با موفقیت حذف شد');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 5000);
+      } else {
+        toast.error('خطا در حذف دسته‌بندی');
+      }
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      alert('خطا در ارتباط با سرور');
+    } finally {
+      setLoading(false);
+      setConfirmDelete(null);
+    }
+  };
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -240,35 +270,76 @@ const Dashboard = () => {
             </div>
             <div className="bg-white rounded-lg shadow p-6">
              <h2 className="text-lg font-semibold mb-4">نمایش و حذف دسته بندی</h2>
-             
-             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-             {categories.map((cat) => (
-      <div
-        key={cat.id}
-        className="border-2 cursor-pointer border-[#ebc2a1] p-3
-        rounded-md hover:bg-[#f3dac6] hover:text-white 
-        transition-colors duration-300 min-h-[80px]
-        flex flex-col justify-center"
-      >
-        
-        <div className="mb-2">
-          <div className="text-gray-600 text-xs mb-1">نام:</div>
-          <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2 ">
-            {cat.name}
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {categories.map((cat) => (
+          <div
+            key={cat.id}
+            className="border-2 cursor-pointer border-[#ebc2a1] p-3
+            rounded-md hover:bg-[#f3dbd1] transition-colors duration-300 min-h-[80px]
+            flex flex-col justify-center"
+          >
+            {confirmDelete === cat.id ? (
+              <div className="flex flex-col gap-3 text-center">
+                <p className="text-sm text-gray-700 font-medium">
+                  آیا از حذف "{cat.name}" مطمئن هستید؟
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleDeleteCategory(cat.id)}
+                    disabled={loading}
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 px-2 
+                    rounded text-xs transition-colors disabled:opacity-50"
+                  >
+                    {loading ? '...' : 'بله'}
+                  </button>
+                  <button
+                    onClick={() => setConfirmDelete(null)}
+                    disabled={loading}
+                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 
+                    rounded text-xs transition-colors disabled:opacity-50"
+                  >
+                    خیر
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="mb-2">
+                  <div className="text-gray-600 text-xs mb-1">نام:</div>
+                  <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2">
+                    {cat.name}
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="text-gray-600 text-xs mb-1">اسلاگ:</div>
+                  <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2">
+                    {cat.slug}
+                  </div>
+                </div>
+                
+                <button  
+                  onClick={() => setConfirmDelete(cat.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 
+                  rounded text-xs transition-colors mt-2 w-full
+                  flex items-center justify-center gap-1"
+                >
+                  حذف
+                </button>
+              </>
+            )}
           </div>
-        </div>
-        
-       
-        <div>
-          <div className="text-gray-600 text-xs mb-1">اسلاگ:</div>
-          <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2">
-            {cat.slug}
-          </div>
-        </div>
+        ))}
       </div>
-    ))}
-             </div>
-           </div>
+
+      {/* پیام وقتی دسته‌بندی وجود ندارد */}
+      {categories.length === 0 && (
+        <div className="text-center text-gray-500 py-8">
+          هیچ دسته‌بندی وجود ندارد
+        </div>
+      )}
+    </div>
           </div>
         )}
       </main>
