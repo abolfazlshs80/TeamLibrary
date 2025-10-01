@@ -194,7 +194,7 @@ const Dashboard = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxMiIsIkFjY2Vzc0xldmVsIjoidXNlclR5cGUiLCJuYmYiOjE3NTg4OTU3MjQsImV4cCI6MTc1ODk4MjEyNCwiaWF0IjoxNzU4ODk1NzI0fQ.URqAxTwFCQBRItXgN63r8ycDaV6Y-v-5-qroHyoCMjU'
+              "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxIiwiQWNjZXNzTGV2ZWwiOiJ1c2VyVHlwZSIsIm5iZiI6MTc1OTMxODE5MywiZXhwIjoxNzU5NDA0NTkzLCJpYXQiOjE3NTkzMTgxOTN9.0CtMuhqIipQf_I_UByJvouHHzlWslldV7UBt0iTJqR8'
             },
           }
         );
