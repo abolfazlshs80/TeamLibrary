@@ -50,7 +50,13 @@ const Login = () => {
               className="w-full px-3 py-2 border border-[#F0E1DE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#B2685A] focus:border-transparent bg-white/50"
               placeholder="رمز عبور خود را وارد کنید"
             />
+            <p className="text-right mt-2 text-sm">
+              <Link href="/Auth/forgetPassword" className="text-[#25463c] underline">
+                فراموشی رمز عبور؟
+              </Link>
+            </p>
           </div>
+
 
           {/* Submit Button */}
           <button
