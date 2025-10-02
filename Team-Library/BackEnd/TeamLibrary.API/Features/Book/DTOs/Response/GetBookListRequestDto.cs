@@ -1,10 +1,11 @@
-﻿namespace TeamLibrary.API.Featrues.Book.DTOs.Response
-{
-    public class GetBookListRequestDto
-    {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+using TeamLibrary.API.Shared.PagedList;
 
+namespace TeamLibrary.API.Featrues.Book.DTOs.Response
+{
+    public class GetBookListRequestDto : PagedParamData
+    {
+        public string? Title { get; set; }
+        public string? Slug { get; set; }
         public int? Rank { get; set; }
         public int? MinPageCount { get; set; }
         public int? MaxPageCount { get; set; }
