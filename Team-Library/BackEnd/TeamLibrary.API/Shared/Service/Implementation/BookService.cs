@@ -178,11 +178,11 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             }
             if (!string.IsNullOrEmpty(request.Title))
             {
-                books = books.Where(c => c.Title == request.Title);
+                books = books.Where(b => b.Title.Equals(request.Title, StringComparison.OrdinalIgnoreCase));
             }
             if (!string.IsNullOrEmpty(request.Slug))
             {
-                books = books.Where(c => c.Slug == request.Slug);
+                books = books.Where(b => b.Slug.Equals(request.Slug, StringComparison.OrdinalIgnoreCase));
             }
             if (request.MaxPageCount.HasValue)
             {
