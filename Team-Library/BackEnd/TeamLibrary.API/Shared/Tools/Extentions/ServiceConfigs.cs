@@ -3,6 +3,7 @@ using DrMeet.Api.Shared.Services.JwtService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net.Mail;
 using System.Text;
 using TeamLibrary.API.Data.Repository.Implementation;
 using TeamLibrary.API.Data.Repository.Interface;
@@ -34,12 +35,25 @@ public static class ServiceConfigs
         services.AddScoped<IMediaService, MediaService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IJwtService, JwtService>();
-<<<<<<< HEAD
-=======
+
         services.AddScoped<IAdminService, AdminService>();
->>>>>>> 41dcbf09c5b07749dc41df22db885d371ae92133
+        services.AddScoped<IEmailSenderService, GmailSenderService>();
+
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        #region EmailConfigure
+        services
+             .AddFluentEmail("sender@gmail.com") // ایمیل فرستنده
+             .AddRazorRenderer() // استفاده از Razor برای قالب
+             .AddSmtpSender(new SmtpClient("smtp.gmail.com")
+             {
+                 Credentials = new System.Net.NetworkCredential(configuration["EmailSenderConfig:Email"], configuration["EmailSenderConfig:Password"]),
+                 EnableSsl = true,
+                 Port = 587,
+             });
+        #endregion
+
         #endregion
 
 
@@ -80,11 +94,7 @@ public static class ServiceConfigs
            configuration.GetSection("Setting").Bind(options));
 
 
-        // services.AddDbContext<ApplicationDbContext>
-        //      (opt => opt.UseSqlServer(conf.GetConnectionString("DeafultConnection")));
-        // services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        //services.AddAutoMapper(typeof(Program).Assembly); 
-        // services.AddValidatorsFromAssemblyContaining<Program>();
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
          {
              options.TokenValidationParameters = new TokenValidationParameters

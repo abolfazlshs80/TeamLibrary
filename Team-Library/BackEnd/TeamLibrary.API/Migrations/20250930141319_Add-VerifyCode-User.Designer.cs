@@ -12,8 +12,8 @@ using TeamLibrary.API.Data.Context;
 namespace TeamLibrary.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250915145327_Add_FullName_Email")]
-    partial class Add_FullName_Email
+    [Migration("20250930141319_Add-VerifyCode-User")]
+    partial class AddVerifyCodeUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,9 @@ namespace TeamLibrary.API.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -155,6 +158,15 @@ namespace TeamLibrary.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VerifyCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerifyCodeExpireDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

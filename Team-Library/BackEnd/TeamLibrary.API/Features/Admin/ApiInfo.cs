@@ -1,4 +1,4 @@
-namespace TeamLibrary.API.Features.Admin;
+namespace TeamLibrary.API.Featrues.Admin;
 
 public static class ApiInfo
 {

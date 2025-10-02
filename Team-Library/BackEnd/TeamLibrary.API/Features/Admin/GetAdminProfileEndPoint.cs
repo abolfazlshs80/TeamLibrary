@@ -2,7 +2,7 @@ using DrMeet.Api.Shared.Services.JwtService;
 using TeamLibrary.API.Shared.Contracts;
 using TeamLibrary.API.Shared.Service.Interface;
 
-namespace TeamLibrary.API.Features.Admin
+namespace TeamLibrary.API.Featrues.Admin
 {
     public static class GetAdminProfileEndPoint
     {

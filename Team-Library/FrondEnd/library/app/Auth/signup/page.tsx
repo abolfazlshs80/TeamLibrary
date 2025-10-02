@@ -27,44 +27,63 @@ const SignupPage = () => {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Account/register`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN || ""}`, 
+          },
           body: JSON.stringify(formData),
         }
       );
 
-      const data = await res.json();
+      console.log("Status:", res.status);
+      console.log("Headers:", res.headers);
 
-      if (!res.ok || data.statusCode !== 200) {
-        throw new Error(data.message || "ثبت‌نام ناموفق بود");
-      }
+      const contentType = res.headers.get("content-type");
 
-      const tokenSignup = data?.data?.accessToken;
-      const expiresAt = data?.data?.expiresAt;
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        console.log("JSON response:", data);
 
-      if (tokenSignup) {
-        const expiryDate = new Date(expiresAt);
-        const now = new Date();
-        const maxAgeSeconds = Math.floor(
-          (expiryDate.getTime() - now.getTime()) / 1000
-        );
+        if (!res.ok || data.statusCode !== 200) {
+          const errorMessage = data.errors?.[0] || data.message || "ثبت‌نام ناموفق بود";
+          throw new Error(errorMessage);
+        }
 
-        Cookies.set("accessToken", tokenSignup, {
-          expires: maxAgeSeconds / 86400, // تبدیل ثانیه به روز
-          path: "/",
-        });
 
-        toast.success("ثبت‌نام موفق! در حال هدایت به داشبورد...");
-        setTimeout(() => router.push("/dashboard"), 800);
+        const tokenSignup = data?.data?.accessToken;
+        const expiresAt = data?.data?.expiresAt;
+
+        if (tokenSignup) {
+          const expiryDate = new Date(expiresAt);
+          const now = new Date();
+          const maxAgeSeconds = Math.floor(
+            (expiryDate.getTime() - now.getTime()) / 1000
+          );
+
+          Cookies.set("accessToken", tokenSignup, {
+            expires: maxAgeSeconds / 86400,
+            path: "/",
+          });
+
+          toast.success("ثبت‌نام موفق! در حال هدایت به صفحه لاگین...");
+          setTimeout(() => router.push("/Auth/login"), 800);
+        } else {
+          toast("ثبت‌نام موفق شد ولی توکن دریافت نشد");
+        }
       } else {
-        toast("ثبت‌نام موفق شد ولی توکن دریافت نشد");
+        const text = await res.text();
+        console.error("Non-JSON response:", text);
+        throw new Error("سرور JSON برنگردوند. پاسخ دریافتی: " + text.slice(0, 200));
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.error("Error caught:", error);
       toast.error(error?.message || "مشکلی در ثبت‌نام رخ داد");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-[#F7F5E9] pt-20 pb-10 px-4">

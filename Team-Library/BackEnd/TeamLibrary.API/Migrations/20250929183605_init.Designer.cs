@@ -12,8 +12,8 @@ using TeamLibrary.API.Data.Context;
 namespace TeamLibrary.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250924190442_AddViewCountToBook")]
-    partial class AddViewCountToBook
+    [Migration("20250929183605_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

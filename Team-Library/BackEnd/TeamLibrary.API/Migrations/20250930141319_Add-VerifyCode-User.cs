@@ -1,25 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TeamLibrary.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_FullName_Email : Migration
+    public partial class AddVerifyCodeUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Email",
+                name: "VerifyCode",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "FullName",
+            migrationBuilder.AddColumn<DateTime>(
+                name: "VerifyCodeExpireDate",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "datetime2",
                 nullable: true);
         }
 
@@ -27,11 +28,11 @@ namespace TeamLibrary.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Email",
+                name: "VerifyCode",
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "FullName",
+                name: "VerifyCodeExpireDate",
                 table: "Users");
         }
     }

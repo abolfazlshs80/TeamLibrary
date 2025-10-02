@@ -3,6 +3,8 @@
 public class Users : BaseEntity
 {
 
+    public  DateTime? VerifyCodeExpireDate { get; set; }
+    public  string? VerifyCode { get; set; }
     public required string UserName { get; set; }
     public string? FullName { get; set; } = string.Empty;
     public string? Email { get; set; } = string.Empty;
