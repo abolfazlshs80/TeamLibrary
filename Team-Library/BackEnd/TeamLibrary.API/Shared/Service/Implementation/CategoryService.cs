@@ -69,6 +69,8 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         {
             var categories = _unitOfWork.Categories.AsQueryable();
 
+            if(request.)
+
             var result =await  categories.ToPagedList(s => new GetCategoryListResponseDto
             {
                 Id = s.Id,
