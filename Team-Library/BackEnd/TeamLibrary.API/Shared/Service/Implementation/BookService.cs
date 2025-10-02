@@ -233,59 +233,6 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         }
 
 
-        //public async Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request)
-        //{
-        //    var books = _unitOfWork.Books.AsQueryable()
-        //                .Include(b => b.Category)
-        //                .AsQueryable();
-
-        //    if(request.Rank.HasValue)
-        //    {
-        //        books = books.Where(b => b.Rank == request.Rank);
-        //    }
-
-        //    if (request.MinPageCount.HasValue || request.MaxPageCount.HasValue)
-        //    {
-        //        var min = request.MinPageCount ?? int.MinValue;
-        //        var max = request.MaxPageCount ?? int.MaxValue;
-
-        //        books = books.Where(b => b.Pages >= min && b.Pages <= max);
-        //    }
-
-        //    if (!string.IsNullOrEmpty(request.Language))
-        //        books = books.Where(b => b.Language == request.Language);
-
-        //    if (!string.IsNullOrEmpty(request.Author))
-        //        books = books.Where(b => b.Author.Contains(request.Author));
-
-        //    if (!string.IsNullOrEmpty(request.Category))
-        //        books = books.Where(b => b.Category.Title.Contains(request.Category));
-
-        //    if (!string.IsNullOrEmpty(request.Search))
-        //        books = books.Where(b => b.Title.Contains(request.Search)
-        //                              || b.Slug.Contains(request.Search));
-
-        //    var result = await books.ToPagedList(s => new GetBookListResponseDto
-        //    {
-        //        Id = s.Id,
-        //        Title = s.Title,
-        //        Author = s.Author,
-        //        Slug = s.Slug,
-        //        CategoryName = s.Category.Title,
-        //        CreateDateTime = s.CreateDateDatetime,
-        //        UpdateDateTime = s.UpdateDateDatetime.HasValue ? s.UpdateDateDatetime : null,
-        //        ImageUrl = _mediaService.GetImageUrl(s.ImagePath), // Add image URL
-        //        Rank = s.Rank,
-        //        Language = s.Language,
-        //        MinPageCount = s.Pages,
-        //        MaxPageCount = s.Pages,
-        //        Search = request.Search,
-
-        //    }, request.PageNumber, request.PageSize);
-
-        //    return result;
-        //}
-
         public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId)
         {
             var bookExist = await _unitOfWork.Books.AsQueryable()
