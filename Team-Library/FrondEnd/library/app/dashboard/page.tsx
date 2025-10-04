@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import Cookies from 'js-cookie';
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import Link from "next/link";
@@ -180,6 +181,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = Cookies.get("loginAccessToken");
       try {
         const bookRes = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks?PageNumber=1&PageSize=10`
@@ -193,19 +195,24 @@ const Dashboard = () => {
         const catJson = await catRes.json();
         setCategoryCount(catJson.data?.pagination?.totalCount ?? 0);
 
-       /* const viewsRes = await fetch(
-          "http://abolfazl11111.runasp.net/api/admin/books/stats",
+        const viewsRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/books/stats`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxIiwiQWNjZXNzTGV2ZWwiOiJ1c2VyVHlwZSIsIm5iZiI6MTc1OTMxODE5MywiZXhwIjoxNzU5NDA0NTkzLCJpYXQiOjE3NTkzMTgxOTN9.0CtMuhqIipQf_I_UByJvouHHzlWslldV7UBt0iTJqR8'
+              "Authorization": `Bearer ${token}`,
             },
           }
         );
-        const viewsJson = await viewsRes.json();
-        setViewsCount(viewsJson.data?.totalViews ?? 0);*/
+        if (!viewsRes.ok) {
+          console.error("❌ خطای HTTP:", viewsRes.status);
+          throw new Error(`خطای HTTP: ${viewsRes.status}`);
 
+        }
+    
+            const viewsJson = await viewsRes.json();
+            setViewsCount(viewsJson?.data?.totalViews) ;
 
       } catch (error) {
         console.error("❌ خطا در گرفتن داده‌ها:", error);
