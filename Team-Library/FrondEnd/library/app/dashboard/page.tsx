@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import Link from "next/link";
 interface Category {
   id: number;
   name: string;
@@ -220,7 +221,7 @@ const Dashboard = () => {
     const formatTime = (s: number) =>
     `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
-  const isAdmin = username?.toLowerCase() === "admin" || "hedayati1";
+  const isAdmin = username?.toLowerCase() === "admin";
 
   return (
     <div className="min-h-screen flex bg-[#f7f5e9] text-[#6e7767]">
@@ -230,10 +231,11 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <a href="#">➕ افزودن کتاب</a>
-              <a href="#">➕ افزودن دسته‌بندی</a>
+              <a href="#category">➕ افزودن دسته‌بندی</a>
               <a href="#">مدیریت کتاب‌ها</a>
               <a href="#">مدیریت دسته‌ها</a>
               <a href="#">گزارش بازدید</a>
+              <Link href="Auth/ForgetPassword">تغییر رمز عبور</Link>
             </>
           ) : (
             <>
@@ -292,7 +294,7 @@ const Dashboard = () => {
 
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold mb-4">➕ افزودن دسته‌بندی جدید</h2>
-              <form className="flex flex-col gap-4" onSubmit={handelsubmitCategory}>
+              <form id="category"className="flex flex-col gap-4" onSubmit={handelsubmitCategory}>
                 <input
                   type="text"
                   id="name"
