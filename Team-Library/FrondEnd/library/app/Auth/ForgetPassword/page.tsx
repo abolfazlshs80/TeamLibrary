@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { useAuth } from "@/context/AuthContext";
 const ForgetPassword = () => {
+  const {isLoggedIn} = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -67,7 +68,7 @@ const ForgetPassword = () => {
     <div className="min-h-screen bg-[#F7F5E9] flex items-center justify-center">
       <div className="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6">
         <h1 className="text-2xl font-bold text-center mb-6 text-[#435F56]">
-          فراموشی رمز عبور
+        {isLoggedIn ? "تغییر رمز عبور" : "فراموشی رمز عبور"}
         </h1>
 
         {step === "email" && (
@@ -83,7 +84,7 @@ const ForgetPassword = () => {
               onClick={handleForgetPassword}
               className="w-full bg-[#435F56] text-white py-2 px-4 rounded-md hover:bg-[#653329] transition-colors duration-200 font-medium"
             >
-              ارسال لینک بازیابی
+          {isLoggedIn ? "تغییر رمز عبور" : "ارسال لینک بازیابی"}
             </button>
           </>
         )}
