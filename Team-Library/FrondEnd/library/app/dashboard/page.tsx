@@ -30,6 +30,7 @@ const Dashboard = () => {
     description:""
   });
   const [successMessage, setSuccessMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -164,6 +165,9 @@ const Dashboard = () => {
 
     fetchCategories();
   }, []);
+  const filtredCategories = categories.filter((cat)=>{
+   return  cat.name?.toLocaleLowerCase().includes(searchTerm.toLowerCase());
+  });
   useEffect(() => {
     if (timeLeft <= 0) {
       logout();
@@ -216,7 +220,7 @@ const Dashboard = () => {
     const formatTime = (s: number) =>
     `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
-  const isAdmin = username?.toLowerCase() === "admin";
+  const isAdmin = username?.toLowerCase() === "admin" || "hedayati1";
 
   return (
     <div className="min-h-screen flex bg-[#f7f5e9] text-[#6e7767]">
@@ -330,15 +334,24 @@ const Dashboard = () => {
               </form>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
-             <h2 className="text-lg font-semibold mb-4">نمایش و حذف و ویرایش دسته بندی</h2>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="جستجو در دسته‌بندی‌ها..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <h2 className="text-lg font-semibold mb-4">نمایش و حذف و ویرایش دسته بندی</h2>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {categories.map((cat) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto">
+        {filtredCategories.map((cat) => (
           <div
             key={cat.id}
-            className="border-2  border-[#ebc2a1] p-3
-            rounded-md  transition-colors duration-300 min-h-[80px]
-            flex flex-col justify-center"
+            className="border-2  border-[#ebc2a1] hover:rounded-2xl hover:border-[#B2685A]  p-2
+            rounded-md  transition-colors duration-300 min-h-0
+            flex flex-col justify-center "
           >
             {editingCategory === cat.id ? (
               <div className="flex flex-col gap-2">
@@ -413,7 +426,7 @@ const Dashboard = () => {
               <>
                 <div className="mb-2">
                   <div className="text-gray-600 text-xs mb-1">نام:</div>
-                  <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2">
+                  <div className="text-[#cc0e0e] font-bold text-sm">
                     {cat.name}
                   </div>
                 </div>
@@ -448,6 +461,11 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
+      {filtredCategories.length === 0 && searchTerm && (
+        <div className="text-center text-gray-500 py-8">
+        هیچ دسته‌بندی با عنوان ({searchTerm}) یافت نشد 
+        </div>
+      )}
       {categories.length === 0 && (
         <div className="text-center text-gray-500 py-8">
           هیچ دسته‌بندی وجود ندارد
