@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Featrues.Book.DTOs.Request;
 using TeamLibrary.API.Featrues.Book.DTOs.Response;
-using TeamLibrary.API.Shared.Models.Enums;
 using TeamLibrary.API.Shared.PagedList;
 using TeamLibrary.API.Shared.Service.Interface;
 
@@ -172,12 +171,19 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 books = books.Where(b => b.Rank == request.Rank);
             }
 
-           
+
             if (request.MinPageCount.HasValue)
             {
                 books = books.Where(b => b.Pages >= request.MinPageCount.Value);
             }
-
+            if (!string.IsNullOrEmpty(request.Title))
+            {
+                books = books.Where(b => b.Title.Equals(request.Title, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(request.Slug))
+            {
+                books = books.Where(b => b.Slug.Equals(request.Slug, StringComparison.OrdinalIgnoreCase));
+            }
             if (request.MaxPageCount.HasValue)
             {
                 books = books.Where(b => b.Pages <= request.MaxPageCount.Value);
@@ -216,7 +222,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 ImageUrl = _mediaService.GetImageUrl(s.ImagePath),
                 Rank = s.Rank,
                 Language = s.Language,
-             
+
                 MinPageCount = s.Pages,
                 MaxPageCount = s.Pages,
                 Search = request.Search,
@@ -226,59 +232,6 @@ namespace TeamLibrary.API.Shared.Service.Implementation
             return result;
         }
 
-
-        //public async Task<PagedList<GetBookListResponseDto>> GetAllBooksAsync(GetBookListRequestDto request)
-        //{
-        //    var books = _unitOfWork.Books.AsQueryable()
-        //                .Include(b => b.Category)
-        //                .AsQueryable();
-
-        //    if(request.Rank.HasValue)
-        //    {
-        //        books = books.Where(b => b.Rank == request.Rank);
-        //    }
-
-        //    if (request.MinPageCount.HasValue || request.MaxPageCount.HasValue)
-        //    {
-        //        var min = request.MinPageCount ?? int.MinValue;
-        //        var max = request.MaxPageCount ?? int.MaxValue;
-
-        //        books = books.Where(b => b.Pages >= min && b.Pages <= max);
-        //    }
-
-        //    if (!string.IsNullOrEmpty(request.Language))
-        //        books = books.Where(b => b.Language == request.Language);
-
-        //    if (!string.IsNullOrEmpty(request.Author))
-        //        books = books.Where(b => b.Author.Contains(request.Author));
-
-        //    if (!string.IsNullOrEmpty(request.Category))
-        //        books = books.Where(b => b.Category.Name.Contains(request.Category));
-
-        //    if (!string.IsNullOrEmpty(request.Search))
-        //        books = books.Where(b => b.Title.Contains(request.Search)
-        //                              || b.Slug.Contains(request.Search));
-
-        //    var result = await books.ToPagedList(s => new GetBookListResponseDto
-        //    {
-        //        Id = s.Id,
-        //        Title = s.Title,
-        //        Author = s.Author,
-        //        Slug = s.Slug,
-        //        CategoryName = s.Category.Name,
-        //        CreateDateTime = s.CreateDateDatetime,
-        //        UpdateDateTime = s.UpdateDateDatetime.HasValue ? s.UpdateDateDatetime : null,
-        //        ImageUrl = _mediaService.GetImageUrl(s.ImagePath), // Add image URL
-        //        Rank = s.Rank,
-        //        Language = s.Language,
-        //        MinPageCount = s.Pages,
-        //        MaxPageCount = s.Pages,
-        //        Search = request.Search,
-
-        //    }, request.PageNumber, request.PageSize);
-
-        //    return result;
-        //}
 
         public async Task<GetBookByIdResponseDto> GetBookByIdForShowDetailAsync(int bookId)
         {

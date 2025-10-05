@@ -69,6 +69,16 @@ namespace TeamLibrary.API.Shared.Service.Implementation
         {
             var categories = _unitOfWork.Categories.AsQueryable();
 
+            if (!string.IsNullOrEmpty(request.Name))
+            {
+                categories = categories.Where(c => c.Name == request.Name);
+            }
+
+            if (!string.IsNullOrEmpty(request.Slug)) 
+            {
+                categories = categories.Where(c => c.Slug == request.Slug);
+            }
+
             var result =await  categories.ToPagedList(s => new GetCategoryListResponseDto
             {
                 Id = s.Id,

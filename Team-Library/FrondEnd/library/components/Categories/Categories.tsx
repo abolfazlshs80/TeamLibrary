@@ -1,21 +1,42 @@
 "use client";
-
-import { libraryRoutes } from "@/routes";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { libraryRoutes } from "@/routes";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import { BeatLoader } from "react-spinners";
+
 
 interface Category {
   id: number;
   name: string;
   slug: string;
   description?: string;
+
 }
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
+        );
+        setCategories(res.data.data.list);
+        console.log("Fetched categories:", res.data);
+      } catch (error) {
+        console.error("Fetching categories failed:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -48,8 +69,9 @@ const Categories = () => {
       <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
         دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
+  
+     {loading ? (
 
-      {loading ? (
         <div className="flex items-center justify-center">
           <BeatLoader color="#d4b091" />
         </div>

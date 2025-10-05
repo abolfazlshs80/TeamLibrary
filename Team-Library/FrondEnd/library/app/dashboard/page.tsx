@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import Cookies from 'js-cookie';
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import Link from "next/link";
 interface Category {
   id: number;
   name: string;
@@ -30,6 +32,7 @@ const Dashboard = () => {
     description:""
   });
   const [successMessage, setSuccessMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -164,6 +167,9 @@ const Dashboard = () => {
 
     fetchCategories();
   }, []);
+  const filtredCategories = categories.filter((cat)=>{
+   return  cat.name?.toLocaleLowerCase().includes(searchTerm.toLowerCase());
+  });
   useEffect(() => {
     if (timeLeft <= 0) {
       logout();
@@ -175,6 +181,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = Cookies.get("loginAccessToken");
       try {
         const bookRes = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks?PageNumber=1&PageSize=10`
@@ -188,19 +195,24 @@ const Dashboard = () => {
         const catJson = await catRes.json();
         setCategoryCount(catJson.data?.pagination?.totalCount ?? 0);
 
-       /* const viewsRes = await fetch(
-          "http://abolfazl11111.runasp.net/api/admin/books/stats",
+        const viewsRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/books/stats`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxIiwiQWNjZXNzTGV2ZWwiOiJ1c2VyVHlwZSIsIm5iZiI6MTc1OTMxODE5MywiZXhwIjoxNzU5NDA0NTkzLCJpYXQiOjE3NTkzMTgxOTN9.0CtMuhqIipQf_I_UByJvouHHzlWslldV7UBt0iTJqR8'
+              "Authorization": `Bearer ${token}`,
             },
           }
         );
-        const viewsJson = await viewsRes.json();
-        setViewsCount(viewsJson.data?.totalViews ?? 0);*/
+        if (!viewsRes.ok) {
+          console.error("❌ خطای HTTP:", viewsRes.status);
+          throw new Error(`خطای HTTP: ${viewsRes.status}`);
 
+        }
+    
+            const viewsJson = await viewsRes.json();
+            setViewsCount(viewsJson?.data?.totalViews) ;
 
       } catch (error) {
         console.error("❌ خطا در گرفتن داده‌ها:", error);
@@ -226,10 +238,11 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <a href="#">➕ افزودن کتاب</a>
-              <a href="#">➕ افزودن دسته‌بندی</a>
+              <a href="#category">➕ افزودن دسته‌بندی</a>
               <a href="#">مدیریت کتاب‌ها</a>
               <a href="#">مدیریت دسته‌ها</a>
               <a href="#">گزارش بازدید</a>
+              <Link href="Auth/ForgetPassword">تغییر رمز عبور</Link>
             </>
           ) : (
             <>
@@ -288,7 +301,7 @@ const Dashboard = () => {
 
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold mb-4">➕ افزودن دسته‌بندی جدید</h2>
-              <form className="flex flex-col gap-4" onSubmit={handelsubmitCategory}>
+              <form id="category"className="flex flex-col gap-4" onSubmit={handelsubmitCategory}>
                 <input
                   type="text"
                   id="name"
@@ -330,15 +343,24 @@ const Dashboard = () => {
               </form>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
-             <h2 className="text-lg font-semibold mb-4">نمایش و حذف و ویرایش دسته بندی</h2>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="جستجو در دسته‌بندی‌ها..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <h2 className="text-lg font-semibold mb-4">نمایش و حذف و ویرایش دسته بندی</h2>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {categories.map((cat) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto">
+        {filtredCategories.map((cat) => (
           <div
             key={cat.id}
-            className="border-2  border-[#ebc2a1] p-3
-            rounded-md  transition-colors duration-300 min-h-[80px]
-            flex flex-col justify-center"
+            className="border-2  border-[#ebc2a1] hover:rounded-2xl hover:border-[#B2685A]  p-2
+            rounded-md  transition-colors duration-300 min-h-0
+            flex flex-col justify-center "
           >
             {editingCategory === cat.id ? (
               <div className="flex flex-col gap-2">
@@ -413,7 +435,7 @@ const Dashboard = () => {
               <>
                 <div className="mb-2">
                   <div className="text-gray-600 text-xs mb-1">نام:</div>
-                  <div className="text-[#cc0e0e] font-bold text-sm break-words line-clamp-2">
+                  <div className="text-[#cc0e0e] font-bold text-sm">
                     {cat.name}
                   </div>
                 </div>
@@ -448,6 +470,11 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
+      {filtredCategories.length === 0 && searchTerm && (
+        <div className="text-center text-gray-500 py-8">
+        هیچ دسته‌بندی با عنوان ({searchTerm}) یافت نشد 
+        </div>
+      )}
       {categories.length === 0 && (
         <div className="text-center text-gray-500 py-8">
           هیچ دسته‌بندی وجود ندارد

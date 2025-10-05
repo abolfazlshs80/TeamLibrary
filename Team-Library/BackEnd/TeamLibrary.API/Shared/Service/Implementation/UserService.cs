@@ -100,6 +100,7 @@ public class UserService(IUnitOfWork unitOfWork, IJwtService jwtService, IEmailS
         {
             UserId = user.Id,
             user.UserName,
+            user.UserType,
             user.FullName,
             user.Email,
         };
