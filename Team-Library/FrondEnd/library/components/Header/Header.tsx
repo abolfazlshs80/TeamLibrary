@@ -7,7 +7,6 @@ import { IoMdHome, IoMdSearch, IoMdLogIn } from "react-icons/io";
 import { libraryRoutes } from "@/routes";
 import { useAuth } from "@/context/AuthContext";
 
-
 const Header = () => {
   const { isLoggedIn, username, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,14 +55,21 @@ const Header = () => {
           </li>
           {!isLoggedIn ? (
             <li>
-              <Link href={libraryRoutes.login} className="inline-flex items-center space-x-1">
+              <Link
+                href={libraryRoutes.login}
+                className="inline-flex items-center space-x-1"
+              >
                 <IoMdLogIn size={18} />
                 <span>ورود/ثبت نام</span>
               </Link>
             </li>
           ) : (
             <>
-              <li><Link href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link></li>
+              <li>
+                <Link href={libraryRoutes.dashboard}>
+                  حساب کاربری ({username})
+                </Link>
+              </li>
               <li>
                 <button onClick={logout} className="text-[#914a37] font-bold">
                   خروج
@@ -71,7 +77,7 @@ const Header = () => {
               </li>
             </>
           )}
-          </ul>
+        </ul>
       </nav>
       <button
         className="md:hidden text-[#435F56] text-2xl"
@@ -108,7 +114,10 @@ const Header = () => {
               >
                 <Link
                   href={libraryRoutes.explore}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    localStorage.setItem("selectedCategory", "");
+                  }}
                 >
                   جستجو کتاب
                 </Link>
@@ -135,34 +144,39 @@ const Header = () => {
                   ورود/ثبت نام
                 </Link>
               </li> */}
-          {!isLoggedIn ? (
-              <li
-                className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+              {!isLoggedIn ? (
+                <li
+                  className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
                transition-all duration-200"
-              >
-                <Link
-                  href={libraryRoutes.login}
-                  onClick={() => setIsMenuOpen(false)}
                 >
-                  ورود/ثبت نام
-                </Link>
-              </li>
-          ) : (
-            <>
-              <li className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
-               transition-all duration-200">
-                <Link 
-                onClick={() => setIsMenuOpen(false)}
-                href={libraryRoutes.dashboard}>حساب کاربری ({username})</Link>
-              </li>
-              <li className="hover:bg-[#F7F5E9] text-[#da4848] hover:text-[#5e2a2a] hover:pr-2 hover:border-r-2 border-[#B2685A]
-               transition-all duration-200">
-                <button onClick={logout}>
-                  خروج
-                </button>
-              </li>
-            </>
-          )}
+                  <Link
+                    href={libraryRoutes.login}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    ورود/ثبت نام
+                  </Link>
+                </li>
+              ) : (
+                <>
+                  <li
+                    className="hover:bg-[#F7F5E9] hover:text-[#435F56] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200"
+                  >
+                    <Link
+                      onClick={() => setIsMenuOpen(false)}
+                      href={libraryRoutes.dashboard}
+                    >
+                      حساب کاربری ({username})
+                    </Link>
+                  </li>
+                  <li
+                    className="hover:bg-[#F7F5E9] text-[#da4848] hover:text-[#5e2a2a] hover:pr-2 hover:border-r-2 border-[#B2685A]
+               transition-all duration-200"
+                  >
+                    <button onClick={logout}>خروج</button>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

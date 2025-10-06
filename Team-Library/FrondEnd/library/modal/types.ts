@@ -14,3 +14,23 @@ export type ButtonProps ={
   style?: React.CSSProperties;
   onclick?: () => void;
 }
+
+export interface Books {
+  id: number;
+  title: string;
+  author: string;
+  slug: string;
+  categoryName: string;
+  imageUrl: string;
+  rank: number;
+  minPageCount: number;
+  maxPageCount: number;
+  language: string;
+}
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  value: string;
+}
