@@ -25,6 +25,7 @@ interface Book {
   price?: number;
   language: string;
   translators: string;
+  pdfPath: string;
 }
 
 type DetailPageProps = {
@@ -92,12 +93,17 @@ export default function DetailPage({ params }: DetailPageProps) {
     fetchRelatedBooks();
   }, [book]);
 
-  const handleAddToFavorite = () => {
-    console.log("Added to favorites:", book?.id);
-  };
+  // const handleAddToFavorite = () => {
+  //   console.log("Added to favorites:", book?.id);
+  // };
 
   const handleReadBook = () => {
-    console.log("Reading book:", book?.id);
+    if (!book?.pdfPath) {
+      alert("فایل PDF موجود نیست");
+      return;
+    }
+    const pdfUrl = fixImagePath(book.pdfPath);
+    window.open(pdfUrl as string, "_blank");
   };
 
   const renderStars = (rank: number = 0) => {
@@ -226,14 +232,14 @@ export default function DetailPage({ params }: DetailPageProps) {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Button
+                  {/* <Button
                     type="button"
                     label="افزودن به علاقه‌مندی‌ها"
                     widthBtn="w-full sm:w-auto"
                     colorBtn="bg-[#435F56] hover:bg-[#F7F5E9] hover:text-[#435F56] transition-colors duration-200"
                     colorBtnText="text-white"
                     onclick={handleAddToFavorite}
-                  />
+                  /> */}
                   <Button
                     type="button"
                     label="شروع خواندن"

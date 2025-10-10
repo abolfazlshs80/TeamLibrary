@@ -5,12 +5,11 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation, Autoplay } from "swiper/modules";
-import {fixImageUrl} from "@/ulits/fixImageurl"
 import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
-import defaultBook from "../../assets/default-book.jpg";
 import Loader from "../Loader/Loader";
+import { UpdateBook } from "@/modal/types";
 interface Book {
   id: number;
   slug: string;
@@ -24,44 +23,32 @@ const TopSellers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchNewBooks = async () => {
+    const fetchBooks = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks`,
-          {
-            params: {
-              pageNumber: 1, 
-              pageSize: 10,  
-            },
-          }
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/new`
         );
-
-        console.log("API response (new books):", res.data.data.list);
-
-        let AllBooks: Book[] = [];
-        if (typeof res.data?.data?.list === "string") {
-          AllBooks = JSON.parse(res.data.data.list);
-        } else if (Array.isArray(res.data?.data?.list)) {
-          AllBooks = res.data.data.list;
-        } else {
-          console.warn("ساختار API غیرمنتظره بود");
-        }
-
-        setBooks(AllBooks);
+        let bookList: UpdateBook[] = [];
+        bookList = res.data.data.list;
+        console.log("bookList نهایی:", bookList);
+        setBooks(bookList);
       } catch (error) {
-        console.error("خطا در گرفتن کتاب‌های جدید:", error);
+        console.error("خطا در گرفتن کتابها:", error);
+        setBooks([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchNewBooks();
+    fetchBooks();
   }, []);
 
   if (loading) {
-    return <div className="flex items-center justify-center">
-      <Loader/>
-    </div>;
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -99,12 +86,14 @@ const TopSellers = () => {
           {books.map((book) => (
             <SwiperSlide key={book.id}>
               <Link
-                href={`${libraryRoutes.detail}/${encodeURIComponent(book.slug)}`}
+                href={`${libraryRoutes.detail}/${encodeURIComponent(
+                  book.slug
+                )}`}
                 className="w-full h-full flex flex-col items-center justify-center"
               >
                 <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
                   <Image
-                    src={fixImageUrl(book.imageUrl) ?? defaultBook}
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${book.imageUrl}`}
                     alt={book.title}
                     width={200}
                     height={500}

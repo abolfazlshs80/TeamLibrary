@@ -24,19 +24,21 @@ const AddBook = () => {
   const [bookImagePreview, setBookImagePreview] = useState<string>("");
   const [imageLoading, setImageLoading] = useState(false);
 
+  const [bookPdf, setBookPdf] = useState<File | null>(null);
+  const [pdfFileName, setPdfFileName] = useState("");
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
         );
-        let categoryList: Category[] = [];
-        categoryList = res.data.data.list;
-        console.log("categoryList نهایی:", categoryList);
+        const categoryList: Category[] = res.data.data.list;
         setBookCategory(categoryList);
 
         if (categoryList.length > 0) {
           setSelectedCategory(categoryList[0].name);
+          setSelectedCategoryID(categoryList[0].id);
         }
       } catch (error) {
         console.error("خطا در گرفتن دسته‌بندی‌ها:", error);
@@ -53,9 +55,10 @@ const AddBook = () => {
       reader.readAsDataURL(file);
       reader.onload = () => {
         if (typeof reader.result === "string") {
-          resolve(reader.result);
+          const base64 = reader.result.split(",")[1];
+          resolve(base64);
         } else {
-          reject(new Error("خطا در تبدیل عکس"));
+          reject(new Error("خطا در تبدیل فایل"));
         }
       };
       reader.onerror = (error) => reject(error);
@@ -88,13 +91,27 @@ const AddBook = () => {
     }
   };
 
- const generateSlug = (text: string) =>
-  text
-    .trim()
-    .replace(/\s+/g, "_")                   
-    .replace(/[^a-z0-9\u0600-\u06FF\_]/g, ""); 
+  const handlePdfChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type !== "application/pdf") {
+        toast.error("فقط فایل PDF مجاز است");
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("حجم فایل PDF باید کمتر از 10 مگابایت باشد");
+        return;
+      }
+      setBookPdf(file);
+      setPdfFileName(file.name);
+    }
+  };
 
-
+  const generateSlug = (text: string) =>
+    text
+      .trim()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9\u0600-\u06FF\_]/g, "");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,9 +119,14 @@ const AddBook = () => {
 
     try {
       let imageBase64 = "";
+      let pdfBase64 = "";
 
       if (bookImage) {
         imageBase64 = await convertToBase64(bookImage);
+      }
+
+      if (bookPdf) {
+        pdfBase64 = await convertToBase64(bookPdf);
       }
 
       const bookData: Book = {
@@ -117,17 +139,18 @@ const AddBook = () => {
         language: language,
         categoryId: selectedCategoryID,
         rank: rank,
-        slug: `${generateSlug(bookTitle)}_${generateSlug(author)}_${generateSlug(publicationYear)}`,
+        slug: `${generateSlug(bookTitle)}_${generateSlug(
+          author
+        )}_${generateSlug(publicationYear)}`,
         description: description,
-        pdfPath: "string",
+        pdfPath: pdfBase64 || "",
         image: imageBase64 || "",
       };
 
-      console.log("داده‌های ارسالی:", {
+      console.log("📤 داده‌های ارسالی:", {
         ...bookData,
-        image: imageBase64
-          ? `base64(${imageBase64.substring(0, 50)}...)`
-          : "بدون عکس",
+        image: imageBase64 ? `${imageBase64.substring(0, 50)}...` : "بدون عکس",
+        pdfPath: pdfBase64 ? `${pdfBase64.substring(0, 50)}...` : "بدون PDF",
       });
 
       const response = await axios.post(
@@ -136,15 +159,14 @@ const AddBook = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log("پاسخ سرور:", response.data);
+      console.log("✅ پاسخ سرور:", response.data);
       toast.success("کتاب با موفقیت اضافه شد!");
       resetForm();
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
-      console.error("خطا در ارسال کتاب:", axiosError);
+      console.error("❌ خطا در ارسال کتاب:", axiosError);
 
       if (axiosError.response) {
-        console.error("جزئیات خطا:", axiosError.response.data);
         toast.error(
           `خطا: ${axiosError.response.data?.message || "خطا در ارسال داده‌ها"}`
         );
@@ -156,7 +178,6 @@ const AddBook = () => {
     }
   };
 
-  //reset form
   const resetForm = () => {
     setBookTitle("");
     setAuthor("");
@@ -169,6 +190,8 @@ const AddBook = () => {
     setRank(1);
     setBookImage(null);
     setBookImagePreview("");
+    setBookPdf(null);
+    setPdfFileName("");
 
     if (bookCategory.length > 0) {
       setSelectedCategory(bookCategory[0].name);
@@ -385,6 +408,24 @@ const AddBook = () => {
         ></textarea>
       </div>
 
+      <div className="flex flex-col gap-1">
+        <label className="text-xs sm:text-sm text-gray-600 pr-1">
+          فایل PDF کتاب
+        </label>
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={handlePdfChange}
+          className="border p-2 rounded"
+        />
+        {pdfFileName && (
+          <p className="text-xs text-gray-500 mt-1">
+            فایل انتخاب‌شده: {pdfFileName}
+          </p>
+        )}
+      </div>
+
+      {/* سایر بخش‌ها مثل عکس، توضیحات، دکمه ذخیره */}
       <button
         type="submit"
         disabled={submitLoading}
