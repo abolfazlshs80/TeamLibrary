@@ -24,8 +24,8 @@ const AddBook = () => {
   const [bookImagePreview, setBookImagePreview] = useState<string>("");
   const [imageLoading, setImageLoading] = useState(false);
 
-  const [bookPdf, setBookPdf] = useState<File | null>(null);
-  const [pdfFileName, setPdfFileName] = useState("");
+  // 🟢 به جای فایل، حالا فقط لینک PDF داریم
+  const [pdfLink, setPdfLink] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -91,27 +91,11 @@ const AddBook = () => {
     }
   };
 
-  const handlePdfChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.type !== "application/pdf") {
-        toast.error("فقط فایل PDF مجاز است");
-        return;
-      }
-      if (file.size > 10 * 1024 * 1024) {
-        toast.error("حجم فایل PDF باید کمتر از 10 مگابایت باشد");
-        return;
-      }
-      setBookPdf(file);
-      setPdfFileName(file.name);
-    }
-  };
-
-  const generateSlug = (text: string) =>
-    text
-      .trim()
-      .replace(/\s+/g, "_")
-      .replace(/[^a-z0-9\u0600-\u06FF\_]/g, "");
+  // const generateSlug = (text: string) =>
+  //   text
+  //     .trim()
+  //     .replace(/\s+/g, "_")
+  //     .replace(/[^a-z0-9\u0600-\u06FF\_]/g, "");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,16 +103,12 @@ const AddBook = () => {
 
     try {
       let imageBase64 = "";
-      let pdfBase64 = "";
 
       if (bookImage) {
         imageBase64 = await convertToBase64(bookImage);
       }
 
-      if (bookPdf) {
-        pdfBase64 = await convertToBase64(bookPdf);
-      }
-
+      // ⚙️ داده‌ها
       const bookData: Book = {
         title: bookTitle,
         author: author,
@@ -139,19 +119,16 @@ const AddBook = () => {
         language: language,
         categoryId: selectedCategoryID,
         rank: rank,
-        slug: `${generateSlug(bookTitle)}_${generateSlug(
-          author
-        )}_${generateSlug(publicationYear)}`,
+        // slug: `${generateSlug(bookTitle)}_${generateSlug(
+        //   author
+        // )}_${generateSlug(publicationYear)}`,
+        slug: `Book_Slug_${Date.now()}`,
         description: description,
-        pdfPath: pdfBase64 || "",
+        pdfPath: pdfLink || "",
         image: imageBase64 || "",
       };
 
-      console.log("📤 داده‌های ارسالی:", {
-        ...bookData,
-        image: imageBase64 ? `${imageBase64.substring(0, 50)}...` : "بدون عکس",
-        pdfPath: pdfBase64 ? `${pdfBase64.substring(0, 50)}...` : "بدون PDF",
-      });
+      console.log("📤 داده‌های ارسالی:", bookData);
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/create`,
@@ -190,8 +167,7 @@ const AddBook = () => {
     setRank(1);
     setBookImage(null);
     setBookImagePreview("");
-    setBookPdf(null);
-    setPdfFileName("");
+    setPdfLink("");
 
     if (bookCategory.length > 0) {
       setSelectedCategory(bookCategory[0].name);
@@ -392,6 +368,22 @@ const AddBook = () => {
           فرمت‌های مجاز: JPG, PNG, GIF - حداکثر حجم: 5MB
         </p>
       </div>
+      {/* ============================ */}
+      <div className="flex flex-col gap-1">
+        <label className="text-xs sm:text-sm text-gray-600 pr-1">
+          لینک فایل PDF کتاب
+        </label>
+        <input
+          type="url"
+          value={pdfLink}
+          onChange={(e) => setPdfLink(e.target.value)}
+          placeholder="مثلاً https://example.com/book.pdf"
+          className="border p-2 rounded"
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          لطفاً لینک مستقیم فایل PDF را وارد کنید.
+        </p>
+      </div>
 
       {/* ============================ */}
       <div className="flex flex-col gap-1">
@@ -408,24 +400,6 @@ const AddBook = () => {
         ></textarea>
       </div>
 
-      <div className="flex flex-col gap-1">
-        <label className="text-xs sm:text-sm text-gray-600 pr-1">
-          فایل PDF کتاب
-        </label>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={handlePdfChange}
-          className="border p-2 rounded"
-        />
-        {pdfFileName && (
-          <p className="text-xs text-gray-500 mt-1">
-            فایل انتخاب‌شده: {pdfFileName}
-          </p>
-        )}
-      </div>
-
-      {/* سایر بخش‌ها مثل عکس، توضیحات، دکمه ذخیره */}
       <button
         type="submit"
         disabled={submitLoading}

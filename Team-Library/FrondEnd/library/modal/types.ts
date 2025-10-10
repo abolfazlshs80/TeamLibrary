@@ -82,6 +82,7 @@ export interface EditForm {
   slug: string;
   description: string;
   image: string;
+  pdfPath: string;
 }
 
 export interface Category {

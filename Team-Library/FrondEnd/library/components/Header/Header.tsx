@@ -56,7 +56,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link href={"/"}>درباره ما</Link>
+            <Link href={libraryRoutes.AboutUs}>درباره ما</Link>
           </li>
           {!isLoggedIn ? (
             <li>

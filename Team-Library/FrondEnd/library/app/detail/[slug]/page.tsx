@@ -17,6 +17,7 @@ interface Book {
   author: string;
   description?: string;
   imagePath: string | null;
+  imageUrl: string | null;
   rank?: number;
   publicationYear?: number;
   translator?: string;
@@ -97,14 +98,14 @@ export default function DetailPage({ params }: DetailPageProps) {
   //   console.log("Added to favorites:", book?.id);
   // };
 
-  const handleReadBook = () => {
-    if (!book?.pdfPath) {
-      alert("فایل PDF موجود نیست");
-      return;
-    }
-    const pdfUrl = fixImagePath(book.pdfPath);
-    window.open(pdfUrl as string, "_blank");
-  };
+  // const handleReadBook = () => {
+  //   if (!book?.pdfPath) {
+  //     alert("فایل PDF موجود نیست");
+  //     return;
+  //   }
+  //   const pdfUrl = fixImagePath(book.pdfPath);
+  //   window.open(pdfUrl as string, "_blank");
+  // };
 
   const renderStars = (rank: number = 0) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -246,7 +247,7 @@ export default function DetailPage({ params }: DetailPageProps) {
                     widthBtn="w-full sm:w-auto"
                     colorBtn="bg-[#435F56] hover:bg-[#F7F5E9] hover:text-[#435F56] transition-colors duration-200"
                     colorBtnText="text-white"
-                    onclick={handleReadBook}
+                    onclick={() => router.push(book.pdfPath)}
                   />
                 </div>
               </div>
@@ -269,8 +270,8 @@ export default function DetailPage({ params }: DetailPageProps) {
                     <div className="relative aspect-[3/4]">
                       <Image
                         src={
-                          relatedBook.imagePath
-                            ? (fixImagePath(relatedBook.imagePath) as string)
+                          relatedBook.imageUrl
+                            ? (fixImagePath(relatedBook.imageUrl) as string)
                             : defaultBook
                         }
                         alt={relatedBook.title}

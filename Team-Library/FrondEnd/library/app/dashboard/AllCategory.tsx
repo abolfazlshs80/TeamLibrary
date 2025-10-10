@@ -61,11 +61,11 @@ const AllCategory: React.FC<AllCategoryProps> = ({
         نمایش و حذف و ویرایش دسته بندی
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-h-80 overflow-y-auto py-6 px-2">
         {filtredCategories.map((cat) => (
           <div
             key={cat.id}
-            className="border-2 border-[#ebc2a1] hover:rounded-2xl hover:border-[#B2685A] p-2 rounded-md transition-colors duration-300 min-h-0 flex flex-col justify-center"
+            className="border-[3px] border-[#d8d8d8] hover:scale-[1.01] hover:shadow-xl transition-all duration-300 p-3 rounded-xl min-h-0 flex flex-col justify-between"
           >
             {editingCategory === cat.id ? (
               <div className="flex flex-col gap-2">
@@ -97,14 +97,14 @@ const AllCategory: React.FC<AllCategoryProps> = ({
                   <button
                     onClick={() => onUpdateCategory(cat.id)}
                     disabled={loading}
-                    className="flex-1 bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded text-xs transition-colors disabled:opacity-50"
+                    className="flex-1 bg-lime-600 hover:bg-lime-800 text-white py-1 px-2 rounded-xl text-xs transition-colors disabled:opacity-50"
                   >
                     {loading ? "..." : "ذخیره"}
                   </button>
                   <button
                     onClick={onCancelEditing}
                     disabled={loading}
-                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 rounded text-xs transition-colors disabled:opacity-50"
+                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 rounded-xl text-xs transition-colors disabled:opacity-50"
                   >
                     لغو
                   </button>
@@ -119,14 +119,14 @@ const AllCategory: React.FC<AllCategoryProps> = ({
                   <button
                     onClick={() => onDeleteCategory(cat.id)}
                     disabled={loading}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded text-xs transition-colors disabled:opacity-50"
+                    className="bg-pink-600 hover:bg-pink-800 text-white py-1 px-3 rounded-xl  text-xs transition-colors disabled:opacity-50"
                   >
                     {loading ? "..." : "بله"}
                   </button>
                   <button
                     onClick={onCancelDelete}
                     disabled={loading}
-                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 rounded text-xs transition-colors disabled:opacity-50"
+                    className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-1 px-2 rounded-xl text-xs transition-colors disabled:opacity-50"
                   >
                     خیر
                   </button>
@@ -152,13 +152,13 @@ const AllCategory: React.FC<AllCategoryProps> = ({
                 <div className="flex gap-1 mt-2">
                   <button
                     onClick={() => onSetConfirmDelete(cat.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-xs transition-colors cursor-pointer mt-2 flex items-center justify-center w-1/2"
+                    className="bg-pink-600 hover:bg-pink-800 text-white py-1 px-3 rounded-xl  text-xs transition-colors cursor-pointer mt-2 flex items-center justify-center w-1/2"
                   >
                     حذف
                   </button>
                   <button
                     onClick={() => onStartEditing(cat)}
-                    className="bg-yellow-300 hover:bg-yellow-500 text-black py-1 px-3 rounded text-xs transition-colors cursor-pointer mt-2 flex items-center justify-center w-1/2"
+                    className="bg-yellow-300 hover:bg-yellow-500 text-black py-1 px-3 rounded-xl text-xs transition-colors cursor-pointer mt-2 flex items-center justify-center w-1/2"
                   >
                     ویرایش
                   </button>

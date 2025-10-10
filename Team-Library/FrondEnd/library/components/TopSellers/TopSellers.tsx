@@ -9,7 +9,6 @@ import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
 import Loader from "../Loader/Loader";
-import { UpdateBook } from "@/modal/types";
 interface Book {
   id: number;
   slug: string;
@@ -22,14 +21,15 @@ const TopSellers = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/new`
         );
-        let bookList: UpdateBook[] = [];
-        bookList = res.data.data.list;
+        const bookList = Array.isArray(res?.data?.data) ? res.data.data : [];
+        setBooks(bookList);
+
         console.log("bookList نهایی:", bookList);
         setBooks(bookList);
       } catch (error) {

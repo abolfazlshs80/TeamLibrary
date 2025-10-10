@@ -8,7 +8,6 @@ import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
-import { UpdateBook } from "@/modal/types";
 
 interface Book {
   id: number;
@@ -28,8 +27,9 @@ const TopRankBooks = () => {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/top-rated`
         );
-        let bookList: UpdateBook[] = [];
-        bookList = res.data.data.list;
+        const bookList = Array.isArray(res?.data?.data) ? res.data.data : [];
+        setBooks(bookList);
+
         console.log("bookList نهایی:", bookList);
         setBooks(bookList);
       } catch (error) {
