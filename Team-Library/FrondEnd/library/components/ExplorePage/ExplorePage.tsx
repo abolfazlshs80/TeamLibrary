@@ -164,9 +164,7 @@ const ExplorePage = () => {
                   className="border cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
                 >
                   <Image
-
                     src={book.imageUrl ?? defaultBook}
-
                     alt={book.title}
                     className=" h-48 w-40 object-cover mb-2 rounded"
                     width={200}
