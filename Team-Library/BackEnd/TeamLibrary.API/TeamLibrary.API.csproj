@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+
     <PackageReference Include="ErrorOr" Version="2.0.1" />
     <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
@@ -31,6 +32,21 @@
 
     <Folder Include="wwwroot\Uploads\Blog\" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CsharpGalexy.LibraryExtention">
+      <HintPath>C:\Users\abolf\source\repos\ExtentionsTools\CsharpGalexy.LibraryExtention\bin\Debug\net8.0\CsharpGalexy.LibraryExtention.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\abolf\.nuget\packages\csharpgalexy.libraryextention\2.6.1\contentFiles\any\net8.0\Iran\Provinces\province-postal-codes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\abolf\.nuget\packages\csharpgalexy.libraryextention\2.6.1\contentFiles\any\net8.0\Iran\Provinces\provinces.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
