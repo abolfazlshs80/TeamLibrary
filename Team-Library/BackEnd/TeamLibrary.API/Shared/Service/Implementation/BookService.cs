@@ -1,4 +1,5 @@
-﻿using DrMeet.Api.Shared.Persistence.UnitOfWork;
+﻿using CsharpGalexy.LibraryExtention.File;
+using DrMeet.Api.Shared.Persistence.UnitOfWork;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using TeamLibrary.API.Data.Models;
@@ -37,7 +38,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 }
 
                 // Handle image upload if provided
-                string imagePath = book.Image;
+          
                 //if (imageFile != null)
                 //{
                 //    var uploadResult = await _mediaService.UploadImageAsync(imageFile, FolderImagesType.Blog);
@@ -47,7 +48,7 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 //    }
                 //    imagePath = uploadResult.Value;
                 //}
-
+      
                 await _unitOfWork.Books.AddAsync(new Book
                 {
                     Author = book.Author,
@@ -55,9 +56,9 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                     Description = book.Description,
                     Translator = book.Translator,
 
-                    ImagePath = imagePath,
+                    ImagePath = FileHelper.SaveBase64File(book.Image, FileHelper.GetFilePathUploadFile("Blog")),
                     Language = book.Language,
-                    PdfPath = book.PdfPath,
+                    PdfPath = FileHelper.SaveBase64File(book.PdfPath, FileHelper.GetFilePathUploadFile("Blog")),
                     Pages = book.Pages,
                     PublicationYear = book.PublicationYear,
                     Price = book.Price,
@@ -86,6 +87,8 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                 // Delete the associated image if it exists
                 if (!string.IsNullOrEmpty(book.ImagePath))
                 {
+                    FileHelper.DeleteFile(book.ImagePath);
+                    FileHelper.DeleteFile(book.PdfPath);
                     var deleteResult = await _mediaService.DeleteImageAsync(book.ImagePath);
                     if (deleteResult.IsError)
                     {
@@ -135,7 +138,11 @@ namespace TeamLibrary.API.Shared.Service.Implementation
                     //    return Error.Failure("Upload", uploadResult.FirstError.Description);
                     //}
                     //book.ImagePath = uploadResult.Value;
-                    book.ImagePath = dto.Image;
+                    FileHelper.DeleteFile(book.ImagePath,"wwwroot");
+                    book.ImagePath = FileHelper.SaveBase64File(dto.Image, FileHelper.GetFilePathUploadFile("Blog"));
+
+                    FileHelper.DeleteFile(book.PdfPath, "wwwroot");
+                    book.PdfPath = FileHelper.SaveBase64File(dto.Image, FileHelper.GetFilePathUploadFile("Blog"));
                 }
 
                 book.Title = dto.Title;
