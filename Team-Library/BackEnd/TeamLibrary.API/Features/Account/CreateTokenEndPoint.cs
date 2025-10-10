@@ -1,4 +1,5 @@
-﻿using DrMeet.Api.Shared.Services.JwtService;
+﻿using CsharpGalexy.LibraryExtention.Extentions.Province;
+using DrMeet.Api.Shared.Services.JwtService;
 using Microsoft.AspNetCore.Mvc;
 using TeamLibrary.API.Data.Models;
 using TeamLibrary.API.Shared.Contracts;
@@ -17,7 +18,7 @@ public static class CreateTokenEndPoint
                      HttpContext context
                 ) =>
             {
-
+                
                 //use userId
                 return Ok(jwtService.CreateToken(1, UserType.USER));
 
