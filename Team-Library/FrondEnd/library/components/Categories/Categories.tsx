@@ -5,46 +5,27 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
 
-
 interface Category {
   id: number;
   name: string;
   slug: string;
   description?: string;
-
 }
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
-        );
-        setCategories(res.data.data.list);
-        console.log("Fetched categories:", res.data);
-      } catch (error) {
-        console.error("Fetching categories failed:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, []);
-
   const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`);
-         let categoryList: Category[] = [];
-         categoryList = res.data.data.list;
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Category/GetAllCategory?PageNumber=1&PageSize=100`
+        );
+        let categoryList: Category[] = [];
+        categoryList = res.data.data.list;
         console.log("categoryList نهایی:", categoryList);
         setCategories(categoryList);
       } catch (error) {
@@ -62,16 +43,13 @@ const Categories = () => {
     return <p className="text-center mt-6">در حال بارگذاری دسته‌بندی‌ها...</p>;
   }
 
-  
-
   return (
-    <div className="mt-16 max-w-7xl mx-auto">
+    <div className="mt-16 max-w-7xl mx-auto mb-16">
       <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
         دسته‌بندی کتاب‌ها بر اساس موضوع
       </h4>
-  
-     {loading ? (
 
+      {loading ? (
         <div className="flex items-center justify-center">
           <BeatLoader color="#d4b091" />
         </div>
@@ -85,7 +63,7 @@ const Categories = () => {
                 localStorage.setItem("selectedCategory", category.name);
                 localStorage.setItem(
                   "selectedCategoryId",
-                  (category.id).toString()
+                  category.id.toString()
                 );
               }}
               className="border-2 cursor-pointer border-[#435F56] px-6 py-2 text-sm font-semibold text-[#435F56] rounded-full hover:bg-[#435F56] hover:text-white transition-colors duration-300 text-center"
@@ -95,7 +73,6 @@ const Categories = () => {
           ))}
         </div>
       )}
-
     </div>
   );
 };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React from "react";
 import bookBanner from "../../assets/banner2.svg";
@@ -9,17 +9,15 @@ import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
 import { libraryRoutes } from "@/routes";
 
-
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string;
-}
+// interface Category {
+//   id: number;
+//   name: string;
+//   slug: string;
+//   description?: string;
+// }
 
 const MainPage = () => {
   const router = useRouter();
-
 
   return (
     <div className="pt-6 mt-9 mx-auto">
@@ -55,14 +53,17 @@ const MainPage = () => {
               widthBtn="w-full sm:w-auto"
               colorBtn="bg-[#435F56] hover:border-[#435F56] text-[2vw] sm:text-[1.5vw] px-8 py-1 hover:bg-[#F7F5E9] hover:text-[#435F56] transition-colors duration-200"
               colorBtnText="text-white"
-              onclick={()=>router.push(libraryRoutes.explore)}
+              onclick={() => {
+                router.push(libraryRoutes.explore);
+                localStorage.setItem("selectedCategory", "");
+              }}
             />
           </div>
         </div>
       </div>
 
       {/* ====================top books section==================== */}
-    
+
       <TopRankBooks />
       <TopSellers />
       <Categories />

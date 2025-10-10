@@ -6,7 +6,7 @@ import bookPic2 from "@/assets/footer2.svg"; // Adjust the path as necessary
 
 const Footer = () => {
   return (
-      <footer className="bg-[#F0E1DE] py-4 w-full mt-20">
+      <footer className="bg-[#F0E1DE] py-4 w-full z-[100]">
         <div className="flex justify-center mt-8 gap-16 sm:gap-12 md:gap-32 lg:gap-80">
           <div className="">
             <p className="text-[#653329] font-semibold text-base sm:text-lg ">

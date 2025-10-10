@@ -8,8 +8,6 @@ import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import axios from "axios";
 import { libraryRoutes } from "@/routes";
-import {fixImageUrl} from "@/ulits/fixImageurl"
-import defaultBook from "../../assets/default-book.jpg";
 
 interface Book {
   id: number;
@@ -19,7 +17,6 @@ interface Book {
   imageUrl?: string | null;
 }
 
-
 const TopRankBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,36 +25,21 @@ const TopRankBooks = () => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetAllBooks`,
-          {
-            params: {
-              pageNumber: 1, 
-              pageSize: 10, 
-            },
-          }
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/top-rated`
         );
-  
-        console.log("API response for books:", res.data.data.list);
-  
-        let AllBooks: Book[] = [];
-        if (typeof res.data?.data?.list === "string") {
-          AllBooks = JSON.parse(res.data.data.list);
-        } else if (Array.isArray(res.data?.data?.list)) {
-          AllBooks = res.data.data.list;
-        } else if (Array.isArray(res.data)) {
-          AllBooks = res.data;
-        } else {
-          console.warn("ساختار API غیرمنتظره بود");
-        }
-  
-        setBooks(AllBooks);
+        const bookList = Array.isArray(res?.data?.data) ? res.data.data : [];
+        setBooks(bookList);
+
+        console.log("bookList نهایی:", bookList);
+        setBooks(bookList);
       } catch (error) {
-        console.error("Failed to fetch books", error);
+        console.error("خطا در گرفتن کتابها:", error);
+        setBooks([]);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchBooks();
   }, []);
 
@@ -71,7 +53,7 @@ const TopRankBooks = () => {
         کتاب‌های پربازدید
       </h4>
 
-      {books.length === 0 ? (
+      {books?.length === 0 ? (
         <p className="text-center text-gray-500">کتابی یافت نشد</p>
       ) : (
         <Swiper
@@ -100,12 +82,14 @@ const TopRankBooks = () => {
           {books.map((book) => (
             <SwiperSlide key={book.id}>
               <Link
-                href={`${libraryRoutes.detail}/${encodeURIComponent(book.slug)}`}
+                href={`${libraryRoutes.detail}/${encodeURIComponent(
+                  book.slug
+                )}`}
                 className="w-full h-full flex flex-col items-center justify-center"
               >
                 <div className="w-[180px] h-[300px] rounded-xl overflow-hidden mr-2">
-                <Image
-                    src={fixImageUrl(book.imageUrl) ?? defaultBook}
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${book.imageUrl}`}
                     alt={book.title}
                     width={200}
                     height={500}
