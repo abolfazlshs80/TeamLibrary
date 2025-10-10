@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button";
 import Loader from "@/components/Loader/Loader";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import {fixImagePath} from "@/ulits/fixImagePath";
+import { fixImagePath } from "@/ulits/fixImagePath";
 import defaultBook from "../../../assets/default-book.jpg";
-
 
 interface Book {
   id: number;
@@ -19,36 +18,46 @@ interface Book {
   description?: string;
   imagePath: string | null;
   rank?: number;
-  year?: number;
+  publicationYear?: number;
   translator?: string;
-  category?: string;
+  categoryName?: string;
   pages?: number;
   price?: number;
+  language: string;
+  translators: string;
 }
 
 type DetailPageProps = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{
+    slug: string | string[];
+  }>;
 };
 
 export default function DetailPage({ params }: DetailPageProps) {
   const router = useRouter();
-  const resolved:any  = React.use(params as any);
-  const slug = Array.isArray(resolved.slug) ? resolved.slug[0] : resolved.slug;
+  const resolvedParams = use(params);
+  const slug = Array.isArray(resolvedParams.slug)
+    ? resolvedParams.slug[0]
+    : resolvedParams.slug;
+
   const [book, setBook] = useState<Book | null>(null);
   const [relatedBooks, setRelatedBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     if (!slug) return;
     const fetchBook = async () => {
       try {
-        const encodedSlug = encodeURIComponent(slug);
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetBySlug`,
-          { params: { slug: encodedSlug } }
+          { params: { slug } }
         );
+
+        // const encodedSlug = encodeURIComponent(slug);
+        // const res = await axios.get(
+        //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/Book/GetBySlug`,
+        //   { params: { slug: encodedSlug } }
+        // );
         console.log(res.data.data);
         setBook(res.data.data);
       } catch (error) {
@@ -72,7 +81,9 @@ export default function DetailPage({ params }: DetailPageProps) {
           { params: { pageNumber: 1, pageSize: 20 } }
         );
         const allBooks: Book[] = res.data.data.list;
-        setRelatedBooks(allBooks.filter((b) => b.slug !== book.slug));
+        setRelatedBooks(
+          allBooks.filter((b) => b.categoryName === book.categoryName)
+        );
       } catch (error) {
         console.error("Error fetching related books:", error);
       }
@@ -134,19 +145,25 @@ export default function DetailPage({ params }: DetailPageProps) {
               <div className="lg:col-span-1">
                 <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md">
                   <Image
-                    src={book.imagePath ? fixImagePath(book.imagePath) : defaultBook}
+                    src={
+                      book.imagePath
+                        ? (fixImagePath(book.imagePath) as string)
+                        : defaultBook
+                    }
                     alt={book.title}
                     className="object-cover"
                     fill
                     priority
-                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
 
                 {/* Book Stats */}
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#435F56]">رتبه:</span>
+                    <span className="text-sm font-medium text-[#435F56]">
+                      رتبه:
+                    </span>
                     <div className="flex items-center">
                       {renderStars(book.rank)}
                       <span className="mr-2 text-sm text-gray-800">
@@ -156,19 +173,29 @@ export default function DetailPage({ params }: DetailPageProps) {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#435F56]">سال انتشار:</span>
-                    <span className="text-sm text-gray-800">{book.year}</span>
+                    <span className="text-sm font-medium text-[#435F56]">
+                      سال انتشار:
+                    </span>
+                    <span className="text-sm text-gray-800">
+                      {book.publicationYear}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#435F56]">نویسنده:</span>
+                    <span className="text-sm font-medium text-[#435F56]">
+                      نویسنده:
+                    </span>
                     <span className="text-sm text-gray-800">{book.author}</span>
                   </div>
 
                   {book.translator && (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-[#435F56]">مترجم</span>
-                      <span className="text-sm text-gray-800">{book.translator}</span>
+                      <span className="text-sm font-medium text-[#435F56]">
+                        مترجم
+                      </span>
+                      <span className="text-sm text-gray-800">
+                        {book.translator}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -176,7 +203,9 @@ export default function DetailPage({ params }: DetailPageProps) {
 
               {/* Book Info */}
               <div className="lg:col-span-2 space-y-6">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{book.title}</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {book.title}
+                </h1>
                 <p className="text-lg text-gray-600 mb-4">
                   نویسنده: <span className="text-black">{book.author}</span>
                 </p>
@@ -187,8 +216,12 @@ export default function DetailPage({ params }: DetailPageProps) {
                 )}
 
                 <div className="prose prose-lg max-w-none">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3">درباره کتاب</h3>
-                  <p className="text-[#435F56] leading-relaxed">{book.description}</p>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                    درباره کتاب
+                  </h3>
+                  <p className="text-[#435F56] leading-relaxed">
+                    {book.description}
+                  </p>
                 </div>
 
                 {/* Buttons */}
@@ -217,7 +250,9 @@ export default function DetailPage({ params }: DetailPageProps) {
           {/* Related Books */}
           {relatedBooks.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">کتاب‌های مرتبط</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                کتاب‌های مرتبط
+              </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {relatedBooks.slice(0, 5).map((relatedBook) => (
                   <div
@@ -228,19 +263,23 @@ export default function DetailPage({ params }: DetailPageProps) {
                     <div className="relative aspect-[3/4]">
                       <Image
                         src={
-                          relatedBook.imagePath ? fixImagePath(relatedBook.imagePath) : defaultBook
+                          relatedBook.imagePath
+                            ? (fixImagePath(relatedBook.imagePath) as string)
+                            : defaultBook
                         }
                         alt={relatedBook.title}
                         fill
                         className="object-contain"
-                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                     <div className="p-3">
                       <h3 className="text-sm font-semibold text-gray-900 truncate">
                         {relatedBook.title}
                       </h3>
-                      <p className="text-xs text-gray-600 truncate">{relatedBook.author}</p>
+                      <p className="text-xs text-gray-600 truncate">
+                        {relatedBook.author}
+                      </p>
                     </div>
                   </div>
                 ))}

@@ -5,7 +5,6 @@ import { LibraryBig } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { libraryRoutes } from "@/routes";
-import defaultBook from "../../assets/default-book.jpg";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
 import { Books, Category } from "@/modal/types";
@@ -19,7 +18,7 @@ const ExplorePage = () => {
   const [pages, setPages] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
   const [loading, setLoading] = useState(true);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(30);
   const [bookCategory, setBookCategory] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -117,13 +116,13 @@ const ExplorePage = () => {
   });
 
   return (
-    <div className="pt-6 px-4 mt-9 mx-auto">
+    <div className="pt-6 px-4 mt-9 mx-auto mb-12">
       <div className="mt-16 max-w-7xl mx-auto">
         <h4 className="text-[#653329] text-xl sm:text-2xl font-bold mt-12 mb-6">
           جستجو کتاب
         </h4>
 
-        <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 w-full">
           <div className="relative w-full">
             <label className="text-[#777574] text-sm pr-3 font-medium">
               جستجو کتاب
@@ -318,10 +317,10 @@ const ExplorePage = () => {
                   onClick={() =>
                     router.push(`${libraryRoutes.detail}/${book.slug}`)
                   }
-                  className="border cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
+                  className="border-4 border-gray-200 bg-white/30 shadow-md cursor-pointer p-2 rounded-lg flex flex-col items-center hover:shadow-lg hover:scale-[1.02]  transition-all duration-300"
                 >
                   <Image
-                    src={book.imageUrl ?? defaultBook}
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${book.imageUrl}`}
                     alt={book.title}
                     className=" h-48 w-40 object-cover mb-2 rounded"
                     width={200}

@@ -6,8 +6,10 @@ import logo from "../../assets/logo.png";
 import { IoMdHome, IoMdSearch, IoMdLogIn } from "react-icons/io";
 import { libraryRoutes } from "@/routes";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const { isLoggedIn, username, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
@@ -24,7 +26,10 @@ const Header = () => {
 
   return (
     <header className="fixed z-20 top-0 left-0  right-0 flex justify-between items-center p-4 bg-white backdrop-blur-md shadow-sm min-w-full">
-      <div className="flex items-center gap-3">
+      <div
+        onClick={() => router.push(libraryRoutes.homepage)}
+        className="flex items-center gap-3"
+      >
         <Image src={logo} alt="logo" width={35} height={35} />
         <p className="flex gap-4 text-[#435F56] text-base font-bold">
           کتابخانه{" "}
